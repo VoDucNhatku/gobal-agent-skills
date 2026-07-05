@@ -1,0 +1,1227 @@
+Report written to C:/Users/DELL/.claude/skills/test-reports/2026-07-06-full-audit.txt
+{
+  "summary": {
+    "total_skills": 61,
+    "total_checks": 488,
+    "pass": 308,
+    "fail": 0,
+    "warn": 180,
+    "pass_rate": "100.0%"
+  },
+  "skills": [
+    {
+      "skill": "artifact-manager",
+      "path": "artifact-manager\\SKILL.md",
+      "checks": {
+        "frontmatter": "PASS",
+        "body_lines": "PASS",
+        "provenance": "PASS",
+        "cross_refs": "PASS",
+        "duplicate_sections": "PASS",
+        "anti_slop": "PASS",
+        "description_format": "WARN",
+        "announce_line": "WARN"
+      },
+      "issues": [],
+      "warnings": [
+        "missing 'Use when...' trigger phrase",
+        "Missing announce line ('I'm using the...')"
+      ]
+    },
+    {
+      "skill": "audit-log",
+      "path": "audit-log\\SKILL.md",
+      "checks": {
+        "frontmatter": "PASS",
+        "body_lines": "PASS",
+        "provenance": "WARN",
+        "cross_refs": "WARN",
+        "duplicate_sections": "PASS",
+        "anti_slop": "PASS",
+        "description_format": "WARN",
+        "announce_line": "WARN"
+      },
+      "issues": [],
+      "warnings": [
+        "No provenance marker (> **Source:**) found",
+        "Broken refs: actor, artifacts, clear, cross-source-assumption, decision, rationale, scope-decision, session, summary, synthesis-framing, target, timestamp",
+        "missing 'Use when...' trigger phrase",
+        "Missing announce line ('I'm using the...')"
+      ]
+    },
+    {
+      "skill": "backend-engineer",
+      "path": "backend-engineer\\SKILL.md",
+      "checks": {
+        "frontmatter": "PASS",
+        "body_lines": "PASS",
+        "provenance": "WARN",
+        "cross_refs": "WARN",
+        "duplicate_sections": "PASS",
+        "anti_slop": "PASS",
+        "description_format": "WARN",
+        "announce_line": "WARN"
+      },
+      "issues": [],
+      "warnings": [
+        "No provenance marker (> **Source:**) found",
+        "Broken refs: course-domain-model, design, eval, harden, implement",
+        "missing 'Use when...' trigger phrase",
+        "Missing announce line ('I'm using the...')"
+      ]
+    },
+    {
+      "skill": "brainstorming",
+      "path": "brainstorming\\SKILL.md",
+      "checks": {
+        "frontmatter": "PASS",
+        "body_lines": "PASS",
+        "provenance": "PASS",
+        "cross_refs": "PASS",
+        "duplicate_sections": "PASS",
+        "anti_slop": "PASS",
+        "description_format": "WARN",
+        "announce_line": "WARN"
+      },
+      "issues": [],
+      "warnings": [
+        "missing 'Use when...' trigger phrase",
+        "Missing announce line ('I'm using the...')"
+      ]
+    },
+    {
+      "skill": "build-admin-dashboard",
+      "path": "build-admin-dashboard\\SKILL.md",
+      "checks": {
+        "frontmatter": "PASS",
+        "body_lines": "PASS",
+        "provenance": "WARN",
+        "cross_refs": "WARN",
+        "duplicate_sections": "PASS",
+        "anti_slop": "PASS",
+        "description_format": "WARN",
+        "announce_line": "WARN"
+      },
+      "issues": [],
+      "warnings": [
+        "No provenance marker (> **Source:**) found",
+        "Broken refs: admin, audit, scaffold",
+        "missing 'Use when...' trigger phrase",
+        "Missing announce line ('I'm using the...')"
+      ]
+    },
+    {
+      "skill": "build-ui",
+      "path": "build-ui\\SKILL.md",
+      "checks": {
+        "frontmatter": "PASS",
+        "body_lines": "PASS",
+        "provenance": "WARN",
+        "cross_refs": "WARN",
+        "duplicate_sections": "PASS",
+        "anti_slop": "PASS",
+        "description_format": "WARN",
+        "announce_line": "WARN"
+      },
+      "issues": [],
+      "warnings": [
+        "No provenance marker (> **Source:**) found",
+        "Broken refs: admin, component, page, scaffold",
+        "missing 'Use when...' trigger phrase",
+        "Missing announce line ('I'm using the...')"
+      ]
+    },
+    {
+      "skill": "build-ui-component",
+      "path": "build-ui-component\\SKILL.md",
+      "checks": {
+        "frontmatter": "PASS",
+        "body_lines": "PASS",
+        "provenance": "WARN",
+        "cross_refs": "WARN",
+        "duplicate_sections": "PASS",
+        "anti_slop": "PASS",
+        "description_format": "WARN",
+        "announce_line": "WARN"
+      },
+      "issues": [],
+      "warnings": [
+        "No provenance marker (> **Source:**) found",
+        "Broken refs: audit, component, prefers-reduced-motion, variant",
+        "missing 'Use when...' trigger phrase",
+        "Missing announce line ('I'm using the...')"
+      ]
+    },
+    {
+      "skill": "code-orchestrator",
+      "path": "code-orchestrator\\SKILL.md",
+      "checks": {
+        "frontmatter": "PASS",
+        "body_lines": "PASS",
+        "provenance": "WARN",
+        "cross_refs": "PASS",
+        "duplicate_sections": "PASS",
+        "anti_slop": "PASS",
+        "description_format": "WARN",
+        "announce_line": "WARN"
+      },
+      "issues": [],
+      "warnings": [
+        "No provenance marker (> **Source:**) found",
+        "missing 'Use when...' trigger phrase",
+        "Missing announce line ('I'm using the...')"
+      ]
+    },
+    {
+      "skill": "code-reviewer",
+      "path": "code-reviewer\\SKILL.md",
+      "checks": {
+        "frontmatter": "PASS",
+        "body_lines": "PASS",
+        "provenance": "PASS",
+        "cross_refs": "PASS",
+        "duplicate_sections": "PASS",
+        "anti_slop": "PASS",
+        "description_format": "WARN",
+        "announce_line": "WARN"
+      },
+      "issues": [],
+      "warnings": [
+        "missing 'Use when...' trigger phrase",
+        "Missing announce line ('I'm using the...')"
+      ]
+    },
+    {
+      "skill": "code-senior",
+      "path": "code-senior\\SKILL.md",
+      "checks": {
+        "frontmatter": "PASS",
+        "body_lines": "PASS",
+        "provenance": "WARN",
+        "cross_refs": "WARN",
+        "duplicate_sections": "PASS",
+        "anti_slop": "PASS",
+        "description_format": "WARN",
+        "announce_line": "WARN"
+      },
+      "issues": [],
+      "warnings": [
+        "No provenance marker (> **Source:**) found",
+        "Broken refs: debug, implement, review",
+        "missing 'Use when...' trigger phrase",
+        "Missing announce line ('I'm using the...')"
+      ]
+    },
+    {
+      "skill": "concept-explainer",
+      "path": "concept-explainer\\SKILL.md",
+      "checks": {
+        "frontmatter": "PASS",
+        "body_lines": "PASS",
+        "provenance": "PASS",
+        "cross_refs": "WARN",
+        "duplicate_sections": "PASS",
+        "anti_slop": "PASS",
+        "description_format": "WARN",
+        "announce_line": "WARN"
+      },
+      "issues": [],
+      "warnings": [
+        "Broken refs: analogy, deep-dive, eli5",
+        "missing 'Use when...' trigger phrase",
+        "Missing announce line ('I'm using the...')"
+      ]
+    },
+    {
+      "skill": "context-compressor",
+      "path": "context-compressor\\SKILL.md",
+      "checks": {
+        "frontmatter": "PASS",
+        "body_lines": "PASS",
+        "provenance": "PASS",
+        "cross_refs": "PASS",
+        "duplicate_sections": "PASS",
+        "anti_slop": "PASS",
+        "description_format": "WARN",
+        "announce_line": "WARN"
+      },
+      "issues": [],
+      "warnings": [
+        "missing 'Use when...' trigger phrase",
+        "Missing announce line ('I'm using the...')"
+      ]
+    },
+    {
+      "skill": "debug-investigator",
+      "path": "debug-investigator\\SKILL.md",
+      "checks": {
+        "frontmatter": "PASS",
+        "body_lines": "PASS",
+        "provenance": "PASS",
+        "cross_refs": "WARN",
+        "duplicate_sections": "PASS",
+        "anti_slop": "PASS",
+        "description_format": "WARN",
+        "announce_line": "WARN"
+      },
+      "issues": [],
+      "warnings": [
+        "Broken refs: bisect, fix, hypothesis, investigate",
+        "missing 'Use when...' trigger phrase",
+        "Missing announce line ('I'm using the...')"
+      ]
+    },
+    {
+      "skill": "deploy-orchestrator",
+      "path": "deploy-orchestrator\\SKILL.md",
+      "checks": {
+        "frontmatter": "PASS",
+        "body_lines": "PASS",
+        "provenance": "PASS",
+        "cross_refs": "WARN",
+        "duplicate_sections": "PASS",
+        "anti_slop": "PASS",
+        "description_format": "WARN",
+        "announce_line": "WARN"
+      },
+      "issues": [],
+      "warnings": [
+        "Broken refs: canary, modal-gpu, monitor, rollback, ship",
+        "missing 'Use when...' trigger phrase",
+        "Missing announce line ('I'm using the...')"
+      ]
+    },
+    {
+      "skill": "design-auditor",
+      "path": "design-auditor\\SKILL.md",
+      "checks": {
+        "frontmatter": "PASS",
+        "body_lines": "PASS",
+        "provenance": "PASS",
+        "cross_refs": "WARN",
+        "duplicate_sections": "PASS",
+        "anti_slop": "WARN",
+        "description_format": "WARN",
+        "announce_line": "WARN"
+      },
+      "issues": [],
+      "warnings": [
+        "Broken refs: prefers-reduced-motion",
+        "Slop patterns: purple_gradient",
+        "missing 'Use when...' trigger phrase",
+        "Missing announce line ('I'm using the...')"
+      ]
+    },
+    {
+      "skill": "design-ui-direction",
+      "path": "design-ui-direction\\SKILL.md",
+      "checks": {
+        "frontmatter": "PASS",
+        "body_lines": "PASS",
+        "provenance": "WARN",
+        "cross_refs": "PASS",
+        "duplicate_sections": "PASS",
+        "anti_slop": "PASS",
+        "description_format": "WARN",
+        "announce_line": "WARN"
+      },
+      "issues": [],
+      "warnings": [
+        "No provenance marker (> **Source:**) found",
+        "missing 'Use when...' trigger phrase",
+        "Missing announce line ('I'm using the...')"
+      ]
+    },
+    {
+      "skill": "design-web",
+      "path": "design-web\\SKILL.md",
+      "checks": {
+        "frontmatter": "PASS",
+        "body_lines": "PASS",
+        "provenance": "WARN",
+        "cross_refs": "WARN",
+        "duplicate_sections": "PASS",
+        "anti_slop": "PASS",
+        "description_format": "WARN",
+        "announce_line": "WARN"
+      },
+      "issues": [],
+      "warnings": [
+        "No provenance marker (> **Source:**) found",
+        "Broken refs: content-site, direction, knowledge-site, learn, pricing",
+        "missing 'Use when...' trigger phrase",
+        "Missing announce line ('I'm using the...')"
+      ]
+    },
+    {
+      "skill": "domain-modeling",
+      "path": "domain-modeling\\SKILL.md",
+      "checks": {
+        "frontmatter": "PASS",
+        "body_lines": "PASS",
+        "provenance": "PASS",
+        "cross_refs": "WARN",
+        "duplicate_sections": "PASS",
+        "anti_slop": "PASS",
+        "description_format": "PASS",
+        "announce_line": "PASS"
+      },
+      "issues": [],
+      "warnings": [
+        "Broken refs: course-domain-model, field, paid, pending, string"
+      ]
+    },
+    {
+      "skill": "executing-plans",
+      "path": "executing-plans\\SKILL.md",
+      "checks": {
+        "frontmatter": "PASS",
+        "body_lines": "PASS",
+        "provenance": "PASS",
+        "cross_refs": "PASS",
+        "duplicate_sections": "PASS",
+        "anti_slop": "PASS",
+        "description_format": "PASS",
+        "announce_line": "PASS"
+      },
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "skill": "finishing-a-development-branch",
+      "path": "finishing-a-development-branch\\SKILL.md",
+      "checks": {
+        "frontmatter": "PASS",
+        "body_lines": "PASS",
+        "provenance": "PASS",
+        "cross_refs": "PASS",
+        "duplicate_sections": "PASS",
+        "anti_slop": "PASS",
+        "description_format": "PASS",
+        "announce_line": "PASS"
+      },
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "skill": "fullstack-builder",
+      "path": "fullstack-builder\\SKILL.md",
+      "checks": {
+        "frontmatter": "PASS",
+        "body_lines": "PASS",
+        "provenance": "PASS",
+        "cross_refs": "WARN",
+        "duplicate_sections": "PASS",
+        "anti_slop": "PASS",
+        "description_format": "WARN",
+        "announce_line": "WARN"
+      },
+      "issues": [],
+      "warnings": [
+        "Broken refs: add-feature, integrate, scaffold",
+        "missing 'Use when...' trigger phrase",
+        "Missing announce line ('I'm using the...')"
+      ]
+    },
+    {
+      "skill": "gobal-orchestrator",
+      "path": "gobal-orchestrator\\SKILL.md",
+      "checks": {
+        "frontmatter": "PASS",
+        "body_lines": "PASS",
+        "provenance": "WARN",
+        "cross_refs": "WARN",
+        "duplicate_sections": "PASS",
+        "anti_slop": "PASS",
+        "description_format": "WARN",
+        "announce_line": "WARN"
+      },
+      "issues": [],
+      "warnings": [
+        "No provenance marker (> **Source:**) found",
+        "Broken refs: partial, pipeline, yes",
+        "missing 'Use when...' trigger phrase",
+        "Missing announce line ('I'm using the...')"
+      ]
+    },
+    {
+      "skill": "hallucination-guard",
+      "path": "hallucination-guard\\SKILL.md",
+      "checks": {
+        "frontmatter": "PASS",
+        "body_lines": "PASS",
+        "provenance": "PASS",
+        "cross_refs": "WARN",
+        "duplicate_sections": "PASS",
+        "anti_slop": "PASS",
+        "description_format": "WARN",
+        "announce_line": "WARN"
+      },
+      "issues": [],
+      "warnings": [
+        "Broken refs: refuted, uncertain, verified",
+        "missing 'Use when...' trigger phrase",
+        "Missing announce line ('I'm using the...')"
+      ]
+    },
+    {
+      "skill": "knowledge-graph",
+      "path": "knowledge-graph\\SKILL.md",
+      "checks": {
+        "frontmatter": "PASS",
+        "body_lines": "PASS",
+        "provenance": "WARN",
+        "cross_refs": "WARN",
+        "duplicate_sections": "PASS",
+        "anti_slop": "PASS",
+        "description_format": "WARN",
+        "announce_line": "WARN"
+      },
+      "issues": [],
+      "warnings": [
+        "No provenance marker (> **Source:**) found",
+        "Broken refs: all",
+        "missing 'Use when...' trigger phrase",
+        "Missing announce line ('I'm using the...')"
+      ]
+    },
+    {
+      "skill": "knowledge-quiz",
+      "path": "knowledge-quiz\\SKILL.md",
+      "checks": {
+        "frontmatter": "PASS",
+        "body_lines": "PASS",
+        "provenance": "PASS",
+        "cross_refs": "PASS",
+        "duplicate_sections": "PASS",
+        "anti_slop": "PASS",
+        "description_format": "WARN",
+        "announce_line": "WARN"
+      },
+      "issues": [],
+      "warnings": [
+        "missing 'Use when...' trigger phrase",
+        "Missing announce line ('I'm using the...')"
+      ]
+    },
+    {
+      "skill": "latex-fix",
+      "path": "latex-fix\\SKILL.md",
+      "checks": {
+        "frontmatter": "PASS",
+        "body_lines": "PASS",
+        "provenance": "WARN",
+        "cross_refs": "WARN",
+        "duplicate_sections": "PASS",
+        "anti_slop": "PASS",
+        "description_format": "WARN",
+        "announce_line": "WARN"
+      },
+      "issues": [],
+      "warnings": [
+        "No provenance marker (> **Source:**) found",
+        "Broken refs: all, argmin, theta",
+        "missing 'Use when...' trigger phrase",
+        "Missing announce line ('I'm using the...')"
+      ]
+    },
+    {
+      "skill": "latex-math-renderer",
+      "path": "latex-math-renderer\\SKILL.md",
+      "checks": {
+        "frontmatter": "PASS",
+        "body_lines": "PASS",
+        "provenance": "PASS",
+        "cross_refs": "WARN",
+        "duplicate_sections": "PASS",
+        "anti_slop": "PASS",
+        "description_format": "WARN",
+        "announce_line": "WARN"
+      },
+      "issues": [],
+      "warnings": [
+        "Broken refs: pmatrix",
+        "missing 'Use when...' trigger phrase",
+        "Missing announce line ('I'm using the...')"
+      ]
+    },
+    {
+      "skill": "learnings-db",
+      "path": "learnings-db\\SKILL.md",
+      "checks": {
+        "frontmatter": "PASS",
+        "body_lines": "PASS",
+        "provenance": "PASS",
+        "cross_refs": "WARN",
+        "duplicate_sections": "PASS",
+        "anti_slop": "PASS",
+        "description_format": "WARN",
+        "announce_line": "WARN"
+      },
+      "issues": [],
+      "warnings": [
+        "Broken refs: capture, pattern, query, suggest",
+        "missing 'Use when...' trigger phrase",
+        "Missing announce line ('I'm using the...')"
+      ]
+    },
+    {
+      "skill": "monitor-setup",
+      "path": "monitor-setup\\SKILL.md",
+      "checks": {
+        "frontmatter": "PASS",
+        "body_lines": "PASS",
+        "provenance": "PASS",
+        "cross_refs": "WARN",
+        "duplicate_sections": "PASS",
+        "anti_slop": "PASS",
+        "description_format": "WARN",
+        "announce_line": "WARN"
+      },
+      "issues": [],
+      "warnings": [
+        "Broken refs: alerts, dashboard, setup, verify",
+        "missing 'Use when...' trigger phrase",
+        "Missing announce line ('I'm using the...')"
+      ]
+    },
+    {
+      "skill": "paper-method",
+      "path": "paper-method\\SKILL.md",
+      "checks": {
+        "frontmatter": "PASS",
+        "body_lines": "PASS",
+        "provenance": "WARN",
+        "cross_refs": "WARN",
+        "duplicate_sections": "PASS",
+        "anti_slop": "PASS",
+        "description_format": "WARN",
+        "announce_line": "WARN"
+      },
+      "issues": [],
+      "warnings": [
+        "No provenance marker (> **Source:**) found",
+        "Broken refs: critique, methodology-read, partial, pipeline-extract, recipe, yes",
+        "missing 'Use when...' trigger phrase",
+        "Missing announce line ('I'm using the...')"
+      ]
+    },
+    {
+      "skill": "paper-read",
+      "path": "paper-read\\SKILL.md",
+      "checks": {
+        "frontmatter": "PASS",
+        "body_lines": "PASS",
+        "provenance": "WARN",
+        "cross_refs": "WARN",
+        "duplicate_sections": "PASS",
+        "anti_slop": "PASS",
+        "description_format": "WARN",
+        "announce_line": "WARN"
+      },
+      "issues": [],
+      "warnings": [
+        "No provenance marker (> **Source:**) found",
+        "Broken refs: all, eli5, gist, mindmap, pairwise, summary",
+        "missing 'Use when...' trigger phrase",
+        "Missing announce line ('I'm using the...')"
+      ]
+    },
+    {
+      "skill": "paper-submission",
+      "path": "paper-submission\\SKILL.md",
+      "checks": {
+        "frontmatter": "PASS",
+        "body_lines": "PASS",
+        "provenance": "WARN",
+        "cross_refs": "WARN",
+        "duplicate_sections": "PASS",
+        "anti_slop": "PASS",
+        "description_format": "WARN",
+        "announce_line": "WARN"
+      },
+      "issues": [],
+      "warnings": [
+        "No provenance marker (> **Source:**) found",
+        "Broken refs: bib, draft, format, rebuttal",
+        "missing 'Use when...' trigger phrase",
+        "Missing announce line ('I'm using the...')"
+      ]
+    },
+    {
+      "skill": "paper-synthesize",
+      "path": "paper-synthesize\\SKILL.md",
+      "checks": {
+        "frontmatter": "PASS",
+        "body_lines": "PASS",
+        "provenance": "WARN",
+        "cross_refs": "WARN",
+        "duplicate_sections": "PASS",
+        "anti_slop": "PASS",
+        "description_format": "WARN",
+        "announce_line": "WARN"
+      },
+      "issues": [],
+      "warnings": [
+        "No provenance marker (> **Source:**) found",
+        "Broken refs: all, compare, compare-papers, expand, gaps, knowledge-systemize, problem-expand, research-gap, taxonomy",
+        "missing 'Use when...' trigger phrase",
+        "Missing announce line ('I'm using the...')"
+      ]
+    },
+    {
+      "skill": "paper-to-notebook",
+      "path": "paper-to-notebook\\SKILL.md",
+      "checks": {
+        "frontmatter": "WARN",
+        "body_lines": "PASS",
+        "provenance": "WARN",
+        "cross_refs": "WARN",
+        "duplicate_sections": "PASS",
+        "anti_slop": "PASS",
+        "description_format": "WARN",
+        "announce_line": "WARN"
+      },
+      "issues": [],
+      "warnings": [
+        "missing keys: allowed-tools",
+        "No provenance marker (> **Source:**) found",
+        "Broken refs: recipe, reproduce, run-results",
+        "missing 'Use when...' trigger phrase",
+        "Missing announce line ('I'm using the...')"
+      ]
+    },
+    {
+      "skill": "paper-triage",
+      "path": "paper-triage\\SKILL.md",
+      "checks": {
+        "frontmatter": "PASS",
+        "body_lines": "PASS",
+        "provenance": "WARN",
+        "cross_refs": "WARN",
+        "duplicate_sections": "PASS",
+        "anti_slop": "PASS",
+        "description_format": "WARN",
+        "announce_line": "WARN"
+      },
+      "issues": [],
+      "warnings": [
+        "No provenance marker (> **Source:**) found",
+        "Broken refs: action, deep-read, next, rationale, score, skip",
+        "missing 'Use when...' trigger phrase",
+        "Missing announce line ('I'm using the...')"
+      ]
+    },
+    {
+      "skill": "project-memory",
+      "path": "project-memory\\SKILL.md",
+      "checks": {
+        "frontmatter": "PASS",
+        "body_lines": "PASS",
+        "provenance": "PASS",
+        "cross_refs": "WARN",
+        "duplicate_sections": "PASS",
+        "anti_slop": "PASS",
+        "description_format": "WARN",
+        "announce_line": "WARN"
+      },
+      "issues": [],
+      "warnings": [
+        "Broken refs: compact, recall, save, update",
+        "missing 'Use when...' trigger phrase",
+        "Missing announce line ('I'm using the...')"
+      ]
+    },
+    {
+      "skill": "reading-triage",
+      "path": "reading-triage\\SKILL.md",
+      "checks": {
+        "frontmatter": "PASS",
+        "body_lines": "PASS",
+        "provenance": "WARN",
+        "cross_refs": "WARN",
+        "duplicate_sections": "PASS",
+        "anti_slop": "PASS",
+        "description_format": "WARN",
+        "announce_line": "WARN"
+      },
+      "issues": [],
+      "warnings": [
+        "No provenance marker (> **Source:**) found",
+        "Broken refs: action, deep-read, next, rationale, score, skip",
+        "missing 'Use when...' trigger phrase",
+        "Missing announce line ('I'm using the...')"
+      ]
+    },
+    {
+      "skill": "receiving-code-review",
+      "path": "receiving-code-review\\SKILL.md",
+      "checks": {
+        "frontmatter": "PASS",
+        "body_lines": "PASS",
+        "provenance": "PASS",
+        "cross_refs": "PASS",
+        "duplicate_sections": "PASS",
+        "anti_slop": "PASS",
+        "description_format": "PASS",
+        "announce_line": "PASS"
+      },
+      "issues": [],
+      "warnings": []
+    },
+    {
+      "skill": "requesting-code-review",
+      "path": "requesting-code-review\\SKILL.md",
+      "checks": {
+        "frontmatter": "PASS",
+        "body_lines": "PASS",
+        "provenance": "PASS",
+        "cross_refs": "WARN",
+        "duplicate_sections": "PASS",
+        "anti_slop": "PASS",
+        "description_format": "PASS",
+        "announce_line": "WARN"
+      },
+      "issues": [],
+      "warnings": [
+        "Broken refs: print",
+        "Missing announce line ('I'm using the...')"
+      ]
+    },
+    {
+      "skill": "research-orchestrator",
+      "path": "research-orchestrator\\SKILL.md",
+      "checks": {
+        "frontmatter": "PASS",
+        "body_lines": "PASS",
+        "provenance": "WARN",
+        "cross_refs": "WARN",
+        "duplicate_sections": "PASS",
+        "anti_slop": "PASS",
+        "description_format": "WARN",
+        "announce_line": "WARN"
+      },
+      "issues": [],
+      "warnings": [
+        "No provenance marker (> **Source:**) found",
+        "Broken refs: pipeline, read, scan, synthesize, triage",
+        "missing 'Use when...' trigger phrase",
+        "Missing announce line ('I'm using the...')"
+      ]
+    },
+    {
+      "skill": "reuse-checker",
+      "path": "reuse-checker\\SKILL.md",
+      "checks": {
+        "frontmatter": "PASS",
+        "body_lines": "PASS",
+        "provenance": "PASS",
+        "cross_refs": "PASS",
+        "duplicate_sections": "PASS",
+        "anti_slop": "PASS",
+        "description_format": "WARN",
+        "announce_line": "WARN"
+      },
+      "issues": [],
+      "warnings": [
+        "missing 'Use when...' trigger phrase",
+        "Missing announce line ('I'm using the...')"
+      ]
+    },
+    {
+      "skill": "review-frontend",
+      "path": "review-frontend\\SKILL.md",
+      "checks": {
+        "frontmatter": "PASS",
+        "body_lines": "PASS",
+        "provenance": "WARN",
+        "cross_refs": "WARN",
+        "duplicate_sections": "PASS",
+        "anti_slop": "PASS",
+        "description_format": "WARN",
+        "announce_line": "WARN"
+      },
+      "issues": [],
+      "warnings": [
+        "No provenance marker (> **Source:**) found",
+        "Broken refs: audit, fix",
+        "missing 'Use when...' trigger phrase",
+        "Missing announce line ('I'm using the...')"
+      ]
+    },
+    {
+      "skill": "rollback-manager",
+      "path": "rollback-manager\\SKILL.md",
+      "checks": {
+        "frontmatter": "PASS",
+        "body_lines": "PASS",
+        "provenance": "PASS",
+        "cross_refs": "WARN",
+        "duplicate_sections": "PASS",
+        "anti_slop": "PASS",
+        "description_format": "WARN",
+        "announce_line": "WARN"
+      },
+      "issues": [],
+      "warnings": [
+        "Broken refs: assess, execute, verify",
+        "missing 'Use when...' trigger phrase",
+        "Missing announce line ('I'm using the...')"
+      ]
+    },
+    {
+      "skill": "run-on-modal",
+      "path": "run-on-modal\\SKILL.md",
+      "checks": {
+        "frontmatter": "PASS",
+        "body_lines": "PASS",
+        "provenance": "WARN",
+        "cross_refs": "WARN",
+        "duplicate_sections": "PASS",
+        "anti_slop": "PASS",
+        "description_format": "WARN",
+        "announce_line": "WARN"
+      },
+      "issues": [],
+      "warnings": [
+        "No provenance marker (> **Source:**) found",
+        "Broken refs: inference, reproduce, run-results",
+        "missing 'Use when...' trigger phrase",
+        "Missing announce line ('I'm using the...')"
+      ]
+    },
+    {
+      "skill": "scaffold-course-platform",
+      "path": "scaffold-course-platform\\SKILL.md",
+      "checks": {
+        "frontmatter": "PASS",
+        "body_lines": "PASS",
+        "provenance": "WARN",
+        "cross_refs": "WARN",
+        "duplicate_sections": "PASS",
+        "anti_slop": "PASS",
+        "description_format": "WARN",
+        "announce_line": "WARN"
+      },
+      "issues": [],
+      "warnings": [
+        "No provenance marker (> **Source:**) found",
+        "Broken refs: audit, scaffold, stack",
+        "missing 'Use when...' trigger phrase",
+        "Missing announce line ('I'm using the...')"
+      ]
+    },
+    {
+      "skill": "security-review",
+      "path": "security-review\\SKILL.md",
+      "checks": {
+        "frontmatter": "PASS",
+        "body_lines": "PASS",
+        "provenance": "WARN",
+        "cross_refs": "WARN",
+        "duplicate_sections": "PASS",
+        "anti_slop": "PASS",
+        "description_format": "WARN",
+        "announce_line": "WARN"
+      },
+      "issues": [],
+      "warnings": [
+        "No provenance marker (> **Source:**) found",
+        "Broken refs: audit, eval, fix, review",
+        "missing 'Use when...' trigger phrase",
+        "Missing announce line ('I'm using the...')"
+      ]
+    },
+    {
+      "skill": "self-evaluator",
+      "path": "self-evaluator\\SKILL.md",
+      "checks": {
+        "frontmatter": "PASS",
+        "body_lines": "PASS",
+        "provenance": "PASS",
+        "cross_refs": "PASS",
+        "duplicate_sections": "PASS",
+        "anti_slop": "PASS",
+        "description_format": "WARN",
+        "announce_line": "WARN"
+      },
+      "issues": [],
+      "warnings": [
+        "missing 'Use when...' trigger phrase",
+        "Missing announce line ('I'm using the...')"
+      ]
+    },
+    {
+      "skill": "ship-validator",
+      "path": "ship-validator\\SKILL.md",
+      "checks": {
+        "frontmatter": "PASS",
+        "body_lines": "PASS",
+        "provenance": "PASS",
+        "cross_refs": "WARN",
+        "duplicate_sections": "PASS",
+        "anti_slop": "PASS",
+        "description_format": "WARN",
+        "announce_line": "WARN"
+      },
+      "issues": [],
+      "warnings": [
+        "Broken refs: quick, report, validate",
+        "missing 'Use when...' trigger phrase",
+        "Missing announce line ('I'm using the...')"
+      ]
+    },
+    {
+      "skill": "skill-router",
+      "path": "skill-router\\SKILL.md",
+      "checks": {
+        "frontmatter": "PASS",
+        "body_lines": "PASS",
+        "provenance": "PASS",
+        "cross_refs": "WARN",
+        "duplicate_sections": "PASS",
+        "anti_slop": "PASS",
+        "description_format": "WARN",
+        "announce_line": "WARN"
+      },
+      "issues": [],
+      "warnings": [
+        "Broken refs: discover, route, suggest",
+        "missing 'Use when...' trigger phrase",
+        "Missing announce line ('I'm using the...')"
+      ]
+    },
+    {
+      "skill": "spec-writer",
+      "path": "spec-writer\\SKILL.md",
+      "checks": {
+        "frontmatter": "PASS",
+        "body_lines": "PASS",
+        "provenance": "PASS",
+        "cross_refs": "PASS",
+        "duplicate_sections": "PASS",
+        "anti_slop": "PASS",
+        "description_format": "WARN",
+        "announce_line": "WARN"
+      },
+      "issues": [],
+      "warnings": [
+        "missing 'Use when...' trigger phrase",
+        "Missing announce line ('I'm using the...')"
+      ]
+    },
+    {
+      "skill": "study-tutor",
+      "path": "study-tutor\\SKILL.md",
+      "checks": {
+        "frontmatter": "PASS",
+        "body_lines": "PASS",
+        "provenance": "PASS",
+        "cross_refs": "PASS",
+        "duplicate_sections": "PASS",
+        "anti_slop": "PASS",
+        "description_format": "WARN",
+        "announce_line": "WARN"
+      },
+      "issues": [],
+      "warnings": [
+        "missing 'Use when...' trigger phrase",
+        "Missing announce line ('I'm using the...')"
+      ]
+    },
+    {
+      "skill": "tdd-enforcer",
+      "path": "tdd-enforcer\\SKILL.md",
+      "checks": {
+        "frontmatter": "PASS",
+        "body_lines": "PASS",
+        "provenance": "PASS",
+        "cross_refs": "WARN",
+        "duplicate_sections": "PASS",
+        "anti_slop": "PASS",
+        "description_format": "WARN",
+        "announce_line": "WARN"
+      },
+      "issues": [],
+      "warnings": [
+        "Broken refs: bugfix, enforce, retrofit, slice",
+        "missing 'Use when...' trigger phrase",
+        "Missing announce line ('I'm using the...')"
+      ]
+    },
+    {
+      "skill": "token-budget",
+      "path": "token-budget\\SKILL.md",
+      "checks": {
+        "frontmatter": "PASS",
+        "body_lines": "PASS",
+        "provenance": "WARN",
+        "cross_refs": "PASS",
+        "duplicate_sections": "PASS",
+        "anti_slop": "PASS",
+        "description_format": "WARN",
+        "announce_line": "WARN"
+      },
+      "issues": [],
+      "warnings": [
+        "No provenance marker (> **Source:**) found",
+        "missing 'Use when...' trigger phrase",
+        "Missing announce line ('I'm using the...')"
+      ]
+    },
+    {
+      "skill": "understand-codebase",
+      "path": "understand-codebase\\SKILL.md",
+      "checks": {
+        "frontmatter": "PASS",
+        "body_lines": "PASS",
+        "provenance": "WARN",
+        "cross_refs": "WARN",
+        "duplicate_sections": "PASS",
+        "anti_slop": "PASS",
+        "description_format": "WARN",
+        "announce_line": "WARN"
+      },
+      "issues": [],
+      "warnings": [
+        "No provenance marker (> **Source:**) found",
+        "Broken refs: diff, explain, onboard, scan",
+        "missing 'Use when...' trigger phrase",
+        "Missing announce line ('I'm using the...')"
+      ]
+    },
+    {
+      "skill": "using-git-worktrees",
+      "path": "using-git-worktrees\\SKILL.md",
+      "checks": {
+        "frontmatter": "PASS",
+        "body_lines": "PASS",
+        "provenance": "PASS",
+        "cross_refs": "WARN",
+        "duplicate_sections": "PASS",
+        "anti_slop": "PASS",
+        "description_format": "PASS",
+        "announce_line": "PASS"
+      },
+      "issues": [],
+      "warnings": [
+        "Broken refs: gobal-agent-auth-fix"
+      ]
+    },
+    {
+      "skill": "verification-before-completion",
+      "path": "verification-before-completion\\SKILL.md",
+      "checks": {
+        "frontmatter": "PASS",
+        "body_lines": "PASS",
+        "provenance": "PASS",
+        "cross_refs": "PASS",
+        "duplicate_sections": "PASS",
+        "anti_slop": "PASS",
+        "description_format": "PASS",
+        "announce_line": "WARN"
+      },
+      "issues": [],
+      "warnings": [
+        "Missing announce line ('I'm using the...')"
+      ]
+    },
+    {
+      "skill": "vi-translate",
+      "path": "vi-translate\\SKILL.md",
+      "checks": {
+        "frontmatter": "PASS",
+        "body_lines": "PASS",
+        "provenance": "WARN",
+        "cross_refs": "WARN",
+        "duplicate_sections": "PASS",
+        "anti_slop": "PASS",
+        "description_format": "PASS",
+        "announce_line": "WARN"
+      },
+      "issues": [],
+      "warnings": [
+        "No provenance marker (> **Source:**) found",
+        "Broken refs: eli5, gist, summary",
+        "Missing announce line ('I'm using the...')"
+      ]
+    },
+    {
+      "skill": "web-orchestrator",
+      "path": "web-orchestrator\\SKILL.md",
+      "checks": {
+        "frontmatter": "PASS",
+        "body_lines": "PASS",
+        "provenance": "WARN",
+        "cross_refs": "WARN",
+        "duplicate_sections": "PASS",
+        "anti_slop": "PASS",
+        "description_format": "WARN",
+        "announce_line": "WARN"
+      },
+      "issues": [],
+      "warnings": [
+        "No provenance marker (> **Source:**) found",
+        "Broken refs: admin, component, page, scaffold",
+        "missing 'Use when...' trigger phrase",
+        "Missing announce line ('I'm using the...')"
+      ]
+    },
+    {
+      "skill": "workbench-orchestrator",
+      "path": "workbench-orchestrator\\SKILL.md",
+      "checks": {
+        "frontmatter": "PASS",
+        "body_lines": "PASS",
+        "provenance": "WARN",
+        "cross_refs": "WARN",
+        "duplicate_sections": "PASS",
+        "anti_slop": "PASS",
+        "description_format": "PASS",
+        "announce_line": "WARN"
+      },
+      "issues": [],
+      "warnings": [
+        "No provenance marker (> **Source:**) found",
+        "Broken refs: cross-source-assumption, next, pipeline, scope-decision, synthesis-framing",
+        "Missing announce line ('I'm using the...')"
+      ]
+    },
+    {
+      "skill": "writing-plans",
+      "path": "writing-plans\\SKILL.md",
+      "checks": {
+        "frontmatter": "PASS",
+        "body_lines": "PASS",
+        "provenance": "PASS",
+        "cross_refs": "WARN",
+        "duplicate_sections": "PASS",
+        "anti_slop": "PASS",
+        "description_format": "PASS",
+        "announce_line": "PASS"
+      },
+      "issues": [],
+      "warnings": [
+        "Broken refs: subagent-driven-development"
+      ]
+    },
+    {
+      "skill": "writing-skills",
+      "path": "writing-skills\\SKILL.md",
+      "checks": {
+        "frontmatter": "PASS",
+        "body_lines": "PASS",
+        "provenance": "PASS",
+        "cross_refs": "WARN",
+        "duplicate_sections": "PASS",
+        "anti_slop": "PASS",
+        "description_format": "PASS",
+        "announce_line": "PASS"
+      },
+      "issues": [],
+      "warnings": [
+        "Broken refs: allowed-tools, argument-hint, description, name, provenance"
+      ]
+    }
+  ]
+}

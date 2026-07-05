@@ -1,0 +1,13 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# IDE & OS
+.DS_Store
+.vscode/
+*.swp
+
+# Logs and databases
+*.log
+*.sqlite
