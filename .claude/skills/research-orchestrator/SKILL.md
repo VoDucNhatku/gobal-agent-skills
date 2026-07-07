@@ -1,8 +1,8 @@
 ---
-name: "research-orchestrator"
-description: "Research domain orchestrator cho GOBAL AGENT — quản lý toàn bộ pipeline nghiên cứu học thuật: triage → shard deep-reads → merge → knowledge graph → synthesis → self-check. Gọi trực tiếp khi request thuộc domain nghiên cứu (đọc bài báo, tổng hợp, phân tích phương pháp so sánh). Chạy độc lập, tự mình quản lý subagents, không qua gobal-orchestrator ở mỗi bước. Modes: pipeline (full corpus ingest), triage (filter papers), read (read specific paper), synthesize (combine findings)."
-argument-hint: "<research request> [pipeline|triage|read|synthesize]"
-allowed-tools: "Skill Agent WebSearch WebFetch Read Write Glob Bash"
+name: research-orchestrator
+description: Research domain orchestrator cho GOBAL AGENT — quản lý toàn bộ pipeline nghiên cứu học thuật: triage → shard deep-reads → merge → knowledge graph → synthesis → self-check. Gọi trực tiếp khi request thuộc domain nghiên cứu (đọc bài báo, tổng hợp, phân tích phương pháp so sánh). Chạy độc lập, tự mình quản lý subagents, không qua gobal-orchestrator ở mỗi bước. Modes: pipeline (full corpus ingest), triage (filter papers), read (read specific paper), synthesize (combine findings).
+argument-hint: <research request> [pipeline|triage|read|synthesize]
+allowed-tools: Skill Agent WebSearch WebFetch Read Write Glob Bash
 ---
 
 # Research Orchestrator
@@ -50,6 +50,7 @@ Fan out `knowledge-graph` đọc id đã triage. Merge/shard via script `scripts
 
 ### Step 7 — Self-check (MANDATORY trước khi claim done)
 `hallucination-guard` mode `scan` trên deliverable: mỗi claim phải có source (paper id / file path / section). Nếu có claim không nguồn → **refuse ngay**, chỉ rõ cái gì thiếu, regain bằng cách đọc đúng source, fix, rồi scan lại.
+Scan bao gồm cả **evaluative claims** (novelty tier, venue-worthiness, "expected gain") theo `~/.claude/rules/research-proposal-integrity.md` §6: venue claim thiếu tier + điều kiện, hoặc công thức thiếu provenance tag ([cited]/[derived]/[design]) → FAIL như claim không nguồn.
 
 **Net cost = O(number of shards), không phải O(number of pages).**
 
@@ -81,6 +82,36 @@ Fan-out ONLY khi:
 | "Đồ thị tri thức" | knowledge-graph | paper-read (×N) |
 | "Sửa LaTeX" | latex-fix | — |
 | "Dịch học thuật" | vi-translate | paper-read |
+| "Đề xuất hướng / novelty / venue (Q1, Q4...)" | paper-synthesize (gaps/expand) | `research-proposal-integrity.md` — chấm tier trước, Venue Claim Card + claims-ledger; follow-up → re-read ledger trước khi trả lời |
+| "Viết/nộp bài báo, draft manuscript, format IEEE/CVPR, rebuttal" | paper-submission | → chuỗi viết-paper bên dưới |
+| "Vẽ figure/pipeline TikZ" | latex-tikz-generator | song song với draft |
+| "Verify DOI, orphan citation, synthesis scan" | citation-guard | sau draft |
+| "Humanize / giảm AI signature văn phong" | style-humanizer | sau citation-guard, giữ bất biến §4 |
+| "Phản biện Q1 / devil's advocate / rejection analysis" | ieee-q1-devil-advocate | áp chót, đối chiếu claims-ledger |
+
+## Chuỗi viết bản thảo (manuscript pipeline — SEQUENTIAL)
+
+Khi request là "viết/nộp bài báo", đây KHÔNG phải fan-out (mỗi khâu phụ thuộc output khâu
+trước — xem Fan-Out Criteria: sequential = never parallel). Điều phối tuần tự, mỗi khâu ghi
+report cạnh bản thảo (`paper/reports/<stage>.md`), FAIL → quay lại khâu sinh:
+
+```
+paper-submission (draft/format) ──figures──> latex-tikz-generator (song song)
+        │
+        ▼
+citation-guard        (zero-orphan · DOI verify CrossRef · synthesis scan)
+        ▼
+style-humanizer       (calibrate văn phong DƯỚI bất biến bảo toàn nghĩa §4)
+        ▼
+latex-fix + compile   (math render KaTeX+MathJax · document compile)
+        ▼
+ieee-q1-devil-advocate (phản biện đúng bản sẽ nộp · cross-check claims-ledger)
+        ▼
+self-evaluator        (cổng cuối trước "done")
+```
+
+Binding cho cả chuỗi: `~/.claude/rules/paper-writing-integrity.md` (§6 là sơ đồ trên).
+Chỉ figure-generation được chạy song song với draft prose; phần còn lại tuần tự.
 
 ## Source-Driven Research
 
@@ -129,6 +160,13 @@ Khi phát hiện claim không có evidence / đang build trên nền sai:
 - `paper-triage` / `paper-triage` → Filter papers
 - `vi-translate` → Translation
 - `latex-fix` → Math repair
+- `paper-submission` → Draft/format/rebuttal manuscript (khâu đầu chuỗi viết)
+- `latex-tikz-generator` → Figure/diagram TikZ (song song draft)
+- `citation-guard` → DOI verify · orphan detect · synthesis scan
+- `style-humanizer` → Style calibration dưới bất biến bảo toàn nghĩa
+- `ieee-q1-devil-advocate` → Phản biện Q1 áp chót
 - `workbench-conventions.md` → Bilingual policy, token economy rules
 - `latex-katex-compat.md` → Cross-platform math rendering rules
+- `research-proposal-integrity.md` → Novelty tiers, Venue Claim Card, claims ledger, math provenance, feasibility gate (binding cho mọi output đề xuất ý tưởng)
+- `paper-writing-integrity.md` → Zero fabricated refs, đạo văn, results integrity, meaning-preservation invariant, chuỗi viết bản thảo §6
 - `course-domain-model.md` → If research domain involves LMS content

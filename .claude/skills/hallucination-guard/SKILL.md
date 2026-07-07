@@ -1,8 +1,8 @@
 ---
-name: "hallucination-guard"
-description: "Hallucination guard for GOBAL AGENT — prevents fabricated content in code, citations, metrics, and file references. Every claim must have a verifiable source. Modes — verify (check a specific claim), scan (scan output for unverified claims), source-check (validate citations). Source: addyosmani (doubt-driven-development) + workbench-conventions §8 (fidelity). It guards; it does NOT generate content."
-argument-hint: "[verify|scan|source-check]"
-allowed-tools: "Read Bash Glob WebSearch"
+name: hallucination-guard
+description: Hallucination guard for GOBAL AGENT — prevents fabricated content in code, citations, metrics, and file references. Every claim must have a verifiable source. Modes — verify (check a specific claim), scan (scan output for unverified claims), source-check (validate citations). Source: addyosmani (doubt-driven-development) + workbench-conventions §8 (fidelity). It guards; it does NOT generate content.
+argument-hint: [verify|scan|source-check]
+allowed-tools: Read Bash Glob WebSearch
 ---
 
 # Hallucination Guard
@@ -36,6 +36,9 @@ allowed-tools: "Read Bash Glob WebSearch"
 | Invented config | `max_tokens: 8192` (not in source) | Read actual config file |
 | Fake error message | "Error: connection timeout" (not observed) | Quote actual error verbatim |
 | Hallucinated paper result | "paper achieved 98% accuracy" (not in paper) | Read paper's actual results section |
+| Venue overclaim | "hướng này đủ Q1" (no tier, no conditions) | Grade per `~/.claude/rules/research-proposal-integrity.md` §1 — claim = band + điều kiện, ghi claims-ledger |
+| Untagged formula | equation in a proposal with no provenance | Tag [cited]/[derived]/[design] per integrity rules §4; [derived] needs a shown sanity check |
+| Phantom expected gain | "sẽ tăng ~5% Acc" (no run behind it) | State "chưa chạy — ước lượng [design]" or remove |
 
 ---
 
@@ -100,3 +103,5 @@ Source: <file path, URL, or "no source found">
 - About to claim code "works" without running it
 - About to use an API name from memory instead of reading the code
 - "I'm pretty sure" / "I think" / "probably" — these mean uncertain, not verified
+- About to name a venue tier (Q1/Q4/hội nghị) without a graded novelty tier + upgrade conditions (integrity rules §1–2)
+- About to answer a follow-up on a prior proposal from conversation memory instead of re-reading `notes/claims-ledger.md` + the proposal note

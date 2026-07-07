@@ -65,7 +65,7 @@ FINAL DELIVERABLE  ← Vietnamese + file paths in chat
 | `workbench-orchestrator` | Legacy orchestrator, aliased to gobal |
 | `skill-router` | Standalone routing — classify + suggest skill |
 
-### Research & Academic (11)
+### Research & Academic (15)
 
 | Skill | Description |
 |-------|-------------|
@@ -76,8 +76,12 @@ FINAL DELIVERABLE  ← Vietnamese + file paths in chat
 | `knowledge-graph` | Typed entities + relations → master graph |
 | `latex-fix` | Batch LaTeX repair (KaTeX/MathJax) |
 | `latex-math-renderer` | LaTeX → HTML (KaTeX/MathJax) |
+| `latex-tikz-generator` | TikZ vector diagrams — pipeline/architecture figures, plagiarism-safe |
 | `vi-translate` | Faithful Vietnamese translation + glossary |
-| `paper-submission` | Draft/format (IEEE, CVPR, NeurIPS) |
+| `paper-submission` | Draft/format (IEEE, CVPR, NeurIPS) — head of the sequential write pipeline |
+| `citation-guard` | DOI verify (CrossRef), orphan-citation detect, synthesis-quality scan |
+| `style-humanizer` | AI-text humanizer — heuristic checklist + style calibration under a meaning-preservation invariant |
+| `ieee-q1-devil-advocate` | IEEE Q1 reviewer simulation — novelty tier + ablation + rejection-pattern analysis |
 | `paper-to-notebook` | Paper → runnable Jupyter notebook |
 | `run-on-modal` | Paper → Modal GPU. VRAM profile + cost estimate |
 
@@ -131,6 +135,12 @@ FINAL DELIVERABLE  ← Vietnamese + file paths in chat
 | `study-tutor` | Adaptive: assess → explain → practice → quiz |
 | `concept-explainer` | eli5 / deep-dive / analogy |
 | `knowledge-quiz` | Rigorous quiz from KG/notes |
+
+### Career (1)
+
+| Skill | Description |
+|-------|-------------|
+| `ai-cv-forge` | CV/career-profile builder for new-grad AI students — minimal input → cv.md + profile.yml, 2025–2026 hiring mindset (agentic, eval, RAG, MLOps, LLM infra) |
 
 ### Governance (10)
 
@@ -204,7 +214,7 @@ claude
 
 ## Giới thiệu
 
-GOBAL Agent Skills là **bộ công cụ "siêu trợ lý"** cho Claude Code — think của nó là 62 "chuyên gia" nhỏ, mỗi người giỏi một việc riêng. Bạn chỉ cần **nói tiếng Việt** — nó tự hiểu, tự gọi đúng chuyên gia và trả về kết quả bằng tiếng Việt.
+GOBAL Agent Skills là **bộ công cụ "siêu trợ lý"** cho Claude Code — think của nó là 66 "chuyên gia" nhỏ, mỗi người giỏi một việc riêng. Bạn chỉ cần **nói tiếng Việt** — nó tự hiểu, tự gọi đúng chuyên gia và trả về kết quả bằng tiếng Việt.
 
 ## Cách hoạt động — cho người không biết code
 
@@ -277,12 +287,13 @@ Mỗi "phòng ban" có Trưởng phòng (orchestrator) và hàng loạt chuyên 
 ```
 gobal-agent-skills/
 ├── orchestration/         ← Điều phối (3 skills)
-├── research/              ← Nghiên cứu (11 skills)
+├── research/              ← Nghiên cứu (15 skills)
 ├── code/                  ← Kỹ thuật (12 skills)
 ├── web-ui/                ← Thiết kế web (5 skills)
 ├── backend/               ← Backend & bảo mật (2 skills)
 ├── deploy/                ← Vận hành (4 skills)
 ├── study/                 ← Học tập (3 skills)
+├── career/                ← Sự nghiệp (1 skill)
 ├── governance/            ← Kiểm soát chất lượng (10 skills)
 └── writing-planning/      ← Viết & lập kế hoạch (3 skills)
 ```
@@ -294,7 +305,7 @@ gobal-agent-skills/
 - **workbench-orchestrator:** Phiên bản cũ, giữ tương thích
 - **skill-router:** Chỉ gợi ý skill nào phù hợp, không chạy
 
-**Nghiên cứu (11 skills):**
+**Nghiên cứu (15 skills):**
 - **paper-triage:** "Cho tôi xem đống sách/bài báo này — cái nào đáng đọc, cái nào bỏ?" (Quét abstract → cho điểm 0-5)
 - **paper-read:** "Đọc bài báo số 003, tóm tắt ra sao? chi tiết hay gọn?" (4 mức độ: gist/summary/eli5/mindmap)
 - **paper-method:** "Phân tích sâu — có tái lập được không? điểm mới gì?" (critique + recipe + reproducibility A-F)
@@ -302,9 +313,16 @@ gobal-agent-skills/
 - **knowledge-graph:** "Vẽ khái niệm + mối quanệ vào đồ thị chung"
 - **vi-translate:** "Dịch bài báo sang tiếng Việt, giữ thuật ngữ chuyên ngành"
 - **latex-fix:** "Sửa công thức toán bị lỗi hiển thị"
-- **paper-submission:** "Viết bài báo theo chuẩn IEEE/CVPR"
+- **latex-tikz-generator:** "Vẽ hình pipeline/kiến trúc chuẩn Q1 bằng TikZ — vector, không dính đạo văn ảnh"
+- **paper-submission:** "Viết bài báo theo chuẩn IEEE/CVPR — mở đầu chuỗi viết bản thảo"
+- **citation-guard:** "Kiểm trích dẫn — DOI có thật không, có câu nào mồ côi không, Related Work có tổng hợp thật hay chỉ liệt kê?"
+- **style-humanizer:** "Giảm dấu hiệu văn AI, giữ nguyên số liệu/công thức/trích dẫn"
+- **ieee-q1-devil-advocate:** "Đóng vai reviewer Q1 khó tính nhất — điểm mới thật không, ablation đủ chưa?"
 - **paper-to-notebook:** "Lấy code bài báo chạy thành Jupyter notebook"
 - **run-on-modal:** "Chạy mô hình lên GPU cloud — tốn bao nhiêu?"
+
+**Sự nghiệp (1 skill):**
+- **ai-cv-forge:** "Sinh viên AI mới ra trường — dựng CV/profile từ project, khóa học, internship theo tư duy tuyển dụng AI 2025–2026"
 
 **Kỹ thuật (12 skills):**
 - **code-senior:** "Code giúp — viết đúng, sạch, có test"

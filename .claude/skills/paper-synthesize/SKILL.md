@@ -1,8 +1,8 @@
 ---
-name: "paper-synthesize"
-description: "Synthesizes ACROSS many papers — the cross-paper Worker of the Workbench suite. Modes — compare (side-by-side table + differentiators + a hybrid-pipeline proposal), taxonomy (organizing dimensions + named categories + matrix), gaps (recurring weaknesses, white space → concrete research opportunities), expand (generalize ONE problem into its broader class, relaxable assumptions, open sub-problems). Reasons over already-distilled notes/ when present. Triggers — compare papers, so sánh bài báo, which is better, đề xuất pipeline kết hợp, systematize, hệ thống hóa, build a taxonomy, dựng khung phân loại, research gaps, khoảng trống nghiên cứu, future directions, hướng nghiên cứu, what's missing, generalize the problem, khái quát vấn đề. It does NOT condense one paper (use paper-read), critique one method (use paper-method), or extract typed entities (use knowledge-graph)."
-argument-hint: "<ids|all|topic> [compare|taxonomy|gaps|expand]"
-allowed-tools: "Skill Agent Read Write Glob Bash"
+name: paper-synthesize
+description: Synthesizes ACROSS many papers — the cross-paper Worker of the Workbench suite. Modes — compare (side-by-side table + differentiators + a hybrid-pipeline proposal), taxonomy (organizing dimensions + named categories + matrix), gaps (recurring weaknesses, white space → concrete research opportunities), expand (generalize ONE problem into its broader class, relaxable assumptions, open sub-problems). Reasons over already-distilled notes/ when present. Triggers — compare papers, so sánh bài báo, which is better, đề xuất pipeline kết hợp, systematize, hệ thống hóa, build a taxonomy, dựng khung phân loại, research gaps, khoảng trống nghiên cứu, future directions, hướng nghiên cứu, what's missing, generalize the problem, khái quát vấn đề. It does NOT condense one paper (use paper-read), critique one method (use paper-method), or extract typed entities (use knowledge-graph).
+argument-hint: <ids|all|topic> [compare|taxonomy|gaps|expand]
+allowed-tools: Skill Agent Read Write Glob Bash
 ---
 
 # Paper Synthesize (tổng hợp liên-paper)
@@ -27,7 +27,10 @@ This folds the former `compare-papers`, `knowledge-systemize`, `research-gap`, a
 This skill treats `~/.claude/rules/workbench-conventions.md` as binding (bilingual §1,
 input resolution §2, output + preview-not-dump §3, reuse-before-read §4, fidelity §8, mode
 scaling by cardinality §7, scope handoff §10) and pulls `~/.claude/rules/latex-katex-compat.md`
-at run time for any math in `expand`/`gaps` — **reference it, never inline it**. Human-facing
+at run time for any math in `expand`/`gaps` — **reference it, never inline it**. `gaps`/`expand`
+additionally pull `~/.claude/rules/research-proposal-integrity.md` (novelty tiers, Venue Claim
+Card, claims ledger, math provenance) — every proposed direction is graded there BEFORE any
+venue word is written. Human-facing
 prose is Vietnamese (học thuật); ids, equations, dataset/model names stay English/LaTeX.
 
 ## Procedure
@@ -71,7 +74,9 @@ regions (§6). If **many** ids in scope lack a distillate, stop and hand back to
   of clusters / convergence / divergence / outliers.
 - **`gaps`:** per-paper limitations (author-stated + observed) → aggregated cross-cutting gaps →
   white space (what no paper attempts) → opportunities table (`gap → why it matters → concrete
-  direction → source ids`).
+  direction → source ids → novelty tier T1/T2/T3 + venue band` per integrity rules §1). Any
+  direction presented as a serious proposal gets a full Venue Claim Card + a `notes/claims-ledger.md`
+  row (§2–3).
 - **`expand`:** specific problem (precise) → broader class + abstract formulation (LaTeX) →
   relaxable assumptions → neighbouring problems → landscape position → open sub-problems.
 
@@ -108,6 +113,9 @@ One mode's structure (header + sections above). If domain terms are defined, clo
   line per paper plus the cross-cutting synthesis.
 - **Every claim cites an id (§8).** No invented connection between two papers without evidence;
   no fabricated metric. Missing → `bài báo không nêu (not stated)`.
+- **No venue word without a tier (integrity rules).** A `gaps`/`expand` direction never says
+  "đủ Q1/Q4" bare — always tier + band + điều kiện, and formulas carry [cited]/[derived]/[design]
+  tags. This is what prevents the propose-then-walk-back drift.
 - **Don't dump the file to chat (§3).** Tables and Mermaid stay in the file; chat gets the
   6–9 line preview + path.
 - **Stay in scope (§10).** This skill works ACROSS papers (or generalizes one problem). It does

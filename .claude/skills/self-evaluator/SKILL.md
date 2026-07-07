@@ -1,8 +1,8 @@
 ---
-name: "self-evaluator"
-description: "Self-evaluation for GOBAL AGENT — checks output quality before delivery. Verifies completeness, accuracy, token efficiency, and hallucination risk. Modes — evaluate (full check), quick-check (fast pass/fail), post-mortem (analyze past failures). Source: superpowers (writing-skills) + gstack (retro) + addyosmani (definition-of-done). It evaluates; it does NOT fix issues (that's the producing skill's job)."
-argument-hint: "[evaluate|quick-check|post-mortem]"
-allowed-tools: "Read Bash Glob"
+name: self-evaluator
+description: Self-evaluation for GOBAL AGENT — checks output quality before delivery. Verifies completeness, accuracy, token efficiency, and hallucination risk. Modes — evaluate (full check), quick-check (fast pass/fail), post-mortem (analyze past failures). Source: superpowers (writing-skills) + gstack (retro) + addyosmani (definition-of-done). It evaluates; it does NOT fix issues (that's the producing skill's job).
+argument-hint: [evaluate|quick-check|post-mortem]
+allowed-tools: Read Bash Glob
 ---
 
 # Self Evaluator
@@ -25,6 +25,9 @@ allowed-tools: "Read Bash Glob"
 - [ ] Code tested and verified (not "should work")?
 - [ ] Quantitative results match source exactly?
 - [ ] Cross-source claims attributed to specific source?
+- [ ] Venue/novelty claims graded (tier + band + điều kiện, Venue Claim Card) per `~/.claude/rules/research-proposal-integrity.md`?
+- [ ] Claims consistent with `notes/claims-ledger.md` — any change declared via REVISION protocol (no silent recalibration)?
+- [ ] Every equation in a proposal carries a provenance tag ([cited]/[derived]/[design])?
 
 ### 3. Token Efficiency
 - [ ] Chat output ≤ preview budget (5-10 lines)?

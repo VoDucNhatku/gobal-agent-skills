@@ -1,8 +1,8 @@
 ---
-name: "paper-method"
-description: "Deep-reads one paper's method at a chosen lens. Mode critique = formulation, notation, math, losses, novelty, stated + unstated limitations, and a reproducibility checklist (the most math-dense mode); mode recipe = an ordered, reimplementation-ready pipeline table + a Mermaid data-flow chart. Triggers — methodology read, phân tích phương pháp, đọc kỹ phương pháp, explain the math, giải thích công thức, is this reproducible, có tái lập được không, critique the method, đánh giá phương pháp, novelty and limitations, hạn chế của phương pháp, extract the pipeline, trích xuất pipeline, implementation recipe, các bước của phương pháp, công thức loss. Distills one paper's method faithfully — it does not give a general overview (use paper-read), compare papers (use paper-synthesize), or write runnable code (use paper-to-notebook / run-on-modal)."
-argument-hint: "<id|file|path> [critique|recipe]"
-allowed-tools: "Skill Agent Read Write Glob Bash"
+name: paper-method
+description: Deep-reads one paper's method at a chosen lens. Mode critique = formulation, notation, math, losses, novelty, stated + unstated limitations, and a reproducibility checklist (the most math-dense mode); mode recipe = an ordered, reimplementation-ready pipeline table + a Mermaid data-flow chart. Triggers — methodology read, phân tích phương pháp, đọc kỹ phương pháp, explain the math, giải thích công thức, is this reproducible, có tái lập được không, critique the method, đánh giá phương pháp, novelty and limitations, hạn chế của phương pháp, extract the pipeline, trích xuất pipeline, implementation recipe, các bước của phương pháp, công thức loss. Distills one paper's method faithfully — it does not give a general overview (use paper-read), compare papers (use paper-synthesize), or write runnable code (use paper-to-notebook / run-on-modal).
+argument-hint: <id|file|path> [critique|recipe]
+allowed-tools: Skill Agent Read Write Glob Bash
 ---
 
 # Paper Method (đọc kỹ phương pháp)
@@ -52,7 +52,11 @@ own column set or section order.
 **Mode `critique`** — in this order:
 1. **Formulation** — the problem and the proposed approach, in Vietnamese prose.
 2. **Notation table** — symbols → meaning, in KaTeX-safe LaTeX.
-3. **Key equations** — the load-bearing equations copied faithfully, each glossed.
+3. **Key equations** — the load-bearing equations copied faithfully, each glossed. Lời
+   giải thích (gloss) phải **bám vào chính bài báo**: mỗi ký hiệu/số hạng nói đúng vai trò
+   bài nêu; nếu là suy luận của người đọc (bài không nói rõ) → gắn `(suy luận)`. Không gán
+   cơ chế/ý nghĩa mà bài không hề khẳng định — thà viết `bài báo không giải thích thêm`
+   còn hơn bịa một trực giác nghe hợp lý.
 4. **Loss / objective** — every loss term and how they combine (with weights).
 5. **Novelty** — what is genuinely new vs prior work, attributable to the paper.
 6. **Limitations** — both **stated** and **unstated** (inferred but flagged as inferred).
@@ -107,6 +111,9 @@ If the artifact defines domain terms, close with a `## Thuật ngữ (Glossary)`
   score and stage cites a section / equation; no claim from the title alone (§8).
 - **Unstated ≠ invented.** Mark inferred limitations as inferred; mark missing values
   `bài báo không nêu (not stated)`. Do not fabricate hyperparameters or shapes.
+- **Gloss trung thành, không bịa cơ chế.** Giải thích công thức phải truy về nội dung bài
+  (§8 fidelity); trực giác không có trong bài → gắn `(suy luận)`. Một gloss sai còn tệ hơn
+  không gloss — nó khiến người đọc hiểu lệch phương pháp.
 - **Math renders on both engines.** Check `latex-katex-compat.md` for unsupported macros
   and delimiter rules before writing; one bad macro silently breaks the whole `$$` block
   in KaTeX.
