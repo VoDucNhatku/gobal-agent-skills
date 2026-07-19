@@ -1,8 +1,8 @@
 ---
-name: "test-framework"
-description: "Automated structural validation for all skills in gobal-skills/. Verifies frontmatter, line limits, cross-references, and anti-slop rules."
-argument-hint: "[all|single-skill <name>]"
-allowed-tools: "Read Bash"
+name: test-framework
+description: Automated structural validation for all skills in gobal-skills/. Verifies frontmatter, line limits, cross-references, and anti-slop rules.
+argument-hint: [all|single-skill <name>]
+allowed-tools: Read Bash
 ---
 
 # Test Framework

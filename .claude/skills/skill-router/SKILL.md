@@ -1,8 +1,8 @@
 ---
-name: "skill-router"
-description: "Skill router for GOBAL AGENT — routes requests to optimal skills based on task type. Modes: route (find best skill), discover (find available skills), suggest (recommend workflow). Source: gstack (router architecture) + addyosmani (using-agent-skills) + superpowers (using-superpowers). It routes; it does NOT invoke skills (that is the orchestrator's job)."
-argument-hint: "<request> [route|discover|suggest|recommend|analyze]"
-allowed-tools: "Read Write Bash Glob"
+name: skill-router
+description: Skill router for GOBAL AGENT — routes requests to optimal skills based on task type. Modes: route (find best skill), discover (find available skills), suggest (recommend workflow). Source: gstack (router architecture) + addyosmani (using-agent-skills) + superpowers (using-superpowers). It routes; it does NOT invoke skills (that is the orchestrator's job).
+argument-hint: <request> [route|discover|suggest|recommend|analyze]
+allowed-tools: Read Write Bash Glob
 ---
 
 # Skill Router

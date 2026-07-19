@@ -1,8 +1,8 @@
 ---
-name: "review-frontend"
-description: "Front-end audit Worker — scores a web surface against the anti-slop, accessibility, and token-consistency rubric, as binary pass/fail findings, then optionally fixes the high-confidence ones surgically. Runs the slop-cluster checklist (type, color, layout, components, icons, a11y/WCAG, copy, not-a-default-cluster) plus the quality floor (focus-visible, all states, responsive, reduced-motion). Modes — audit (default; pass/fail findings, severity-coded, no edits) and fix (apply only the high-confidence findings via surgical Edit, never a rewrite). Triggers — review the frontend, review the UI, đánh giá giao diện, kiểm tra UI, check for AI slop, chấm slop, a11y audit, kiểm tra accessibility, is this accessible, token consistency, design QA, audit the design. It judges/repairs an existing surface; it does NOT decide the look (use design-web) or build new components (use build-ui)."
-argument-hint: "<file|url|component> [audit|fix]"
-allowed-tools: "Read Edit Glob Grep WebFetch Bash"
+name: review-frontend
+description: Front-end audit Worker — scores a web surface against the anti-slop, accessibility, and token-consistency rubric, as binary pass/fail findings, then optionally fixes the high-confidence ones surgically. Runs the slop-cluster checklist (type, color, layout, components, icons, a11y/WCAG, copy, not-a-default-cluster) plus the quality floor (focus-visible, all states, responsive, reduced-motion). Modes — audit (default; pass/fail findings, severity-coded, no edits) and fix (apply only the high-confidence findings via surgical Edit, never a rewrite). Triggers — review the frontend, review the UI, đánh giá giao diện, kiểm tra UI, check for AI slop, chấm slop, a11y audit, kiểm tra accessibility, is this accessible, token consistency, design QA, audit the design. It judges/repairs an existing surface; it does NOT decide the look (use design-web) or build new components (use build-ui).
+argument-hint: <file|url|component> [audit|fix]
+allowed-tools: Read Edit Glob Grep WebFetch Bash
 ---
 
 # Review Frontend (chấm anti-slop + a11y giao diện)

@@ -1,8 +1,8 @@
 ---
-name: "project-memory"
-description: "Project memory for GOBAL AGENT — persists project context across sessions using file-based memory. Modes: save (store context), recall (load context), update (modify existing), compact (summarize old context). Source: gstack (context-save/restore, sync-gbrain) + addyosmani (context-engineering) + superpowers (progress ledger). It remembers; it does NOT make decisions based on memory (that is the orchestrator's job)."
-argument-hint: "<project> [save|recall|update|compact]"
-allowed-tools: "Read Write Bash Glob"
+name: project-memory
+description: Project memory for GOBAL AGENT — persists project context across sessions using file-based memory. Modes: save (store context), recall (load context), update (modify existing), compact (summarize old context). Source: gstack (context-save/restore, sync-gbrain) + addyosmani (context-engineering) + superpowers (progress ledger). It remembers; it does NOT make decisions based on memory (that is the orchestrator's job).
+argument-hint: <project> [save|recall|update|compact]
+allowed-tools: Read Write Bash Glob
 ---
 
 # Project Memory

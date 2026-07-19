@@ -1,8 +1,8 @@
 ---
-name: "reuse-checker"
-description: "Reuse checker for GOBAL AGENT — verifies whether an artifact, analysis, or output already exists before creating new ones. Checks notes/INDEX.md and artifact-manager. Prevents duplicate work and token waste. Source: gstack (context-restore) + workbench-conventions §4 (REUSE-BEFORE-READ). It checks; it does NOT create artifacts (that's the producing skill's job)."
-argument-hint: "<query> [check|suggest|diff]"
-allowed-tools: "Read Glob Bash"
+name: reuse-checker
+description: Reuse checker for GOBAL AGENT — verifies whether an artifact, analysis, or output already exists before creating new ones. Checks notes/INDEX.md and artifact-manager. Prevents duplicate work and token waste. Source: gstack (context-restore) + workbench-conventions §4 (REUSE-BEFORE-READ). It checks; it does NOT create artifacts (that's the producing skill's job).
+argument-hint: <query> [check|suggest|diff]
+allowed-tools: Read Glob Bash
 ---
 
 # Reuse Checker

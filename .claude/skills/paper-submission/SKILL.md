@@ -1,8 +1,8 @@
 ---
-name: "paper-submission"
-description: "Academic manuscript and paper submission worker — drafts, formats, and polishes academic papers for submission to top-tier venues (IEEE Q1/Q2, CVPR, ICCV, ECCV, NeurIPS, etc.). Modes: draft (generate manuscript from synthesis notes), format (apply specific LaTeX templates like IEEEtran/cvpr), rebuttal (draft reviewer responses based on reviews). Triggers — write paper, draft manuscript, format for IEEE, format for CVPR, write rebuttal, chuẩn bị nộp báo, viết bản thảo, phản hồi reviewer. It writes and formats manuscripts; it does NOT conduct the primary research or run experiments (use paper-method, paper-synthesize, or run-on-modal)."
-argument-hint: "<topic | conference name> [draft|format|rebuttal]"
-allowed-tools: "Read Write Glob Bash"
+name: paper-submission
+description: Academic manuscript and paper submission worker — drafts, formats, and polishes academic papers for submission to top-tier venues (IEEE Q1/Q2, CVPR, ICCV, ECCV, NeurIPS, etc.). Modes: draft (generate manuscript from synthesis notes), format (apply specific LaTeX templates like IEEEtran/cvpr), rebuttal (draft reviewer responses based on reviews). Triggers — write paper, draft manuscript, format for IEEE, format for CVPR, write rebuttal, chuẩn bị nộp báo, viết bản thảo, phản hồi reviewer. It writes and formats manuscripts; it does NOT conduct the primary research or run experiments (use paper-method, paper-synthesize, or run-on-modal).
+argument-hint: <topic | conference name> [draft|format|rebuttal]
+allowed-tools: Read Write Glob Bash
 ---
 
 # Paper Submission (Viết & Chuẩn bị Bản thảo)

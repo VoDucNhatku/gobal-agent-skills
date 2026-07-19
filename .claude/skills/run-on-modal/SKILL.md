@@ -1,8 +1,8 @@
 ---
-name: "run-on-modal"
-description: "Deploys one paper's code on Modal serverless GPU. Profiles VRAM from compute signals (param count, batch size, precision), picks the cheapest GPU tier with a safety margin, estimates cost, then offloads to a bundled builder that writes a two-phase modal_app.py (CPU download function + GPU compute function + local entrypoint). Modes — reproduce, run-results, inference. Code English; the chat report (hardware pick + cost + quick-start) is Vietnamese. Triggers — run on Modal, chạy trên Modal, deploy to GPU, serverless GPU, ước tính chi phí GPU, chọn GPU, estimate VRAM, modal_app, run the model in the cloud. Produces a Modal app + cost estimate; for a local/Colab notebook use paper-to-notebook; for method analysis use paper-method."
-argument-hint: "<id|file|path> [reproduce|run-results|inference] [repo-url]"
-allowed-tools: "Skill Agent Read Write Glob Bash"
+name: run-on-modal
+description: Deploys one paper's code on Modal serverless GPU. Profiles VRAM from compute signals (param count, batch size, precision), picks the cheapest GPU tier with a safety margin, estimates cost, then offloads to a bundled builder that writes a two-phase modal_app.py (CPU download function + GPU compute function + local entrypoint). Modes — reproduce, run-results, inference. Code English; the chat report (hardware pick + cost + quick-start) is Vietnamese. Triggers — run on Modal, chạy trên Modal, deploy to GPU, serverless GPU, ước tính chi phí GPU, chọn GPU, estimate VRAM, modal_app, run the model in the cloud. Produces a Modal app + cost estimate; for a local/Colab notebook use paper-to-notebook; for method analysis use paper-method.
+argument-hint: <id|file|path> [reproduce|run-results|inference] [repo-url]
+allowed-tools: Skill Agent Read Write Glob Bash
 ---
 
 # Run on Modal (chạy trên Modal serverless GPU)

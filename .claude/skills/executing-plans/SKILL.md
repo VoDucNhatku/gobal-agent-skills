@@ -1,8 +1,8 @@
 ---
-name: "executing-plans"
-description: "Executing plans for GOBAL AGENT — implements a written plan task by task with verification checkpoints. Source: superpowers (executing-plans). Use when you have a written implementation plan to execute."
-argument-hint: "<plan-file>"
-allowed-tools: "Read Write Edit Bash Glob"
+name: executing-plans
+description: Executing plans for GOBAL AGENT — implements a written plan task by task with verification checkpoints. Source: superpowers (executing-plans). Use when you have a written implementation plan to execute.
+argument-hint: <plan-file>
+allowed-tools: Read Write Edit Bash Glob
 ---
 
 # Executing Plans

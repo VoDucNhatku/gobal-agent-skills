@@ -1,8 +1,8 @@
 ---
-name: "understand-codebase"
-description: "Maps an existing codebase into a token-bounded knowledge graph so the agent understands structure before changing anything — modules, files, key symbols (functions/classes/exports) and their edges (imports, calls, defines). Modes — scan (build/refresh the codebase graph into notes/codebase-graph.md, incremental on re-run), explain <file|symbol> (deep-dive one node and its dependents/dependencies), onboard (generate an onboarding guide from the graph), diff (impact analysis of uncommitted changes — what depends on what changed). Offloads the graph merge to a script and never reads the master graph back into context. Triggers — understand the codebase, hiểu codebase, map the project, sơ đồ dự án, what calls this, cái gì gọi hàm này, dependency graph, đồ thị phụ thuộc, onboard me, impact of this change, ảnh hưởng thay đổi, where is X used. It maps an existing codebase; it does NOT change code (use code-senior) or extract a paper's graph (use knowledge-graph)."
-argument-hint: "<scan | explain <file|symbol> | onboard | diff> [path-glob]"
-allowed-tools: "Read Glob Grep Bash"
+name: understand-codebase
+description: Maps an existing codebase into a token-bounded knowledge graph so the agent understands structure before changing anything — modules, files, key symbols (functions/classes/exports) and their edges (imports, calls, defines). Modes — scan (build/refresh the codebase graph into notes/codebase-graph.md, incremental on re-run), explain <file|symbol> (deep-dive one node and its dependents/dependencies), onboard (generate an onboarding guide from the graph), diff (impact analysis of uncommitted changes — what depends on what changed). Offloads the graph merge to a script and never reads the master graph back into context. Triggers — understand the codebase, hiểu codebase, map the project, sơ đồ dự án, what calls this, cái gì gọi hàm này, dependency graph, đồ thị phụ thuộc, onboard me, impact of this change, ảnh hưởng thay đổi, where is X used. It maps an existing codebase; it does NOT change code (use code-senior) or extract a paper's graph (use knowledge-graph).
+argument-hint: <scan | explain <file|symbol> | onboard | diff> [path-glob]
+allowed-tools: Read Glob Grep Bash
 ---
 
 # Understand Codebase (hiểu codebase qua knowledge graph)

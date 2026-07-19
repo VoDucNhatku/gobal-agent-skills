@@ -1,8 +1,8 @@
 ---
-name: "build-admin-dashboard"
-description: "Generates production-grade admin surfaces with CRUD tables, role-gated access, and analytics. Modes: admin, scaffold, audit. Requires design tokens from design-web."
-argument-hint: "<resource-key>"
-allowed-tools: "Skill Agent Read Write Edit Glob Bash Grep"
+name: build-admin-dashboard
+description: Generates production-grade admin surfaces with CRUD tables, role-gated access, and analytics. Modes: admin, scaffold, audit. Requires design tokens from design-web.
+argument-hint: <resource-key>
+allowed-tools: Skill Agent Read Write Edit Glob Bash Grep
 ---
 
 # Build Admin Dashboard — Admin Surface Builder

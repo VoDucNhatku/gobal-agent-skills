@@ -1,8 +1,8 @@
 ---
-name: "rollback-manager"
-description: "Rollback manager for GOBAL AGENT — handles emergency rollback of deployments. Modes: assess (evaluate situation), execute (perform rollback), verify (confirm recovery). Source: addyosmani (shipping-and-launch, ci-cd-and-automation) + gstack (land-and-deploy). It manages rollback; it does NOT investigate root cause (use debug-investigator)."
-argument-hint: "<incident | deployment> [assess|execute|verify]"
-allowed-tools: "Read Write Bash Glob"
+name: rollback-manager
+description: Rollback manager for GOBAL AGENT — handles emergency rollback of deployments. Modes: assess (evaluate situation), execute (perform rollback), verify (confirm recovery). Source: addyosmani (shipping-and-launch, ci-cd-and-automation) + gstack (land-and-deploy). It manages rollback; it does NOT investigate root cause (use debug-investigator).
+argument-hint: <incident | deployment> [assess|execute|verify]
+allowed-tools: Read Write Bash Glob
 ---
 
 # Rollback Manager

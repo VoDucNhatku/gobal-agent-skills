@@ -1,8 +1,8 @@
 ---
-name: "using-git-worktrees"
-description: "Using git worktrees for GOBAL AGENT — manages isolated git worktrees for parallel development without branch switching. Source: superpowers (using-git-worktrees). Use when starting work on a new task, feature, or bugfix that needs isolation from current workspace."
-argument-hint: "[branch-name]"
-allowed-tools: "Read Write Bash Glob"
+name: using-git-worktrees
+description: Using git worktrees for GOBAL AGENT — manages isolated git worktrees for parallel development without branch switching. Source: superpowers (using-git-worktrees). Use when starting work on a new task, feature, or bugfix that needs isolation from current workspace.
+argument-hint: [branch-name]
+allowed-tools: Read Write Bash Glob
 ---
 
 # Using Git Worktrees

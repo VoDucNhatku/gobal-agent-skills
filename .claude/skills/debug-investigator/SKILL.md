@@ -1,8 +1,8 @@
 ---
-name: "debug-investigator"
-description: "Systematic debug investigator for GOBAL AGENT — finds root cause before attempting fixes. Four phases: investigate → pattern analysis → hypothesis → fix. Iron law: NO FIXES WITHOUT ROOT CAUSE INVESTIGATION FIRST. Modes: investigate (Phase 1-2), hypothesis (Phase 3), fix (Phase 4), bisect (git bisect for regressions). Source: addyosmani (debugging-and-error-recovery) + superpowers (systematic-debugging) + mattpocock (engineering/diagnosing-bugs). It investigates; it does NOT apply fixes without completing Phase 1-3 first."
-argument-hint: "<bug description | error> [investigate|hypothesis|fix|bisect]"
-allowed-tools: "Read Write Edit Glob Bash Grep"
+name: debug-investigator
+description: Systematic debug investigator for GOBAL AGENT — finds root cause before attempting fixes. Four phases: investigate → pattern analysis → hypothesis → fix. Iron law: NO FIXES WITHOUT ROOT CAUSE INVESTIGATION FIRST. Modes: investigate (Phase 1-2), hypothesis (Phase 3), fix (Phase 4), bisect (git bisect for regressions). Source: addyosmani (debugging-and-error-recovery) + superpowers (systematic-debugging) + mattpocock (engineering/diagnosing-bugs). It investigates; it does NOT apply fixes without completing Phase 1-3 first.
+argument-hint: <bug description | error> [investigate|hypothesis|fix|bisect]
+allowed-tools: Read Write Edit Glob Bash Grep
 ---
 
 # Debug Investigator

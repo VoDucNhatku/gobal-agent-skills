@@ -1,8 +1,8 @@
 ---
-name: "knowledge-graph"
-description: "Extracts a typed knowledge graph from one paper (or `all`) — typed entities (Method, Model, Dataset, Metric, Concept, Task, Problem, Component, PriorWork) and typed relations as subject—relation→object triples — emits a per-paper triples table + a Mermaid graph, then merges into a cumulative project-wide master graph that de-duplicates shared datasets/metrics/concepts and tags each edge with its source paper. Output prose is Vietnamese (academic); entity/relation labels and identifiers English. Triggers — knowledge graph, đồ thị tri thức, build a KG, extract entities and relations, trích xuất thực thể quan hệ, map the concepts, bản đồ khái niệm, typed triples, what connects these papers, graph of the field. Builds a structured entity–relation graph; it does NOT give prose overview (use paper-read), critique a method (use paper-method), or compare/taxonomize in prose (use paper-synthesize)."
-argument-hint: "<id|file|path|all>"
-allowed-tools: "Skill Agent Read Write Glob Bash"
+name: knowledge-graph
+description: Extracts a typed knowledge graph from one paper (or `all`) — typed entities (Method, Model, Dataset, Metric, Concept, Task, Problem, Component, PriorWork) and typed relations as subject—relation→object triples — emits a per-paper triples table + a Mermaid graph, then merges into a cumulative project-wide master graph that de-duplicates shared datasets/metrics/concepts and tags each edge with its source paper. Output prose is Vietnamese (academic); entity/relation labels and identifiers English. Triggers — knowledge graph, đồ thị tri thức, build a KG, extract entities and relations, trích xuất thực thể quan hệ, map the concepts, bản đồ khái niệm, typed triples, what connects these papers, graph of the field. Builds a structured entity–relation graph; it does NOT give prose overview (use paper-read), critique a method (use paper-method), or compare/taxonomize in prose (use paper-synthesize).
+argument-hint: <id|file|path|all>
+allowed-tools: Skill Agent Read Write Glob Bash
 ---
 
 # Knowledge Graph (đồ thị tri thức)

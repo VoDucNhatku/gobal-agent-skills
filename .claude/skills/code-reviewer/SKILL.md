@@ -1,8 +1,8 @@
 ---
-name: "code-reviewer"
-description: "Code reviewer for GOBAL AGENT — performs 5-axis code review with severity classification. Reviews tests first, then implementation. Source: addyosmani (code-review-and-quality) + superpowers (requesting-code-review). It reviews; it does NOT write code (use code-senior) or decide design (use design-web)."
-argument-hint: "<diff | PR> [review|approve|request-changes]"
-allowed-tools: "Read Write Edit Glob Bash Grep"
+name: code-reviewer
+description: Code reviewer for GOBAL AGENT — performs 5-axis code review with severity classification. Reviews tests first, then implementation. Source: addyosmani (code-review-and-quality) + superpowers (requesting-code-review). It reviews; it does NOT write code (use code-senior) or decide design (use design-web).
+argument-hint: <diff | PR> [review|approve|request-changes]
+allowed-tools: Read Write Edit Glob Bash Grep
 ---
 
 # Code Reviewer

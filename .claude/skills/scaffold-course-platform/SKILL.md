@@ -1,8 +1,8 @@
 ---
-name: "scaffold-course-platform"
-description: "Scaffolds a course-selling LMS platform. Modes: scaffold. Reads stack defaults from references/stack-matrix.md, overrides recorded in audit-log."
-argument-hint: "<resource-key>"
-allowed-tools: "Skill Agent Read Write Edit Glob Bash Grep"
+name: scaffold-course-platform
+description: Scaffolds a course-selling LMS platform. Modes: scaffold. Reads stack defaults from references/stack-matrix.md, overrides recorded in audit-log.
+argument-hint: <resource-key>
+allowed-tools: Skill Agent Read Write Edit Glob Bash Grep
 ---
 
 # Scaffold Course Platform — Scaffold Reference

@@ -1,8 +1,8 @@
 ---
-name: "writing-skills"
-description: "Writing skills for GOBAL AGENT — meta skill for creating new GOBAL skills following progressive disclosure, token economy, and provenance rules. Source: superpowers (writing-skills). Use when creating a new skill for the GOBAL ecosystem."
-argument-hint: "<skill-name> <source-repo>"
-allowed-tools: "Read Write Bash Glob WebSearch WebFetch"
+name: writing-skills
+description: Writing skills for GOBAL AGENT — meta skill for creating new GOBAL skills following progressive disclosure, token economy, and provenance rules. Source: superpowers (writing-skills). Use when creating a new skill for the GOBAL ecosystem.
+argument-hint: <skill-name> <source-repo>
+allowed-tools: Read Write Bash Glob WebSearch WebFetch
 ---
 
 # Writing Skills

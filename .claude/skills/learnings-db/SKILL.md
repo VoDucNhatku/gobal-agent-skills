@@ -1,8 +1,8 @@
 ---
-name: "learnings-db"
-description: "Learnings database for GOBAL AGENT — captures lessons learned from every session. Modes: capture (log a learning), query (search learnings), suggest (recommend based on current task), pattern (extract cross-project patterns). Source: gstack (learn, sync-gbrain) + superpowers. It learns; it does NOT apply learnings automatically (that is the orchestrator's decision)."
-argument-hint: "[capture|query|suggest|pattern]"
-allowed-tools: "Read Write Bash Glob"
+name: learnings-db
+description: Learnings database for GOBAL AGENT — captures lessons learned from every session. Modes: capture (log a learning), query (search learnings), suggest (recommend based on current task), pattern (extract cross-project patterns). Source: gstack (learn, sync-gbrain) + superpowers. It learns; it does NOT apply learnings automatically (that is the orchestrator's decision).
+argument-hint: [capture|query|suggest|pattern]
+allowed-tools: Read Write Bash Glob
 ---
 
 # Learnings DB

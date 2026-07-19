@@ -1,8 +1,8 @@
 ---
-name: "domain-modeling"
-description: "Domain modeling for GOBAL AGENT — creates domain models (entities, value objects, aggregates) from business requirements. Source: mattpocock (domain-modeling). Use when designing the data model for a new feature, refactoring existing entities, or aligning code with business rules."
-argument-hint: "<feature | entity-name>"
-allowed-tools: "Read Write Bash Glob WebSearch WebFetch"
+name: domain-modeling
+description: Domain modeling for GOBAL AGENT — creates domain models (entities, value objects, aggregates) from business requirements. Source: mattpocock (domain-modeling). Use when designing the data model for a new feature, refactoring existing entities, or aligning code with business rules.
+argument-hint: <feature | entity-name>
+allowed-tools: Read Write Bash Glob WebSearch WebFetch
 ---
 
 # Domain Modeling

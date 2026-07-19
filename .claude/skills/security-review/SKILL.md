@@ -1,8 +1,8 @@
 ---
-name: "security-review"
-description: "Security audit Worker — threat-models a change or surface, then scores it against the OWASP-grounded hardening rubric as binary pass/fail findings, severity-coded, each with a real file:line and a concrete fix. Theme-neutral; infers the stack. Runs STRIDE over each trust boundary (input validation, injection, auth/authz/IDOR, secrets, SSRF, headers, rate limiting, supply chain, LLM surface) plus the Always/Ask/Never check. Modes — audit (default; findings, no edits) and fix (apply only high-confidence Always-violations surgically via Edit, never a rewrite; Ask-First items flagged). Triggers — security review, security audit, kiểm tra bảo mật, đánh giá bảo mật, threat model, is this secure, có an toàn không, check for vulnerabilities, tìm lỗ hổng, OWASP, SQL injection, XSS, IDOR, SSRF, secrets in code, auth review, kiểm tra phân quyền. It judges/repairs security posture; it does NOT design or build features (use backend-engineer / build-ui) or do general correctness review (use code-senior review)."
-argument-hint: "<diff | endpoint/area/file> [audit|fix]"
-allowed-tools: "Read Edit Glob Grep Bash"
+name: security-review
+description: Security audit Worker — threat-models a change or surface, then scores it against the OWASP-grounded hardening rubric as binary pass/fail findings, severity-coded, each with a real file:line and a concrete fix. Theme-neutral; infers the stack. Runs STRIDE over each trust boundary (input validation, injection, auth/authz/IDOR, secrets, SSRF, headers, rate limiting, supply chain, LLM surface) plus the Always/Ask/Never check. Modes — audit (default; findings, no edits) and fix (apply only high-confidence Always-violations surgically via Edit, never a rewrite; Ask-First items flagged). Triggers — security review, security audit, kiểm tra bảo mật, đánh giá bảo mật, threat model, is this secure, có an toàn không, check for vulnerabilities, tìm lỗ hổng, OWASP, SQL injection, XSS, IDOR, SSRF, secrets in code, auth review, kiểm tra phân quyền. It judges/repairs security posture; it does NOT design or build features (use backend-engineer / build-ui) or do general correctness review (use code-senior review).
+argument-hint: <diff | endpoint/area/file> [audit|fix]
+allowed-tools: Read Edit Glob Grep Bash
 ---
 
 # Security Review (threat-model + audit + surgical fix)

@@ -1,8 +1,8 @@
 ---
-name: "fullstack-builder"
-description: "Fullstack builder for GOBAL AGENT — scaffolds and implements fullstack features with vertical slices. Modes: scaffold (new project), add-feature (add to existing), integrate (connect layers). Source: gstack (design-html, spec) + addyosmani (frontend-ui-engineering, incremental-implementation) + superpowers. It builds; it does NOT decide design direction (use design-web) or write specs (use spec-writer)."
-argument-hint: "<project | feature> [scaffold|add-feature|integrate]"
-allowed-tools: "Read Write Edit Glob Bash"
+name: fullstack-builder
+description: Fullstack builder for GOBAL AGENT — scaffolds and implements fullstack features with vertical slices. Modes: scaffold (new project), add-feature (add to existing), integrate (connect layers). Source: gstack (design-html, spec) + addyosmani (frontend-ui-engineering, incremental-implementation) + superpowers. It builds; it does NOT decide design direction (use design-web) or write specs (use spec-writer).
+argument-hint: <project | feature> [scaffold|add-feature|integrate]
+allowed-tools: Read Write Edit Glob Bash
 ---
 
 # Fullstack Builder

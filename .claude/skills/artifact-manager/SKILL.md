@@ -1,8 +1,8 @@
 ---
-name: "artifact-manager"
-description: "Artifact management for GOBAL AGENT — indexes, tracks, and manages file artifacts across sessions. Maintains notes/INDEX.md as central registry. Detects reuse opportunities (don't re-read what exists). Cleans up stale artifacts. Modes: index (build/update INDEX.md), track (register new artifact), reuse (check before reading), cleanup (archive stale). Source: gstack (document-generate, context-restore) + addyosmani (context-engineering). It manages files; it does NOT generate content."
-argument-hint: "[index|track|reuse|cleanup]"
-allowed-tools: "Read Write Bash Glob"
+name: artifact-manager
+description: Artifact management for GOBAL AGENT — indexes, tracks, and manages file artifacts across sessions. Maintains notes/INDEX.md as central registry. Detects reuse opportunities (don't re-read what exists). Cleans up stale artifacts. Modes: index (build/update INDEX.md), track (register new artifact), reuse (check before reading), cleanup (archive stale). Source: gstack (document-generate, context-restore) + addyosmani (context-engineering). It manages files; it does NOT generate content.
+argument-hint: [index|track|reuse|cleanup]
+allowed-tools: Read Write Bash Glob
 ---
 
 # Artifact Manager

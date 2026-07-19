@@ -1,8 +1,8 @@
 ---
-name: "code-senior"
-description: "Senior-grade, theme-neutral implementation Worker — infers the language/stack from the project, understands the task in detail BEFORE touching code, makes the smallest correct change, and verifies it. Carries an anti-runaway-edit contract (a small fix must never become a full-file rewrite) and verification gates that refuse to call work done on assumptions. Modes — implement (understand → plan a minimal diff → edit surgically → verify; the default), debug (reproduction-first: a red failing command BEFORE any hypothesis, then rank falsifiable hypotheses), review (diff-only senior review against a definition-of-done, severity-coded). Triggers — implement, code this, viết code, sửa code, fix the bug, debug, gỡ lỗi, refactor, review my changes, review diff, đánh giá code, add a feature, thêm tính năng, làm tính năng. It writes/fixes/reviews code with guardrails; it does NOT design UI (use design-web), build from a design-record (use build-ui), or write a paper notebook (use paper-to-notebook)."
-argument-hint: "<task description | file/area> [implement|debug|review]"
-allowed-tools: "Read Edit Write Glob Grep Bash"
+name: code-senior
+description: Senior-grade, theme-neutral implementation Worker — infers the language/stack from the project, understands the task in detail BEFORE touching code, makes the smallest correct change, and verifies it. Carries an anti-runaway-edit contract (a small fix must never become a full-file rewrite) and verification gates that refuse to call work done on assumptions. Modes — implement (understand → plan a minimal diff → edit surgically → verify; the default), debug (reproduction-first: a red failing command BEFORE any hypothesis, then rank falsifiable hypotheses), review (diff-only senior review against a definition-of-done, severity-coded). Triggers — implement, code this, viết code, sửa code, fix the bug, debug, gỡ lỗi, refactor, review my changes, review diff, đánh giá code, add a feature, thêm tính năng, làm tính năng. It writes/fixes/reviews code with guardrails; it does NOT design UI (use design-web), build from a design-record (use build-ui), or write a paper notebook (use paper-to-notebook).
+argument-hint: <task description | file/area> [implement|debug|review]
+allowed-tools: Read Edit Write Glob Grep Bash
 ---
 
 # Code Senior (viết/sửa/review code chuẩn senior, có rào chắn)

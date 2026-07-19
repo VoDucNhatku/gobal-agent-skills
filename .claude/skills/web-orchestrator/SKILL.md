@@ -1,8 +1,8 @@
 ---
-name: "web-orchestrator"
-description: "Web/UI domain orchestrator for GOBAL AGENT — coordinates web development: design direction → build UI → audit → iterate. Routes to appropriate web skills based on task type. Modes — design (design-web only), build (design-web → build-ui), audit (review-frontend only), scaffold (fullstack-builder). It orchestrates; it does NOT write UI code directly."
-argument-hint: "<web task> [design|build|audit|scaffold]"
-allowed-tools: "Skill Agent Read Write Glob Bash"
+name: web-orchestrator
+description: Web/UI domain orchestrator for GOBAL AGENT — coordinates web development: design direction → build UI → audit → iterate. Routes to appropriate web skills based on task type. Modes — design (design-web only), build (design-web → build-ui), audit (review-frontend only), scaffold (fullstack-builder). It orchestrates; it does NOT write UI code directly.
+argument-hint: <web task> [design|build|audit|scaffold]
+allowed-tools: Skill Agent Read Write Glob Bash
 ---
 
 # Web Orchestrator

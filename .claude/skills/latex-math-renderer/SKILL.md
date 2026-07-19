@@ -1,8 +1,8 @@
 ---
-name: "latex-math-renderer"
-description: "LaTeX math renderer for GOBAL AGENT — renders mathematical expressions as HTML for web display. Handles KaTeX (VS Code) and MathJax (GitHub/web) output formats. Modes: render (convert LaTeX to HTML), preview (show rendered output + compatibility notes), batch (process multiple expressions). Source: ~/.claude/rules/latex-katex-compat.md + KaTeX/MathJax documentation. It renders; it does NOT write math content (use paper-method for that)."
-argument-hint: "<latex-expression | file> [render|preview|batch]"
-allowed-tools: "Read Write Bash Glob"
+name: latex-math-renderer
+description: LaTeX math renderer for GOBAL AGENT — renders mathematical expressions as HTML for web display. Handles KaTeX (VS Code) and MathJax (GitHub/web) output formats. Modes: render (convert LaTeX to HTML), preview (show rendered output + compatibility notes), batch (process multiple expressions). Source: ~/.claude/rules/latex-katex-compat.md + KaTeX/MathJax documentation. It renders; it does NOT write math content (use paper-method for that).
+argument-hint: <latex-expression | file> [render|preview|batch]
+allowed-tools: Read Write Bash Glob
 ---
 
 # LaTeX Math Renderer

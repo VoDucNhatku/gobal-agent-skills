@@ -1,8 +1,8 @@
 ---
-name: "reading-triage"
-description: "Ranks every paper in papers/ against a research question via a fast abstract-level pass — assigning each a relevance score, a one-line rationale, an action (deep-read / skim / skip), and the next worker skill to run on it. The cheap planning entry point you run BEFORE any deep read, so you spend expensive full-reads only where they pay off. Triggers — triage, triage the papers, what should I read first, reading order, where do I start, prioritize papers, rank papers, which papers matter, build a reading plan, xếp thứ tự đọc, đọc bài nào trước, ưu tiên đọc, lọc bài báo, lập kế hoạch đọc, bài nào liên quan. Reads only high-density regions (title, abstract, headings); it does NOT deep-read or condense a paper (use paper-read), analyze a method (use paper-method), or compare papers (use paper-synthesize)."
-argument-hint: "<research question / focus>"
-allowed-tools: "Skill Agent Read Write Glob Bash"
+name: reading-triage
+description: Ranks every paper in papers/ against a research question via a fast abstract-level pass — assigning each a relevance score, a one-line rationale, an action (deep-read / skim / skip), and the next worker skill to run on it. The cheap planning entry point you run BEFORE any deep read, so you spend expensive full-reads only where they pay off. Triggers — triage, triage the papers, what should I read first, reading order, where do I start, prioritize papers, rank papers, which papers matter, build a reading plan, xếp thứ tự đọc, đọc bài nào trước, ưu tiên đọc, lọc bài báo, lập kế hoạch đọc, bài nào liên quan. Reads only high-density regions (title, abstract, headings); it does NOT deep-read or condense a paper (use paper-read), analyze a method (use paper-method), or compare papers (use paper-synthesize).
+argument-hint: <research question / focus>
+allowed-tools: Skill Agent Read Write Glob Bash
 ---
 
 # Reading Triage (lọc & xếp thứ tự đọc)

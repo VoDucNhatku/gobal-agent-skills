@@ -1,8 +1,8 @@
 ---
-name: "latex-fix"
-description: "Repairs math in notes/ artifacts so it renders on BOTH VS Code (KaTeX) and GitHub (MathJax). Runs a bundled linter that flags only the offending spans — plain-text math (L_total, ||x||, theta, argmin), wrong delimiters (\[...\], \(...\), ```math fences), and KaTeX-fragile macros (\tag, \label, \ref, \boldsymbol, \operatorname) — then fixes only those spans in place, leaving prose and Mermaid untouched. Output prose is Vietnamese; the fix-log is a compact table. Triggers — fix LaTeX, sửa LaTeX, fix the math, sửa công thức, latex render broken, công thức không hiện, fix \tag, fix delimiters, sửa delimiter, make math render on GitHub, KaTeX MathJax, fix all notes math. Repairs existing math formatting only; it does NOT author analysis (use paper-method / paper-read) or translate (use vi-translate)."
-argument-hint: "<notes-path|id|all>"
-allowed-tools: "Skill Agent Read Write Glob Bash"
+name: latex-fix
+description: Repairs math in notes/ artifacts so it renders on BOTH VS Code (KaTeX) and GitHub (MathJax). Runs a bundled linter that flags only the offending spans — plain-text math (L_total, ||x||, theta, argmin), wrong delimiters (\[...\], \(...\), ```math fences), and KaTeX-fragile macros (\tag, \label, \ref, \boldsymbol, \operatorname) — then fixes only those spans in place, leaving prose and Mermaid untouched. Output prose is Vietnamese; the fix-log is a compact table. Triggers — fix LaTeX, sửa LaTeX, fix the math, sửa công thức, latex render broken, công thức không hiện, fix \tag, fix delimiters, sửa delimiter, make math render on GitHub, KaTeX MathJax, fix all notes math. Repairs existing math formatting only; it does NOT author analysis (use paper-method / paper-read) or translate (use vi-translate).
+argument-hint: <notes-path|id|all>
+allowed-tools: Skill Agent Read Write Glob Bash
 ---
 
 # LaTeX Fix (sửa LaTeX cho cả KaTeX + MathJax)

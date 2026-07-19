@@ -1,8 +1,8 @@
 ---
-name: "build-ui"
-description: "Theme-neutral UI builder Worker — turns a locked design-record (notes/design-<slug>.md from design-web) into real, accessible, on-brand front-end code against the project's inferred stack. Modes — component (one accessible component on the locked tokens), page (a full surface composed of components), admin (role-gated CRUD dashboard shell with SERVER-SIDE authorization), scaffold (stand up a theme-neutral project skeleton in the inferred stack). Triggers — build the component, dựng component, build the page, code the UI, dựng giao diện, làm trang admin, admin dashboard, CRUD dashboard, scaffold the project, dựng khung dự án, implement the design. It BUILDS from a design-record; it does NOT decide the look (use design-web first) or audit slop/a11y (use review-frontend)."
-argument-hint: "<component|page|admin|scaffold> <name> [design-slug]"
-allowed-tools: "Read Edit Write Glob Grep Bash"
+name: build-ui
+description: Theme-neutral UI builder Worker — turns a locked design-record (notes/design-<slug>.md from design-web) into real, accessible, on-brand front-end code against the project's inferred stack. Modes — component (one accessible component on the locked tokens), page (a full surface composed of components), admin (role-gated CRUD dashboard shell with SERVER-SIDE authorization), scaffold (stand up a theme-neutral project skeleton in the inferred stack). Triggers — build the component, dựng component, build the page, code the UI, dựng giao diện, làm trang admin, admin dashboard, CRUD dashboard, scaffold the project, dựng khung dự án, implement the design. It BUILDS from a design-record; it does NOT decide the look (use design-web first) or audit slop/a11y (use review-frontend).
+argument-hint: <component|page|admin|scaffold> <name> [design-slug]
+allowed-tools: Read Edit Write Glob Grep Bash
 ---
 
 # Build UI (dựng giao diện theo design-record)

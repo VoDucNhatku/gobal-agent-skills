@@ -1,8 +1,8 @@
 ---
-name: "tdd-enforcer"
-description: "TDD enforcer for GOBAL AGENT — enforces strict Test-Driven Development with vertical slices. Pipeline: RED (write failing test) → GREEN (minimal code to pass) → REFACTOR (clean up). One test at a time. Modes: enforce (full TDD cycle for new code), slice (vertical slice TDD), retrofit (add tests to existing code), bugfix (Prove-It Pattern). Source: addyosmani (test-driven-development) + superpowers (test-driven-development) + mattpocock (engineering/tdd). It enforces TDD; it does NOT write production code without tests first."
-argument-hint: "<feature | component> [enforce|slice|retrofit|bugfix]"
-allowed-tools: "Read Write Edit Glob Bash"
+name: tdd-enforcer
+description: TDD enforcer for GOBAL AGENT — enforces strict Test-Driven Development with vertical slices. Pipeline: RED (write failing test) → GREEN (minimal code to pass) → REFACTOR (clean up). One test at a time. Modes: enforce (full TDD cycle for new code), slice (vertical slice TDD), retrofit (add tests to existing code), bugfix (Prove-It Pattern). Source: addyosmani (test-driven-development) + superpowers (test-driven-development) + mattpocock (engineering/tdd). It enforces TDD; it does NOT write production code without tests first.
+argument-hint: <feature | component> [enforce|slice|retrofit|bugfix]
+allowed-tools: Read Write Edit Glob Bash
 ---
 
 # TDD Enforcer

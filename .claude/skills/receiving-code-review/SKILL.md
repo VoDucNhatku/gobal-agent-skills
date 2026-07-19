@@ -1,8 +1,8 @@
 ---
-name: "receiving-code-review"
-description: "Receiving code review for GOBAL AGENT — how to respond to review feedback constructively. Address every comment, fix issues, push back when wrong. Source: superpowers (receiving-code-review). Use when you have received review feedback on your code."
-argument-hint: "[feedback-source]"
-allowed-tools: "Read Write Edit Bash Glob"
+name: receiving-code-review
+description: Receiving code review for GOBAL AGENT — how to respond to review feedback constructively. Address every comment, fix issues, push back when wrong. Source: superpowers (receiving-code-review). Use when you have received review feedback on your code.
+argument-hint: [feedback-source]
+allowed-tools: Read Write Edit Bash Glob
 ---
 
 # Receiving Code Review

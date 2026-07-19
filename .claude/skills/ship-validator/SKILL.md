@@ -1,8 +1,8 @@
 ---
-name: "ship-validator"
-description: "Ship validator for GOBAL AGENT — pre-deployment validation with verification-before-completion discipline. Modes: validate (run all checks), quick (critical checks only), report (generate validation report). Source: addyosmani (shipping-and-launch) + superpowers (verification-before-completion). It validates; it does NOT deploy (use deploy-orchestrator)."
-argument-hint: "[validate|quick|report]"
-allowed-tools: "Read Bash Glob Grep"
+name: ship-validator
+description: Ship validator for GOBAL AGENT — pre-deployment validation with verification-before-completion discipline. Modes: validate (run all checks), quick (critical checks only), report (generate validation report). Source: addyosmani (shipping-and-launch) + superpowers (verification-before-completion). It validates; it does NOT deploy (use deploy-orchestrator).
+argument-hint: [validate|quick|report]
+allowed-tools: Read Bash Glob Grep
 ---
 
 # Ship Validator

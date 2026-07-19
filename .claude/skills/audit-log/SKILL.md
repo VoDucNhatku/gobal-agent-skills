@@ -1,8 +1,8 @@
 ---
-name: "audit-log"
-description: "Append-only governance log of MATERIAL AI decisions in a research project — records only the choices that would change the project if absent (scope-decision = a paper/topic intentionally included or excluded; synthesis-framing = the lens chosen to combine sources; cross-source-assumption = treating two sources as connected without explicit evidence). Auto-stamps timestamp + entry id; offloads the line format to a bundled script. Output is English JSON-lines in notes/audit-log.md. Triggers — log this decision, audit log, ghi nhật ký quyết định, record this choice, why did we exclude, governance log, audit summary, materiality. Typically CALLED BY workbench-orchestrator at non-obvious choice points, not invoked directly; it does NOT do analysis (use the worker skills)."
-argument-hint: "<json-spec | \"summary\" | \"clear\">"
-allowed-tools: "Skill Agent Read Write Glob Bash"
+name: audit-log
+description: Append-only governance log of MATERIAL AI decisions in a research project — records only the choices that would change the project if absent (scope-decision = a paper/topic intentionally included or excluded; synthesis-framing = the lens chosen to combine sources; cross-source-assumption = treating two sources as connected without explicit evidence). Auto-stamps timestamp + entry id; offloads the line format to a bundled script. Output is English JSON-lines in notes/audit-log.md. Triggers — log this decision, audit log, ghi nhật ký quyết định, record this choice, why did we exclude, governance log, audit summary, materiality. Typically CALLED BY workbench-orchestrator at non-obvious choice points, not invoked directly; it does NOT do analysis (use the worker skills).
+argument-hint: <json-spec | "summary" | "clear">
+allowed-tools: Skill Agent Read Write Glob Bash
 ---
 
 # Audit Log (nhật ký quyết định — governance)

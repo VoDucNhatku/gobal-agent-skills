@@ -1,8 +1,8 @@
 ---
-name: "design-ui-direction"
-description: "Design intelligence data for GOBAL AGENT — citation library (anti-slop bans, palettes, type pairings, style archetypes). Quoted at runtime by design-web and review-frontend. It is data, not logic; it does NOT issue instructions, generate code, or make UI decisions."
-argument-hint: "(none — auto-loaded by peer skills)"
-allowed-tools: "Skill Agent Read Write Glob Bash"
+name: design-ui-direction
+description: Design intelligence data for GOBAL AGENT — citation library (anti-slop bans, palettes, type pairings, style archetypes). Quoted at runtime by design-web and review-frontend. It is data, not logic; it does NOT issue instructions, generate code, or make UI decisions.
+argument-hint: (none — auto-loaded by peer skills)
+allowed-tools: Skill Agent Read Write Glob Bash
 ---
 
 # Design UI Direction — Reference Data

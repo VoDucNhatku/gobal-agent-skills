@@ -1,8 +1,8 @@
 ---
-name: "finishing-a-development-branch"
-description: "Finishing a development branch for GOBAL AGENT — guides completion of development work by presenting structured options for merge, PR, or cleanup. Source: superpowers (finishing-a-development-branch). Use when implementation is complete and all tests pass."
-argument-hint: "<branch-name>"
-allowed-tools: "Read Write Bash Glob"
+name: finishing-a-development-branch
+description: Finishing a development branch for GOBAL AGENT — guides completion of development work by presenting structured options for merge, PR, or cleanup. Source: superpowers (finishing-a-development-branch). Use when implementation is complete and all tests pass.
+argument-hint: <branch-name>
+allowed-tools: Read Write Bash Glob
 ---
 
 # Finishing a Development Branch

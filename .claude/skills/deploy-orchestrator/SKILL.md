@@ -1,8 +1,8 @@
 ---
-name: "deploy-orchestrator"
-description: "Deploy orchestrator for GOBAL AGENT — coordinates deployment pipeline: validate → ship → monitor → rollback. Modes: ship (pre-ship validation + deploy), monitor (setup monitoring), rollback (emergency rollback), canary (staged rollout). Source: addyosmani (ci-cd-and-automation, shipping-and-launch) + gstack (land-and-deploy, ship). It orchestrates; it does NOT execute deploy commands directly."
-argument-hint: "<deploy task> [ship|monitor|rollback|canary]"
-allowed-tools: "Skill Read Write Bash Glob"
+name: deploy-orchestrator
+description: Deploy orchestrator for GOBAL AGENT — coordinates deployment pipeline: validate → ship → monitor → rollback. Modes: ship (pre-ship validation + deploy), monitor (setup monitoring), rollback (emergency rollback), canary (staged rollout). Source: addyosmani (ci-cd-and-automation, shipping-and-launch) + gstack (land-and-deploy, ship). It orchestrates; it does NOT execute deploy commands directly.
+argument-hint: <deploy task> [ship|monitor|rollback|canary]
+allowed-tools: Skill Read Write Bash Glob
 ---
 
 # Deploy Orchestrator

@@ -1,8 +1,8 @@
 ---
-name: "paper-read"
-description: "Reads and distills ONE paper at a chosen depth/format — the orientation-and-condense Worker of the Workbench suite. Modes — gist (quick should-I-read overview), summary (faithful section-by-section condensation, the default), eli5 (plain-language intuition with one analogy + toy example), mindmap (Mermaid structure diagram). Output prose is Vietnamese (academic), code/identifiers English. Triggers — overview of 003, summarize this paper, what's this paper about, is it worth reading, explain simply, ELI5, give me the intuition, mindmap of the paper, tóm tắt bài báo, bài này nói về gì, có đáng đọc không, giải thích đơn giản, trực giác, sơ đồ tư duy, đọc lướt bài. Condenses ONE paper faithfully; it does NOT critique the method (use paper-method) and does NOT compare across papers (use paper-synthesize). Accepts an id, filename, path, or `all`."
-argument-hint: "<id|file|path|all> [gist|summary|eli5|mindmap]"
-allowed-tools: "Skill Agent Read Write Glob Bash"
+name: paper-read
+description: Reads and distills ONE paper at a chosen depth/format — the orientation-and-condense Worker of the Workbench suite. Modes — gist (quick should-I-read overview), summary (faithful section-by-section condensation, the default), eli5 (plain-language intuition with one analogy + toy example), mindmap (Mermaid structure diagram). Output prose is Vietnamese (academic), code/identifiers English. Triggers — overview of 003, summarize this paper, what's this paper about, is it worth reading, explain simply, ELI5, give me the intuition, mindmap of the paper, tóm tắt bài báo, bài này nói về gì, có đáng đọc không, giải thích đơn giản, trực giác, sơ đồ tư duy, đọc lướt bài. Condenses ONE paper faithfully; it does NOT critique the method (use paper-method) and does NOT compare across papers (use paper-synthesize). Accepts an id, filename, path, or `all`.
+argument-hint: <id|file|path|all> [gist|summary|eli5|mindmap]
+allowed-tools: Skill Agent Read Write Glob Bash
 ---
 
 # paper-read — distill one paper at a chosen depth

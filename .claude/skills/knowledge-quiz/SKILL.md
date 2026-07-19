@@ -1,8 +1,8 @@
 ---
-name: "knowledge-quiz"
-description: "Knowledge quiz for GOBAL AGENT — generates and administers rigorous quizzes from knowledge graph, notes, or any source material. Tests understanding, not rote memorization. Modes — generate (create quiz), administer (one question at a time), review (analyze results). Source: gstack (learn, benchmark) + addyosmani (testing-patterns). It quizzes; it does NOT tutor (use study-tutor for guided learning)."
-argument-hint: "<topic | kg-id> [generate|administer|review]"
-allowed-tools: "Read Write Bash Glob"
+name: knowledge-quiz
+description: Knowledge quiz for GOBAL AGENT — generates and administers rigorous quizzes from knowledge graph, notes, or any source material. Tests understanding, not rote memorization. Modes — generate (create quiz), administer (one question at a time), review (analyze results). Source: gstack (learn, benchmark) + addyosmani (testing-patterns). It quizzes; it does NOT tutor (use study-tutor for guided learning).
+argument-hint: <topic | kg-id> [generate|administer|review]
+allowed-tools: Read Write Bash Glob
 ---
 
 # Knowledge Quiz

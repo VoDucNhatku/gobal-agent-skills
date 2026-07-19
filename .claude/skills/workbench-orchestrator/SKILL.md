@@ -1,8 +1,8 @@
 ---
-name: "workbench-orchestrator"
-description: "Lead orchestrator for the Workbench suite — the con chính. Clarifies a high-level goal in any of three domains (research papers, code/running models, web/UI), decomposes it, writes a full task spec (context) for each co-worker, and dispatches the right worker skills — in parallel isolated subagents when independent — then synthesizes one bilingual deliverable. Maintains notes/INDEX.md as shared memory. Converses in Vietnamese. Triggers — understand all these papers, compare the methods and find gaps, prep my related-work section, build me a course platform, scaffold and design the site, run this model on Modal, điều phối, làm giúp tôi task lớn, làm nghiên cứu giúp tôi, dựng web bán khóa học, chạy mô hình bài báo. Use for any multi-step or multi-skill goal; for a single obvious task, invoke that one skill directly instead."
-argument-hint: "<high-level goal in your own words>"
-allowed-tools: "Task Read Write Glob Grep"
+name: workbench-orchestrator
+description: Lead orchestrator for the Workbench suite — the con chính. Clarifies a high-level goal in any of three domains (research papers, code/running models, web/UI), decomposes it, writes a full task spec (context) for each co-worker, and dispatches the right worker skills — in parallel isolated subagents when independent — then synthesizes one bilingual deliverable. Maintains notes/INDEX.md as shared memory. Converses in Vietnamese. Triggers — understand all these papers, compare the methods and find gaps, prep my related-work section, build me a course platform, scaffold and design the site, run this model on Modal, điều phối, làm giúp tôi task lớn, làm nghiên cứu giúp tôi, dựng web bán khóa học, chạy mô hình bài báo. Use for any multi-step or multi-skill goal; for a single obvious task, invoke that one skill directly instead.
+argument-hint: <high-level goal in your own words>
+allowed-tools: Task Read Write Glob Grep
 ---
 
 # Workbench Orchestrator (con chính)

@@ -1,8 +1,8 @@
 ---
-name: "vi-translate"
-description: "Faithful, complete academic translation of a passage, section, or whole paper — preserves technical terms inline and appends a glossary. Default target is Vietnamese; --to <lang> overrides the target language. Translates the source fully and accurately; it does NOT summarize, condense, or critique. Triggers — translate, dịch, dịch bài báo, dịch sang tiếng Việt, dịch đoạn này, translate paper to Vietnamese, translate this passage, translate section, dịch toàn bộ, dịch nguyên văn, or any pasted block of foreign-language text the user wants rendered in another language. Use when the user wants the actual text in another language (full fidelity, nothing dropped). For a condensed read or section-by-section gist use paper-read; for deep method analysis use paper-method."
-argument-hint: "<id|file|path|pasted text> [--to <lang>]"
-allowed-tools: "Skill Agent Read Write Glob Bash"
+name: vi-translate
+description: Faithful, complete academic translation of a passage, section, or whole paper — preserves technical terms inline and appends a glossary. Default target is Vietnamese; --to <lang> overrides the target language. Translates the source fully and accurately; it does NOT summarize, condense, or critique. Triggers — translate, dịch, dịch bài báo, dịch sang tiếng Việt, dịch đoạn này, translate paper to Vietnamese, translate this passage, translate section, dịch toàn bộ, dịch nguyên văn, or any pasted block of foreign-language text the user wants rendered in another language. Use when the user wants the actual text in another language (full fidelity, nothing dropped). For a condensed read or section-by-section gist use paper-read; for deep method analysis use paper-method.
+argument-hint: <id|file|path|pasted text> [--to <lang>]
+allowed-tools: Skill Agent Read Write Glob Bash
 ---
 
 # vi-translate — faithful academic translation (dịch học thuật trung thành)

@@ -1,8 +1,8 @@
 ---
-name: "writing-plans"
-description: "Writing plans for GOBAL AGENT — creates detailed implementation plans from a spec or requirements. Bite-sized tasks (2-5 min each), exact file paths, complete code in every step, no placeholders. Source: superpowers (writing-plans). Use when you have a spec before touching code."
-argument-hint: "<spec-file | requirements>"
-allowed-tools: "Read Write Bash Glob"
+name: writing-plans
+description: Writing plans for GOBAL AGENT — creates detailed implementation plans from a spec or requirements. Bite-sized tasks (2-5 min each), exact file paths, complete code in every step, no placeholders. Source: superpowers (writing-plans). Use when you have a spec before touching code.
+argument-hint: <spec-file | requirements>
+allowed-tools: Read Write Bash Glob
 ---
 
 # Writing Plans

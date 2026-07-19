@@ -1,8 +1,8 @@
 ---
-name: "context-compressor"
-description: "Context compression for GOBAL AGENT — reduces context size when approaching token limits. Strategies: summarization (condense conversation history), artifact offloading (push content into files), progressive disclosure (load only what's needed). Source: addyosmani (context-engineering) + gstack (context-save/restore). It compresses; it does NOT delete important state (that's the orchestrator's judgment)."
-argument-hint: "[summarize|offload|prune]"
-allowed-tools: "Read Write Bash"
+name: context-compressor
+description: Context compression for GOBAL AGENT — reduces context size when approaching token limits. Strategies: summarization (condense conversation history), artifact offloading (push content into files), progressive disclosure (load only what's needed). Source: addyosmani (context-engineering) + gstack (context-save/restore). It compresses; it does NOT delete important state (that's the orchestrator's judgment).
+argument-hint: [summarize|offload|prune]
+allowed-tools: Read Write Bash
 ---
 
 # Context Compressor

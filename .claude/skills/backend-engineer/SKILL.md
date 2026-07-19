@@ -1,8 +1,8 @@
 ---
-name: "backend-engineer"
-description: "Senior-grade, theme-neutral BACKEND Worker — designs and implements server-side code (APIs, services, data models, auth, integrations) contract-first and security-first, then proves it works. Infers the stack (Node/Express, Python/FastAPI/Django, Go, …), defines the interface + threat model BEFORE writing handlers, makes the smallest correct change, and verifies against a real running check. Modes — design (contract-first API/schema spec, no code), implement (a vertical slice end-to-end on a locked contract, then verify), harden (Always/Ask/Never security boundary + RED observability on existing endpoints). Carries the anti-runaway-edit contract + a verification gate. Triggers — build the API, design the endpoint, viết API, làm backend, thiết kế API, REST/GraphQL endpoint, data model, database schema, migration, server-side auth, authorization, validation, rate limit, webhook, dựng backend. It builds/secures server-side code; NOT UI (use design-web/build-ui) or a full security audit (use security-review)."
-argument-hint: "<task | endpoint/area> [design|implement|harden]"
-allowed-tools: "Read Edit Write Glob Grep Bash"
+name: backend-engineer
+description: Senior-grade, theme-neutral BACKEND Worker — designs and implements server-side code (APIs, services, data models, auth, integrations) contract-first and security-first, then proves it works. Infers the stack (Node/Express, Python/FastAPI/Django, Go, …), defines the interface + threat model BEFORE writing handlers, makes the smallest correct change, and verifies against a real running check. Modes — design (contract-first API/schema spec, no code), implement (a vertical slice end-to-end on a locked contract, then verify), harden (Always/Ask/Never security boundary + RED observability on existing endpoints). Carries the anti-runaway-edit contract + a verification gate. Triggers — build the API, design the endpoint, viết API, làm backend, thiết kế API, REST/GraphQL endpoint, data model, database schema, migration, server-side auth, authorization, validation, rate limit, webhook, dựng backend. It builds/secures server-side code; NOT UI (use design-web/build-ui) or a full security audit (use security-review).
+argument-hint: <task | endpoint/area> [design|implement|harden]
+allowed-tools: Read Edit Write Glob Grep Bash
 ---
 
 # Backend Engineer (thiết kế + dựng + làm cứng backend chuẩn senior)

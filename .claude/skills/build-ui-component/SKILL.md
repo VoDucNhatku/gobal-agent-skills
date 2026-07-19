@@ -1,8 +1,8 @@
 ---
-name: "build-ui-component"
-description: "Builds one accessible, on-brand component grounded in the locked design system. Reads the design token file and component catalog in references/component-catalog.md."
-argument-hint: "<component-name>"
-allowed-tools: "Skill Agent Read Write Edit Glob Bash Grep"
+name: build-ui-component
+description: Builds one accessible, on-brand component grounded in the locked design system. Reads the design token file and component catalog in references/component-catalog.md.
+argument-hint: <component-name>
+allowed-tools: Skill Agent Read Write Edit Glob Bash Grep
 ---
 
 # Build UI Component — Component Builder
