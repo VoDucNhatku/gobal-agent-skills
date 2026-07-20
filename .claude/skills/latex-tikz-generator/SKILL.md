@@ -33,21 +33,30 @@ không phải detectability).
 
 ## 4 Loại diagram (trigger patterns)
 
+Mỗi loại có 1 skeleton TikZ đã compile-verify (pdflatex, exit 0, visually inspected)
+trong `references/tikz-skeletons.md` — đọc file đó để lấy code khởi điểm, đừng viết
+lại từ đầu. Copy skeleton đúng loại, sửa theo phần "Edit:" của nó, rồi mới áp 3 quy
+tắc tránh đạo văn ở trên.
+
 ### 1. Pipeline / Flowchart (Encoder-Decoder / Sequential)
-Input: user mô tả luồng dữ liệu từ đầu vào đầu ra.
-Output: \begin{tikzpicture} \node chain xuôi hoặc ngang.
+Input: user mô tả luồng dữ liệu từ đầu vào đầu ra. Skeleton: node chain ngang,
+`right=of` giữa các stage, 1 stage highlight màu accent (đóng góp chính).
 
 ### 2. Block / Component Architecture
-Input: các thành phần + mối liên kết (aggregation/composition).
-Output: block chữ nhật có nét đứt, mũi tên gán nhãn.
+Input: các thành phần + mối liên kết (aggregation/composition). Skeleton: block nét
+đứt (module tái dùng) vs block liền nét tô màu (đóng góp chính), khung `fit` bao quanh
+toàn model.
 
 ### 3. Attention / Attention-head / Matrix visualization
-Input: số class, số head, label trục.
-Output: heatmap grid hoặc attention weight matrix.
+Input: số class, số head, label trục. Skeleton: heatmap N×N thuần TikZ (không cần
+pgfplots), fill theo `\pgfmathparse` trên mảng số; label hàng/cột dùng
+`foreach i/lbl` — KHÔNG index mảng chuỗi bằng `\pgfmathparse` (silent garbage, xem
+"Known pitfalls" trong file skeleton).
 
 ### 4. Training / Convergence / Curves
-Input: data points (epoch, loss/acc) hoặc trend.
-Output: \draw + plot coordinates + axis node.
+Input: data points (epoch, loss/acc) hoặc trend. Skeleton: `\draw plot coordinates`
+thuần TikZ + trục vẽ tay (không pgfplots), 2 series minh họa (loss giảm, acc tăng) +
+legend.
 
 ## Output format
 
@@ -61,7 +70,7 @@ Không bao giờ sinh code copy từ bài khác. Diagram mô phỏng cấu trúc
 bắt buộc "adapted from [x]" trong caption (integrity rules §2).
 
 ## Quy tắc compile an toàn
-- Chỉ dùng libs phổ biến: `\usetikzlibrary{shapes,arrows,positioning,calc,matrix,backgrounds}` — không dùng lib hiếm gây lỗi compile.
+- Chỉ dùng libs phổ biến: `\usetikzlibrary{shapes,arrows.meta,positioning,calc,matrix,backgrounds}` (+ `fit` riêng cho skeleton #2) — không dùng lib hiếm gây lỗi compile. Dùng `arrows.meta` (không phải `arrows` cũ) cho cú pháp `{Stealth[length=2mm]}` hiện đại.
 - **Compile-verify khi có thể:** nếu `pdflatex`/`tectonic` có trên máy (check `where pdflatex`), compile thử bản `standalone` của figure trước khi trả; không có → ghi rõ "code chưa compile-test" thay vì claim chạy được.
 - Giữ node text trong English (machine content).
 - Giới hạn chiều dài mỗi node ≤ 20 từ để không tràn khi render.

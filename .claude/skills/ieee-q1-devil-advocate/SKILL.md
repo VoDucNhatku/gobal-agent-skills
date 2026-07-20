@@ -83,4 +83,4 @@ Tránh cụm từ nịnh nọt AI. Góp ý thẳng chỉ rõ section + evidence.
 - Mỗi verdict phải có bằng chứng tương ứng.
 
 ## Cách dùng
-Kích hoạt khi user yêu cầu "review Q1", "phản biện", "devil's advocate", "IEEE style rejection analysis". Input: paper draft Markdown/tex. Output: báo cáo review kèm rejection probability.
+Kích hoạt khi user yêu cầu "review Q1", "phản biện", "devil's advocate", "IEEE style rejection analysis". Input: paper draft Markdown/tex. Output: báo cáo review với acceptance outlook ĐỊNH TÍNH (Reject-likely / Major-revision-likely / Borderline / Competitive) — KHÔNG kèm con số xác suất (nhất quán với mục 5: % là số bịa, không verify được).

@@ -26,7 +26,8 @@ Code Request
 ▼
 2. Route by Mode:
 ├── plan → spec-writer
-├── implement → code-senior (must follow TDD)
+├── implement → code-senior (must follow TDD; its Algorithm Justification Gate
+│                 covers complexity + provenance for real algorithmic choices)
 ├── debug → debug-investigator
 ├── review → code-reviewer
 └── notebook → paper-to-notebook

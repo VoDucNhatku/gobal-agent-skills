@@ -1,31 +1,32 @@
 ---
 name: design-ui-direction
-description: Design intelligence data for GOBAL AGENT — citation library (anti-slop bans, palettes, type pairings, style archetypes). Quoted at runtime by design-web and review-frontend. It is data, not logic; it does NOT issue instructions, generate code, or make UI decisions.
-argument-hint: (none — auto-loaded by peer skills)
-allowed-tools: Skill Agent Read Write Glob Bash
+description: DEPRECATED alias (2026-07-20) — design direction lives in design-web. The shared reference tables (anti-slop-bans, palettes, type-pairings, style-archetypes CSVs) and the Artifact preview template are owned by design-web (references/ and assets/). This stub only redirects; if invoked, immediately apply design-web instead.
+argument-hint: (deprecated — use design-web)
+allowed-tools: Skill Read
 ---
 
-# Design UI Direction — Reference Data
+# design-ui-direction — DEPRECATED alias → `design-web`
 
-> **Role:** This directory holds **shared design reference tables** consumed by `design-web` and `review-frontend` at runtime.
-> This file is a stub so the skill registry resolves it; the actual content lives in `references/`.
+Skill này đã ngừng phát triển (2026-07-20). Toàn bộ việc chọn hướng thiết kế
+(anti-slop tokens, type pairing, palette, HTML Artifact preview) nằm ở
+**`design-web`** — file này chỉ tồn tại để các tham chiếu cũ không gãy.
 
-## References (auto-read by peer skills)
+## Nếu skill này bị gọi
 
-| File | Consumer | Purpose |
-|------|----------|---------|
-| `design-web/references/anti-slop-bans.csv` | design-web, review-frontend | Explicitly banned patterns (fonts, gradients, layouts) |
-| `design-web/references/palettes.csv` | design-web | Named hex token sets by archetype |
-| `design-web/references/type-pairings.csv` | design-web | Display + body face pairings |
-| `design-web/references/style-archetypes.csv` | design-web, review-frontend | Named mood/industry archetypes |
+Chuyển ngay sang `design-web` với cùng input. Mapping:
 
-## Assets
+| Chức năng cũ (design-ui-direction) | Thay bằng (design-web) |
+|---|---|
+| Chọn hướng thiết kế + token set | `design-web` (toàn bộ procedure) |
+| HTML Artifact preview | `design-web` Phase 4 (`design-web/assets/artifact-preview-template.html`) |
+| Bảng dữ liệu anti-slop / palettes / type-pairings / style-archetypes | `design-web/references/*.csv` (peer skill đọc trực tiếp) |
 
-| File | Purpose |
-|------|---------|
-| `assets/artifact-preview-template.html` | Preview scaffold for design artifacts |
+`review-frontend` cũng đọc CSV trực tiếp từ `design-web/references/` — không đi qua
+stub này.
 
-## How It's Used
+## Lý do deprecate
 
-`design-web` reads these tables to ground palette, type, and layout choices in concrete tokens rather than defaults. `review-frontend` reads `anti-slop-bans.csv` + `style-archetypes.csv` to score outputs.
-This skill **never runs alone** — invoke `design-web` or `review-frontend` for actual design work.
+File này về sau chỉ còn là "data stub" trỏ sang chính các bảng CSV mà design-web sở
+hữu — một tầng chuyển hướng không mang thêm dữ liệu. Bản asset trùng lặp
+(`assets/artifact-preview-template.html`, byte-identical với bản của design-web) đã
+xóa; bản chuẩn duy nhất nằm ở `design-web/assets/`.

@@ -132,5 +132,5 @@ Based on current task, suggest relevant past learnings:
 ## Cross-References
 
 - `project-memory` → Project-specific context
-- `skill-router` → Use learnings for routing decisions
-- `gobal-orchestrator` → Load learnings at session start
+- `gobal-orchestrator` → Load learnings at session start; also consults learnings for
+  routing decisions (folds the deprecated `skill-router`)

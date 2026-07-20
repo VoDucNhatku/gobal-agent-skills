@@ -80,6 +80,19 @@ regions (§6). If **many** ids in scope lack a distillate, stop and hand back to
 - **`expand`:** specific problem (precise) → broader class + abstract formulation (LaTeX) →
   relaxable assumptions → neighbouring problems → landscape position → open sub-problems.
 
+**Cross-cutting — Claim Conflicts section (auto, when N ≥ 3):** when two or more
+papers make contradictory / incompatible claims about the same phenomenon (A
+reports X improves Y while B reports X harms Y), emit a `## Claim Conflicts`
+section **in addition to** the mode's own output. **Do not harmonize or fabricate
+consensus** — the row stays `unresolved` unless one paper explicitly addresses
+the other, or the conflict dissolves under a stated condition (scope, input
+range, metric definition). Averaging or picking the "majority" claim is
+fabricating consensus.
+
+| Claim | Source ids | Conflict type | Resolution status |
+|-------|-----------|---------------|-------------------|
+| A: X↑Y vs B: X↓Y | `001` vs `003` | contradictory / conditional / scope-dependent | `unresolved` / `resolved — <why>` |
+
 Every cross-paper claim is attributable to a specific id (§8). Missing items →
 `bài báo không nêu (not stated)`. Preserve quantitative results exactly.
 

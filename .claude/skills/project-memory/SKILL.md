@@ -46,18 +46,22 @@ Provide everything needed in structured block:
 
 Only load what is relevant to current task. Don't flood context with everything.
 
-## Memory File Structure
+## Memory File Structure (canonical — the ONE layout every mode reads/writes)
 
 ```
 project-memory/
-  ├── CLAUDE.md           # Project rules (always loaded)
-  ├── decisions.md        # Key decisions with rationale
+  ├── INDEX.md            # Memory index — read first; one line per file
+  ├── context.md          # Project overview: stack, structure, goals
+  ├── decisions.md        # Key decisions with rationale (why, not just what)
   ├── preferences.md      # User/codebase preferences
   ├── known-issues.md     # Bugs, limitations, workarounds
   └── progress/
-      ├── current.md      # Active work
-      └── archive/        # Completed work summaries
+      ├── current.md      # Active tasks, blockers, next steps (the ledger)
+      └── archive/        # Completed work summaries (compact target)
 ```
+
+`CLAUDE.md` stays at the project ROOT (loaded by the harness as a rules file, per the
+hierarchy above) — this skill references it but never stores or edits it.
 
 ## Progress Ledger (from superpowers)
 
@@ -114,15 +118,9 @@ When context gets long:
 
 ## Storage Format
 
-Memory files in project root:
-```
-project-memory/
-├── context.md          # Project overview
-├── decisions.md        # Architecture/design decisions
-├── preferences.md      # User preferences
-├── active-state.md     # Current tasks, blockers
-└── INDEX.md            # Memory index
-```
+One layout only — the canonical **Memory File Structure** above (`project-memory/` in
+the project root). Active state lives in `progress/current.md`; there is no separate
+`active-state.md`. Every mode targets these exact paths.
 
 ## Mode: save
 Store current context to memory files. Merge with existing (don't overwrite).

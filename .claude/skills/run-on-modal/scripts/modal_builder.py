@@ -7,7 +7,7 @@ run_experiment() function, the local_entrypoint that sequences them, the Image b
 the cost header, and the quick-start block. The model never hand-writes the envelope.
 
 Usage:
-    python modal_builder.py /tmp/run-on-modal_<id>_<mode>.json [--out-root modal_apps]
+    python modal_builder.py .tmp/run-on-modal_<id>_<mode>.json [--out-root modal_apps]
 
 Output: modal_apps/<id>-<mode>/modal_app.py
 """

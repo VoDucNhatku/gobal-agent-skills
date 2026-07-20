@@ -59,9 +59,18 @@ own column set or section order.
    còn hơn bịa một trực giác nghe hợp lý.
 4. **Loss / objective** — every loss term and how they combine (with weights).
 5. **Novelty** — what is genuinely new vs prior work, attributable to the paper.
-6. **Limitations** — both **stated** and **unstated** (inferred but flagged as inferred).
-7. **Reproducibility checklist** (the closer) — the 5-criterion table scored
-   yes/partial/no with one Vietnamese line of evidence each (section/table/equation), then
+6. **Chuỗi nhân quả ablation (Ablation causality)** — only when the paper has an
+   ablation table. Reuse the SAME column set as `paper-read` mode `think`
+   (`references/depth-modes.md`) so the two skills stay consistent:
+   | Thành phần | Delta khi ablate | Kết luận nhân quả bài rút ra | Có kiểm soát? |
+   Mỗi dòng: trỏ đúng ablation row trong bài (vd "Table 3 — w/o Attn"); cột "Có
+   kiểm soát?" = **có** (bài ablate trực tiếp) / **gián tiếp** (2 ablation cộng
+   lại mới cô lập) / **không** (component không được ablate — flag là gap). Bài
+   không có ablation table → bỏ qua mục này, viết `bài báo không có ablation`.
+7. **Limitations** — both **stated** and **unstated** (inferred but flagged as inferred).
+8. **Reproducibility checklist** (the closer) — the 6-criterion table (Environment, Data,
+   Training, Evaluation, Ablation causality, Code Availability) scored full/partial/missing
+   with one Vietnamese line of evidence each (section/table/equation), then
    `## Phán quyết tái lập (Reproducibility verdict)` = dễ tái lập / tái lập một phần / khó
    tái lập + the single biggest blocker. Be strict: `partial` is the honest default when
    unsure; never infer `yes` from a title.
@@ -86,7 +95,7 @@ Math must render under **both** KaTeX and MathJax.
 Write the full artifact to `notes/<id>-method.md` with the standard header (id · title ·
 source filename · worker `paper-method` · date `YYYY-MM-DD`). Then print to chat ONLY a
 **6–8 line** Vietnamese preview + the absolute saved path:
-- `critique`: the 5 checklist scores as a compact list + the verdict + the biggest
+- `critique`: the 6 checklist scores as a compact list + the verdict + the biggest
   blocker + path.
 - `recipe`: the ordered stage names as a numbered list + the stage count + path.
 
@@ -97,7 +106,8 @@ chat — they live in the file. End the preview with the handoff note (below).
 `notes/<id>-method.md` — exactly one mode's structure as templated in
 `references/repro-checklist.md`:
 - **`critique`** → formulation · notation table · key equations · loss · novelty ·
-  limitations (stated + unstated) · 5-criterion reproducibility table · verdict.
+  ablation causality (when the paper has an ablation table) · limitations (stated +
+  unstated) · 6-criterion reproducibility table · verdict.
 - **`recipe`** → ordered `Stage | Input | Operation | Output` table · Mermaid
   `flowchart TD`.
 

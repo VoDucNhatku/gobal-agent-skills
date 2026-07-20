@@ -1,7 +1,7 @@
 ---
 name: artifact-manager
-description: Artifact management for GOBAL AGENT — indexes, tracks, and manages file artifacts across sessions. Maintains notes/INDEX.md as central registry. Detects reuse opportunities (don't re-read what exists). Cleans up stale artifacts. Modes: index (build/update INDEX.md), track (register new artifact), reuse (check before reading), cleanup (archive stale). Source: gstack (document-generate, context-restore) + addyosmani (context-engineering). It manages files; it does NOT generate content.
-argument-hint: [index|track|reuse|cleanup]
+description: Artifact management for GOBAL AGENT — indexes, tracks, and manages file artifacts across sessions. Maintains notes/INDEX.md as central registry. Detects reuse opportunities (don't re-read what exists). Cleans up stale artifacts. Modes: index (build/update INDEX.md), track (register new artifact), reuse (check before reading, with staleness assessment), suggest (find related artifacts for a task), diff (existing artifact vs new requirements), cleanup (archive stale). Absorbs the deprecated reuse-checker skill. Source: gstack (document-generate, context-restore) + addyosmani (context-engineering) + workbench-conventions §4 (REUSE-BEFORE-READ). It manages files; it does NOT generate content.
+argument-hint: [index|track|reuse|suggest|diff|cleanup]
 allowed-tools: Read Write Bash Glob
 ---
 
@@ -85,7 +85,43 @@ Register a new artifact:
 Given a query (paper id, topic, file type):
 1. Search INDEX.md for matching entries
 2. Check file existence (Glob)
-3. Return: path, freshness, recommendation (Reuse/Update/Create)
+3. Assess freshness (staleness table below)
+4. Return: path, freshness, recommendation (Reuse/Update/Create)
+
+**Freshness assessment (the staleness rule — absorbed from reuse-checker):**
+
+| Age | Status | Action |
+|-----|--------|--------|
+| < 1 week | Fresh | **Reuse without question.** Do not regenerate. |
+| 1–4 weeks | Current | **Reuse**, but note the date in downstream prompts. |
+| 1–3 months | Stale | **Diff check:** compare artifact against source; if source changed, update. |
+| > 3 months | Outdated | **Re-create.** Re-read source, create new artifact, archive old one. |
+
+**Output format:**
+```
+Found: <path or "null">
+Freshness: fresh | current | stale | outdated
+Recommendation: Reuse | Update | Create New
+Reason: <one-line explanation>
+should_create_new: true | false
+```
+
+---
+
+## Mode: suggest
+
+**Input:** Current task description.
+**Action:** Search INDEX.md for related artifacts useful as input/reference (not exact matches).
+**Output:** List of relevant artifacts with relevance + how each helps.
+
+---
+
+## Mode: diff
+
+**Input:** Existing artifact path + new requirements.
+**Action:** Read both; identify what is missing or changed.
+**Output:** Bulleted list of missing information only. Do NOT suggest rewriting the whole
+file when only a small fraction is missing — patch the gap.
 
 ---
 
@@ -105,14 +141,7 @@ Scan INDEX.md for stale entries:
 
 ## Integration
 
-- `reuse-checker` — staleness assessment protocol
 - `gobal-orchestrator` — auto-invokes before dispatching tasks
 - `project-memory` — project-specific artifact retention rules
 - `context-compressor` — archives old artifacts during compaction
-
-## Cross-References
-
-- `reuse-checker` → Staleness assessment protocol
-- `gobal-orchestrator` → Auto-invokes before dispatching tasks
-- `project-memory` → Project-specific artifact tracking
-- `context-compressor` → Archives old artifacts
+- `reuse-checker` — DEPRECATED alias of this skill (its staleness protocol + suggest/diff modes now live here)

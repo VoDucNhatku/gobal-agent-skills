@@ -51,18 +51,35 @@ figure (latex-tikz-generator) được chạy song song với việc draft prose
 ### Mode: format
 1. **Identify Target:** Determine target venue (e.g., CVPR, ICCV, IEEE Q1).
 2. **Template Application:** Use the official LaTeX template for the venue. Structure the `.tex` file with appropriate macros (e.g., `\author`, `\maketitle`, `\bibliographystyle`).
-3. **Math & Figures:** Use `latex-math-renderer` guidelines to ensure math is correctly formatted for the specific LaTeX engine. Check that figure references follow venue guidelines.
+3. **Math & Figures:** Math in the `.tex` follows the venue template (full LaTeX); any math emitted into markdown notes follows `~/.claude/rules/latex-katex-compat.md` (repair via `latex-fix` at the compile stage). Check that figure references follow venue guidelines.
 4. **Output:** Generate the `main.tex` and a `bib` file.
 
 ### Mode: rebuttal
 1. **Input:** Read the reviewer comments (provided in text or file).
 2. **Deconstruct:** Break down reviewer concerns point-by-point.
-3. **Draft Response:** Write a respectful, evidence-based response. Cite new experiments or specific sections of the paper where changes were made.
-4. **Output:** A rebuttal document (`rebuttal.md` or `rebuttal.tex`).
+3. **Evidence matrix (when ≥ 2 concerns):** map each concern to concrete evidence
+   so no response is vague. Insert this as a section in the rebuttal:
+
+   | # | Reviewer concern (paraphrased) | Type | Evidence | Action taken |
+   |---|-------------------------------|------|----------|-------------|
+   | R1 | "Ablation for X missing" | experiment gap | New Table 4 (w/o X → −3.2 F1) | Added §4.4 + Table 4 |
+   | R2 | "Baseline Y not compared" | missing comparison | New Fig 5 (proposed vs Y) | Added §5.2 + Fig 5 |
+   | R3 | "Writing unclear in §3" | clarity | Rewrote §3.2 with concrete example | Revised prose |
+
+   `Type` ∈ `experiment gap | missing comparison | clarity | validity | scope`
+   (last = disagree politely — state why). Mỗi row PHẢI có `Action taken`; "will
+   add in future work" được phép nhưng phải explicit.
+4. **Draft Response:** Write a respectful, evidence-based response per row. Cite
+   new experiments or specific sections of the paper where changes were made.
+5. **Output:** A rebuttal document (`rebuttal.md` or `rebuttal.tex`).
 
 ## Cross-References
 - `paper-synthesize` → Provides the raw material for the Related Work section.
 - `paper-method` → Provides the raw material for the Method section.
+- `paper-storytelling` → Chuyên biệt hóa khâu draft/format khi user muốn cấu trúc
+  storytelling (SARD-style: research questions, Results+Discussion gộp theo phát hiện,
+  pipeline figure 2 hàng + Algorithm walkthrough). Nó THAY khâu đầu này; chuỗi sau
+  (citation-guard → ... → self-evaluator) giữ nguyên.
 - `latex-tikz-generator` → Figures/diagrams TikZ (chạy song song với draft prose).
 - `citation-guard` → Khâu kế: DOI verify + orphan detect + synthesis scan.
 - `style-humanizer` → Calibrate văn phong sau citation-guard (giữ bất biến §4).

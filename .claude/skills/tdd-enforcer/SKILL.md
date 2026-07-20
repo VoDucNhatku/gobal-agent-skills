@@ -160,6 +160,26 @@ Unit Tests (~80%)
 
 ---
 
+## Property-Based & Mutation Testing (advanced — optional)
+
+When the function has **mathematical invariants** (roundtrip encode↔decode,
+permutation after sort, commutativity, monotonicity) OR sits on a critical path
+(crypto, numerical, auth, payments), augment the TDD cycle — otherwise skip
+(YAGNI).
+
+| Technique | When to use | Frameworks | What it catches |
+|-----------|-------------|-----------|-----------------|
+| **Property-Based Testing** | Input domain is generatable (str/num/list/tree) + correctness is declarative | Hypothesis (Py) · fast-check (JS/TS) · Proptest (Rust) | Edge inputs you didn't think of; auto-shrinks to minimal failing case |
+| **Mutation Testing** | On the SUITE after GREEN, for branchy / critical code | mutmut (Py) · Stryker (JS/TS) · pitest (Java) | Tests that pass for the wrong reason — mutator flips `>` → `<`, removes a line; each mutation should be killed |
+
+**PBT cycle:** write ONE concrete example first (normal RED) → upgrade to `for N
+random inputs, property P holds` → shrink any counterexample to the minimal
+failing input. **Mutation floor:** ≥80% killed on critical paths; <60% → stop and
+add targeted tests before shipping. Don't run mutation tests in CI on every commit
+— they're slow; use them as a quality gate before refactor or release.
+
+---
+
 ## Test Quality Rules
 
 ### DAMP Over DRY

@@ -40,12 +40,10 @@ Move large content from context to files:
 
 ### 3. Progressive Disclosure Enforcement
 
-Ensure only needed tiers are loaded:
-- Tier 1 (metadata) → always in context (~100 tokens/skill)
-- Tier 2 (skill body) → load only for active skill (<5k tokens)
-- Tier 3 (references/scripts) → load only when Tier 2 references it
+The tier definitions (metadata → skill body → references) are owned by **`token-budget`**
+— single source, not duplicated here. This skill only ACTS on them:
 
-**Action:** If a skill's references/ are loaded but not needed, drop them from context.
+**Action:** If a skill's references/ are loaded but no longer needed, drop them from context.
 
 ### 4. Prune Unused Artifacts
 

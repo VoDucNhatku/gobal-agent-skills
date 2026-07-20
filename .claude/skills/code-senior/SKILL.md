@@ -28,13 +28,36 @@ read-before-edit staleness rule below).
 
 ### Phase 1 — mode work
 
-**`implement`** — understand → plan the minimal diff → edit → verify:
-1. **Plan the minimal diff.** Name the exact files/functions to change and why each is necessary.
+**`implement`** — understand → justify the method → plan the minimal diff → edit → verify:
+1. **Algorithm Justification Gate** (added 2026-07-20 — chống bịa PHƯƠNG PHÁP, not just results).
+   **Trigger:** the task involves a real algorithmic choice — search/sort beyond stdlib calls,
+   optimization, ML/numerical/statistical methods, geometry/graphics, crypto, concurrency or
+   lock design, or a data structure chosen for its complexity. Plain CRUD/UI/glue code → state
+   "gate not triggered (no algorithmic choice)" in one line and skip to step 2.
+   When triggered, output this block BEFORE any edit:
+   ```
+   ## Algorithm Justification
+   - Problem class: <e.g. constrained optimization / graph traversal / numerical integration>
+   - Candidates: <2-3 alternatives, one-line tradeoff each — naming at least one you reject and why>
+   - Chosen + correctness idea: <what invariant is maintained / why it terminates;
+     ML: what loss-landscape assumption; numerical: stability/conditioning region>
+   - Complexity: time O(?) / space O(?) vs the REAL input bound of this task (n ≤ ?)
+   - Provenance: [cited] <paper/textbook/docs that actually contain it> |
+     [derived] <derivation + one sanity check> | [design] <heuristic — mark "cần thực nghiệm">
+   - Edge cases from preconditions: <empty/negative/duplicates/singular matrix/overflow/NaN/
+     non-convergence — each one must reappear in step 4's verification or be explicitly waived>
+   ```
+   Provenance tags follow `~/.claude/rules/research-proposal-integrity.md` §4 — a [design]
+   choice is never presented with [derived]-level confidence ("dùng Adam vì nó tốt" without a
+   stated assumption is a gate FAIL).
+2. **Plan the minimal diff.** Name the exact files/functions to change and why each is necessary.
    Reuse existing patterns in the codebase (match its style §). Do NOT add features, abstractions,
    error handling for impossible cases, or refactors the task didn't ask for.
-2. **Edit surgically** under the anti-runaway-edit contract (below).
-3. **Verify** (the gate): run the project's build/test/lint or a targeted check that actually
+3. **Edit surgically** under the anti-runaway-edit contract (below).
+4. **Verify** (the gate): run the project's build/test/lint or a targeted check that actually
    exercises the change. State the command and its real result. No "should work" — run it.
+   If the Algorithm Justification Gate fired, the listed edge cases are part of this step:
+   each gets a test/check, or an explicit one-line waiver of why it cannot be exercised.
 
 **`debug`** — reproduction-first (mattpocock "no red-capable command, no Phase 2"):
 1. **Reproduce.** Establish a command/test that FAILS RED and pinpoints the bug, BEFORE any
@@ -84,6 +107,9 @@ A small change must stay small. Never let a one-line fix become a full-file rewr
 - **`Write` on an existing file is a red flag.** Use `Edit`. `Write` is for new files or an
   approved full replacement only.
 - **Reproduce before you theorize (debug).** No red failing command → don't hypothesize-fix.
+- **Justify the method, not just the diff.** A non-trivial algorithm choice without the
+  Justification block (complexity + provenance + edge cases) is fabricated METHOD — same
+  severity as a fabricated number. CRUD/glue code is exempt (gate trigger above).
 - **Verify for real (§ gate).** Run the build/test; report the actual result; never "should work".
 - **Don't dump diffs to chat (§3).** Report paths + key lines + the verify result.
 - **Stay in scope (§10).** This skill implements/fixes/reviews code:

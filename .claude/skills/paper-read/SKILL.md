@@ -1,16 +1,17 @@
 ---
 name: paper-read
-description: Reads and distills ONE paper at a chosen depth/format — the orientation-and-condense Worker of the Workbench suite. Modes — gist (quick should-I-read overview), summary (faithful section-by-section condensation, the default), eli5 (plain-language intuition with one analogy + toy example), mindmap (Mermaid structure diagram). Output prose is Vietnamese (academic), code/identifiers English. Triggers — overview of 003, summarize this paper, what's this paper about, is it worth reading, explain simply, ELI5, give me the intuition, mindmap of the paper, tóm tắt bài báo, bài này nói về gì, có đáng đọc không, giải thích đơn giản, trực giác, sơ đồ tư duy, đọc lướt bài. Condenses ONE paper faithfully; it does NOT critique the method (use paper-method) and does NOT compare across papers (use paper-synthesize). Accepts an id, filename, path, or `all`.
-argument-hint: <id|file|path|all> [gist|summary|eli5|mindmap]
+description: Reads and distills ONE paper at a chosen depth/format — the orientation-and-condense Worker of the Workbench suite. Modes — gist (quick should-I-read overview), summary (faithful section-by-section condensation, the default), eli5 (plain-language intuition with one analogy + toy example), mindmap (Mermaid structure diagram), think (argument map — claims→evidence links, ablation causality, implicit assumptions, what-would-falsify). Output prose is Vietnamese (academic), code/identifiers English. Triggers — overview of 003, summarize this paper, what's this paper about, is it worth reading, explain simply, ELI5, give me the intuition, mindmap of the paper, tóm tắt bài báo, bài này nói về gì, có đáng đọc không, giải thích đơn giản, trực giác, sơ đồ tư duy, đọc lướt bài, bản đồ lập luận, claim dựa trên gì, ablation nào gánh, phân tích lập luận. Condenses/maps ONE paper faithfully; it does NOT critique the method or math (use paper-method) and does NOT compare across papers (use paper-synthesize). Accepts an id, filename, path, or `all`.
+argument-hint: <id|file|path|all> [gist|summary|eli5|mindmap|think]
 allowed-tools: Skill Agent Read Write Glob Bash
 ---
 
 # paper-read — distill one paper at a chosen depth
 
 This Worker reads a single paper and produces a faithful Vietnamese distillation at one
-of four depths. Depth/format is a **mode parameter**, not four separate skills — one run
+of five depths. Depth/format is a **mode parameter**, not five separate skills — one run
 produces one artifact in one mode. It folds the legacy AIL skills *paper-overview*,
-*paper-summary*, *intuition*, and *paper-mindmap* into a single mode-dispatched Worker.
+*paper-summary*, *intuition*, and *paper-mindmap* into a single mode-dispatched Worker;
+mode `think` (2026-07-20) adds the argument-analysis depth the condense modes lack.
 
 ## Conventions
 This skill treats `~/.claude/rules/workbench-conventions.md` as binding (bilingual §1,
@@ -25,7 +26,7 @@ demand) — this body does **not** duplicate them.
   (`papers/003_*.pdf`) · the literal `all` (every paper in `papers/`). Resolve to a
   concrete file under `./papers/` before reading (§2). If ambiguous, list candidates and
   ask once, then proceed.
-- **mode** — one of `gist | summary | eli5 | mindmap`. **Default `summary`** when omitted.
+- **mode** — one of `gist | summary | eli5 | mindmap | think`. **Default `summary`** when omitted.
 
 ## Mode dispatch (explicit)
 Pick exactly ONE mode per run, then follow its spec in `references/depth-modes.md`:
@@ -36,9 +37,12 @@ Pick exactly ONE mode per run, then follow its spec in `references/depth-modes.m
 | `summary` *(default)* | faithful section-by-section condense | whole paper, section by section; ranged reads for long PDFs | abstract → background → method → experiments → results/ablation → stated limits → glossary |
 | `eli5` | plain-language intuition | abstract + method + one running example | the problem plainly · ONE analogy · toy example · why it works · where the analogy breaks |
 | `mindmap` | visual structure | headings + abstract + method skeleton | one Mermaid `mindmap` (Problem/Method/Experiments/Results/Limitations) + short reading note |
+| `think` | argument map & evidence audit | abstract + contributions + ALL results/ablation tables + "we show/we find" passages; method only enough to name components | claims→evidence map (ĐỦ/MỎNG per link) · ablation-causality table · implicit assumptions · what-would-falsify · verdict |
 
 Do not blend modes. If the user clearly wants critique/math, hand off to `paper-method`;
-if they name several papers, hand off to `paper-synthesize` (see Gotchas).
+if they name several papers, hand off to `paper-synthesize` (see Gotchas). `think` maps
+the paper's OWN argument and flags thin links — it does not re-derive math or judge the
+method's design (that is `paper-method`).
 
 ## Procedure
 
@@ -86,8 +90,12 @@ the downscale in the preview. Heavy per-paper deep reads across a large corpus a
 deep read over the whole corpus in one pass (§10).
 
 ## Gotchas
-- **Mode is a parameter, not four skills.** One mode per run. Default to `summary` only
+- **Mode is a parameter, not five skills.** One mode per run. Default to `summary` only
   when none is given; don't silently produce a different depth than asked.
+- **`think` maps, it does not attack.** Report the paper's own argument + flag thin
+  evidence links with a checkable reason from the text (thiếu baseline, 1 dataset, no
+  CI…). Re-deriving math, judging design choices, reproducibility audit →
+  `→ dùng paper-method`. A gap is reported neutrally — khoảng trống ≠ lỗi.
 - **`gist` must stay shallow.** Reading the full body in `gist` defeats the mode — keep
   to abstract/intro/conclusion/headings/captions (§6).
 - **Don't critique, don't compare.** This Worker condenses ONE paper faithfully. Method

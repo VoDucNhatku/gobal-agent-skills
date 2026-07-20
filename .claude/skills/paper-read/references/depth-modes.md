@@ -84,6 +84,45 @@ standard header: `paper id · title · source filename · worker (paper-read) ·
 - **Chat preview:** 5–6 lines — the 4–5 top-level branches as a bullet list + path
   (do NOT paste the Mermaid block into chat; it lives in the file).
 
+## Mode: `think` — argument map & evidence audit (thêm 2026-07-20)
+- **Intent:** tái dựng LẬP LUẬN của bài báo — không chỉ nén nội dung. Trả lời: bài
+  này khẳng định gì, mỗi khẳng định đứng trên bằng chứng nào, mắt xích nào mỏng,
+  và điều gì sẽ falsify nó. Vẫn FAITHFUL: báo cáo lập luận CỦA BÀI + chỉ ra khoảng
+  trống; không tự phản biện phương pháp/toán (đó là `paper-method`).
+- **What to read:** abstract + contributions + toàn bộ Results/ablation tables +
+  các đoạn "we show/we find/this suggests"; Method chỉ đọc đủ để hiểu mỗi thành
+  phần làm gì (không cần đủ để tái lập).
+- **Template:**
+  ```markdown
+  ## Bản đồ lập luận (Argument map)
+  <!-- mỗi claim chính 1 block: -->
+  ### C1. «Claim, nguyên văn hoặc paraphrase sát»
+  - Bằng chứng bài đưa: «table/figure/section nào, số nào»
+  - Loại bằng chứng: so sánh có kiểm soát | ablation | qualitative | trích dẫn
+  - Mắt xích: ĐỦ / MỎNG — «vì sao (vd: thiếu baseline, 1 dataset, không CI)»
+
+  ## Chuỗi nhân quả ablation (Ablation causality)
+  <!-- bảng: thành phần → delta metric khi bỏ/thêm → thành phần nào GÁNH gain;
+       ablation thiếu thành phần nào thì ghi "bài báo không nêu" -->
+  | Thành phần | Delta khi ablate | Kết luận nhân quả bài rút ra | Có kiểm soát? |
+
+  ## Giả định ngầm (Implicit assumptions)
+  <!-- 2–4 giả định bài dựa vào mà không nêu tường minh; mỗi cái 1 dòng -->
+
+  ## Điều gì sẽ falsify (What would falsify)
+  <!-- mỗi claim chính: 1 thí nghiệm/quan sát cụ thể mà nếu xảy ra thì claim đổ.
+       Đây là câu hỏi kiểm chứng, KHÔNG phải lời phản biện -->
+
+  ## Đánh giá độ vững (Verdict)
+  <!-- 2–3 dòng: claim nào vững nhất / mỏng nhất; handoff paper-method nếu cần
+       mổ xẻ toán, paper-synthesize nếu cần đối chiếu bài khác -->
+  ```
+- **Fidelity guard:** mọi ô "Bằng chứng" trỏ đúng table/figure/số trong bài; đánh
+  giá ĐỦ/MỎNG phải nêu lý do kiểm chứng được từ chính văn bản (thiếu baseline,
+  1 seed, no CI…), không phán từ trí nhớ ngoài. Khoảng trống ≠ lỗi — ghi trung tính.
+- **Chat preview:** 6–8 lines — số claim + claim vững nhất/mỏng nhất + 1 falsifier
+  đáng chú ý + path.
+
 ---
 
 ## `all` — mode scaling by cardinality (§7)

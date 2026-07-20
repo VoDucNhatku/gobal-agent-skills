@@ -29,14 +29,14 @@ allowed-tools: Read Write Bash Glob
 | Performance degradation | Hold or rollback based on thresholds |
 | User reports spike | Assess severity, likely rollback |
 
-## Rollback Triggers (from addyosmani)
+## Rollback Triggers
 
-| Metric | Advance | Hold | Roll back |
-|--------|---------|------|-----------|
-| Error rate | Within 10% baseline | 10-100% above | >2x baseline |
-| P95 latency | Within 20% | 20-50% above | >50% above |
-| Client JS errors | No new types | <0.1% sessions | >0.1% sessions |
-| Business metrics | Neutral/positive | Decline <5% | Decline >5% |
+The full Advance/Hold/Roll-back threshold table (error rate, P95 latency, client JS
+errors, business metrics) is owned by **`deploy-orchestrator`** (`### Rollout Decision
+Thresholds`) — it decides the whole canary progression, not just rollback. This skill
+only needs the **Roll back** column: error rate >2x baseline, P95 latency >50% above,
+client JS errors >0.1% sessions, business metrics decline >5%. Same numbers, single
+source — invoke `deploy-orchestrator` if Advance/Hold values are needed too.
 
 ## Rollback Process
 

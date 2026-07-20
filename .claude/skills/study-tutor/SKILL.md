@@ -41,6 +41,12 @@ Before any mode, assess the learner's level:
 - Intermediate → `concept-explainer` (deep-dive mode)
 - Advanced → `paper-read` + `paper-method`
 
+**Reuse-before-read:** trước khi delegate Advanced, check `notes/INDEX.md`
+(artifact-manager mode `reuse`) — topic đã có distillate trong `notes/` → ground giải
+thích vào note đó thay vì đọc lại paper (rẻ hơn + có nguồn cụ thể để cite).
+**Fast-moving claims:** khẳng định kiểu "SOTA hiện tại / mới nhất" trong topic thay đổi
+nhanh → 1 WebSearch verify trước, không nói từ trí nhớ.
+
 ---
 
 ## Mode: practice

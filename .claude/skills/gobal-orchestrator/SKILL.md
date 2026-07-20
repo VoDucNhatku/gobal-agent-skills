@@ -46,16 +46,18 @@ Không rõ domain → Hỏi 1 câu duy nhất
 
 ## Domain Registry
 
-> **Routing fix (2026-07-02):** các tên cũ `design-web` → `design-web`, `build-ui` → `build-ui`, `latex-fix` → `latex-fix`. Backend & Security là domain riêng (không còn route qua code-orchestrator nữa).
+> **Routing fix (2026-07-02, sửa noop 2026-07-20, bổ sung 2026-07-21):** các tên cũ `design-ui-direction` → `design-web`, `build-ui-component` → `build-ui`, `latex-math-renderer` → `latex-fix`, `reuse-checker` → `artifact-manager` (mode `reuse`), `skill-router` → `gobal-orchestrator` (mode `classify`/`route`). Backend & Security là domain riêng (không còn route qua code-orchestrator nữa).
 
 | Domain | Orchestrator | Worker Skills |
 |--------|-------------|---------------|
-| Research & Academic | research-orchestrator | paper-triage, paper-read, paper-method, paper-synthesize, knowledge-graph, latex-fix, vi-translate, paper-submission, latex-tikz-generator, citation-guard, style-humanizer, ieee-q1-devil-advocate |
+| Research & Academic | research-orchestrator | paper-triage, paper-read, paper-method, paper-synthesize, knowledge-graph, latex-fix, vi-translate, paper-submission, paper-storytelling, latex-tikz-generator, citation-guard, style-humanizer, ieee-q1-devil-advocate |
 | Code & Development | code-orchestrator | code-senior, understand-codebase, tdd-enforcer, debug-investigator, spec-writer, code-reviewer, paper-to-notebook |
-| Web & UI Design | web-orchestrator | design-web, build-ui, review-frontend, fullstack-builder, latex-math-renderer |
+| Web & UI Design | web-orchestrator | design-web, build-ui, review-frontend, fullstack-builder |
 | Backend & Security | (domain riêng) | backend-engineer, security-review |
 | Study & Learning | study-tutor | concept-explainer, knowledge-quiz |
 | Deploy & Ops | deploy-orchestrator | ship-validator, monitor-setup, rollback-manager, run-on-modal |
+
+> **Research exploratory:** user có ý tưởng domain nhưng CHƯA có `papers/` ("tôi muốn nghiên cứu AI cho X, gợi ý gì?") → `research-orchestrator` mode `scope` (domain problem → candidate technique families + search keywords), KHÔNG vào `pipeline`/`corpus` khi chưa có gì để triage.
 
 ## Fan-out Criteria
 
@@ -164,9 +166,9 @@ Paths: [danh sách file paths]
 **Required cross-cutting skills (auto-invoked):**
 - token-budget — estimate cost before fan-out
 - context-compressor — compress when context grows large
-- artifact-manager — track file artifacts
+- artifact-manager — track file artifacts + check reuse before re-reading (mode `reuse`;
+  folds the deprecated `reuse-checker`)
 - audit-log — log routing decisions + materiality choices
-- reuse-checker — check existing artifacts before re-reading
 - self-evaluator — evaluate output before delivering
 
 > Notes: research pipeline cross-cutting (hallucination-guard, knowledge-graph, latex-fix) được `research-orchestrator` tự quản lý. gobal-orchestrator KHÔNG invoke chúng trực tiếp.

@@ -1,0 +1,209 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1240" height="840" viewBox="0 0 1240 840" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#52514e"/>
+    </marker>
+  </defs>
+
+  <rect width="1240" height="840" fill="#fcfcfb"/>
+
+  <!-- Title -->
+  <line x1="120" y1="34" x2="380" y2="34" stroke="#2a78d6" stroke-width="2"/>
+  <circle cx="392" cy="34" r="3" fill="#2a78d6"/>
+  <line x1="860" y1="34" x2="1120" y2="34" stroke="#2a78d6" stroke-width="2"/>
+  <circle cx="848" cy="34" r="3" fill="#2a78d6"/>
+  <text x="620" y="46" text-anchor="middle" font-size="34" font-weight="700" fill="#0b0b0b">GOBAL ORCHESTRATOR</text>
+  <text x="620" y="74" text-anchor="middle" font-size="16" fill="#4a3aa7" font-weight="600">One request → the right specialist skills → one synthesized answer</text>
+
+  <!-- Main pipeline container -->
+  <rect x="30" y="100" width="1180" height="270" rx="14" fill="#f2f5fb" stroke="#c3c2b7" stroke-width="1.5"/>
+  <rect x="52" y="84" width="230" height="30" rx="15" fill="#0b0b0b"/>
+  <text x="167" y="105" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff" letter-spacing="1">REQUEST PIPELINE</text>
+
+  <!-- Node 1: YOU -->
+  <g>
+    <rect x="55" y="150" width="150" height="170" rx="10" fill="#ffffff" stroke="#898781" stroke-width="1.5"/>
+    <circle cx="130" cy="195" r="18" fill="none" stroke="#52514e" stroke-width="2.5"/>
+    <path d="M108,238 a22,20 0 0,1 44,0" fill="none" stroke="#52514e" stroke-width="2.5"/>
+    <text x="130" y="272" text-anchor="middle" font-size="16" font-weight="700" fill="#0b0b0b">YOU</text>
+    <text x="130" y="294" text-anchor="middle" font-size="11.5" fill="#52514e">"đọc bài báo 003</text>
+    <text x="130" y="308" text-anchor="middle" font-size="11.5" fill="#52514e">rồi so sánh giúp tôi"</text>
+  </g>
+  <line x1="205" y1="235" x2="248" y2="235" stroke="#52514e" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Node 2: GOBAL ORCHESTRATOR -->
+  <g>
+    <rect x="253" y="150" width="180" height="170" rx="10" fill="#2a78d6"/>
+    <circle cx="343" cy="196" r="17" fill="none" stroke="#ffffff" stroke-width="2.5"/>
+    <line x1="343" y1="179" x2="343" y2="213" stroke="#ffffff" stroke-width="2"/>
+    <line x1="326" y1="196" x2="360" y2="196" stroke="#ffffff" stroke-width="2"/>
+    <circle cx="343" cy="196" r="4.5" fill="#ffffff"/>
+    <text x="343" y="255" text-anchor="middle" font-size="16" font-weight="700" fill="#ffffff">GOBAL</text>
+    <text x="343" y="274" text-anchor="middle" font-size="16" font-weight="700" fill="#ffffff">ORCHESTRATOR</text>
+    <text x="343" y="298" text-anchor="middle" font-size="11.5" fill="#dce8fa">classify + estimate</text>
+    <text x="343" y="312" text-anchor="middle" font-size="11.5" fill="#dce8fa">cost + route</text>
+  </g>
+  <line x1="433" y1="235" x2="476" y2="235" stroke="#52514e" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Node 3: DOMAIN ORCHESTRATOR -->
+  <g>
+    <rect x="481" y="150" width="190" height="170" rx="10" fill="#4a3aa7"/>
+    <line x1="576" y1="182" x2="576" y2="196" stroke="#ffffff" stroke-width="2"/>
+    <line x1="576" y1="196" x2="550" y2="214" stroke="#ffffff" stroke-width="2"/>
+    <line x1="576" y1="196" x2="576" y2="214" stroke="#ffffff" stroke-width="2"/>
+    <line x1="576" y1="196" x2="602" y2="214" stroke="#ffffff" stroke-width="2"/>
+    <circle cx="550" cy="214" r="3.5" fill="#ffffff"/>
+    <circle cx="576" cy="214" r="3.5" fill="#ffffff"/>
+    <circle cx="602" cy="214" r="3.5" fill="#ffffff"/>
+    <text x="576" y="255" text-anchor="middle" font-size="16" font-weight="700" fill="#ffffff">DOMAIN</text>
+    <text x="576" y="274" text-anchor="middle" font-size="16" font-weight="700" fill="#ffffff">ORCHESTRATOR</text>
+    <text x="576" y="298" text-anchor="middle" font-size="11.5" fill="#e5e0f7">research / code / web /</text>
+    <text x="576" y="312" text-anchor="middle" font-size="11.5" fill="#e5e0f7">backend / study / deploy</text>
+  </g>
+  <line x1="671" y1="235" x2="714" y2="235" stroke="#52514e" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Node 4: WORKER SKILLS (parallel) -->
+  <g>
+    <rect x="719" y="150" width="190" height="170" rx="10" fill="#1baf7a"/>
+    <rect x="746" y="176" width="136" height="20" rx="4" fill="#ffffff" opacity="0.9"/>
+    <rect x="746" y="200" width="136" height="20" rx="4" fill="#ffffff" opacity="0.75"/>
+    <rect x="746" y="224" width="136" height="20" rx="4" fill="#ffffff" opacity="0.6"/>
+    <text x="814" y="255" text-anchor="middle" font-size="16" font-weight="700" fill="#ffffff">WORKER</text>
+    <text x="814" y="274" text-anchor="middle" font-size="16" font-weight="700" fill="#ffffff">SKILLS</text>
+    <text x="814" y="298" text-anchor="middle" font-size="11.5" fill="#e2f7ee">parallel, isolated —</text>
+    <text x="814" y="312" text-anchor="middle" font-size="11.5" fill="#e2f7ee">each returns ≤2k tokens</text>
+  </g>
+  <line x1="909" y1="235" x2="952" y2="235" stroke="#52514e" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Node 5: SYNTHESIS -->
+  <g>
+    <rect x="957" y="150" width="200" height="170" rx="10" fill="#eb6834"/>
+    <path d="M1057,178 l16,7 v20 c0,15 -8,24 -16,29 c-8,-5 -16,-14 -16,-29 v-20 z" fill="none" stroke="#ffffff" stroke-width="2.2"/>
+    <path d="M1049,205 l6,6 l13,-14" fill="none" stroke="#ffffff" stroke-width="2.2"/>
+    <text x="1057" y="255" text-anchor="middle" font-size="15.5" font-weight="700" fill="#ffffff">SYNTHESIS +</text>
+    <text x="1057" y="274" text-anchor="middle" font-size="15.5" font-weight="700" fill="#ffffff">GUARDRAILS</text>
+    <text x="1057" y="298" text-anchor="middle" font-size="11" fill="#fce3d7">hallucination-guard</text>
+    <text x="1057" y="312" text-anchor="middle" font-size="11" fill="#fce3d7">+ self-evaluator</text>
+  </g>
+
+  <!-- deliverable arrow down to callout -->
+  <line x1="1057" y1="320" x2="1057" y2="345" stroke="#52514e" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="1057" y="362" text-anchor="middle" font-size="12" font-weight="600" fill="#0b0b0b">reply (Vietnamese) + file paths</text>
+
+  <!-- 6 Domain orchestrators panel -->
+  <rect x="30" y="400" width="1180" height="160" rx="12" fill="#ffffff" stroke="#e1e0d9" stroke-width="1.5"/>
+  <rect x="52" y="386" width="260" height="28" rx="14" fill="#4a3aa7"/>
+  <text x="182" y="405" text-anchor="middle" font-size="13" font-weight="700" fill="#ffffff" letter-spacing="1">6 DOMAIN ORCHESTRATORS</text>
+
+  <!-- 6 mini cards -->
+  <g font-size="12.5" fill="#52514e">
+    <!-- card template x-start 55, width 180, gap 15 -->
+    <g>
+      <rect x="55" y="440" width="180" height="100" rx="8" fill="#f2f5fb"/>
+      <circle cx="145" cy="470" r="14" fill="none" stroke="#2a78d6" stroke-width="2.2"/>
+      <line x1="139" y1="470" x2="151" y2="470" stroke="#2a78d6" stroke-width="2"/>
+      <line x1="145" y1="464" x2="145" y2="476" stroke="#2a78d6" stroke-width="2"/>
+      <text x="145" y="500" text-anchor="middle" font-size="13" font-weight="700" fill="#0b0b0b">Research</text>
+      <text x="145" y="518" text-anchor="middle" font-size="11" fill="#52514e">15 skills</text>
+    </g>
+    <g>
+      <rect x="250" y="440" width="180" height="100" rx="8" fill="#f2f5fb"/>
+      <text x="340" y="476" text-anchor="middle" font-size="18" font-weight="700" fill="#eb6834" font-family="Consolas, monospace">&lt;/&gt;</text>
+      <text x="340" y="500" text-anchor="middle" font-size="13" font-weight="700" fill="#0b0b0b">Code &amp; Eng.</text>
+      <text x="340" y="518" text-anchor="middle" font-size="11" fill="#52514e">16 skills</text>
+    </g>
+    <g>
+      <rect x="445" y="440" width="180" height="100" rx="8" fill="#f2f5fb"/>
+      <rect x="522" y="462" width="36" height="26" rx="3" fill="none" stroke="#1baf7a" stroke-width="2.2"/>
+      <line x1="522" y1="470" x2="558" y2="470" stroke="#1baf7a" stroke-width="1.6"/>
+      <text x="540" y="500" text-anchor="middle" font-size="13" font-weight="700" fill="#0b0b0b">Web &amp; UI</text>
+      <text x="540" y="518" text-anchor="middle" font-size="11" fill="#52514e">9 skills</text>
+    </g>
+    <g>
+      <rect x="640" y="440" width="180" height="100" rx="8" fill="#f2f5fb"/>
+      <path d="M730,458 l14,7 v14 c0,10 -6,16 -14,19 c-8,-3 -14,-9 -14,-19 v-14 z" fill="none" stroke="#e34948" stroke-width="2.2"/>
+      <text x="730" y="500" text-anchor="middle" font-size="13" font-weight="700" fill="#0b0b0b">Backend &amp; Sec.</text>
+      <text x="730" y="518" text-anchor="middle" font-size="11" fill="#52514e">2 skills</text>
+    </g>
+    <g>
+      <rect x="835" y="440" width="180" height="100" rx="8" fill="#f2f5fb"/>
+      <path d="M905,465 l20,-8 l20,8 l-20,8 z" fill="none" stroke="#eda100" stroke-width="2.2"/>
+      <line x1="925" y1="473" x2="925" y2="486" stroke="#eda100" stroke-width="2.2"/>
+      <text x="925" y="500" text-anchor="middle" font-size="13" font-weight="700" fill="#0b0b0b">Study</text>
+      <text x="925" y="518" text-anchor="middle" font-size="11" fill="#52514e">3 skills</text>
+    </g>
+    <g>
+      <rect x="1030" y="440" width="180" height="100" rx="8" fill="#f2f5fb"/>
+      <path d="M1097,478 a14,10 0 1,1 3,-0.2" fill="none" stroke="#4a3aa7" stroke-width="2.2"/>
+      <path d="M1097,466 l0,-10 m-5,5 l5,-5 l5,5" fill="none" stroke="#4a3aa7" stroke-width="2.2"/>
+      <text x="1120" y="500" text-anchor="middle" font-size="13" font-weight="700" fill="#0b0b0b">Deploy &amp; Ops</text>
+      <text x="1120" y="518" text-anchor="middle" font-size="11" fill="#52514e">5 skills</text>
+    </g>
+  </g>
+
+  <!-- Two-column: Key ideas / Guardrails -->
+  <rect x="30" y="580" width="580" height="180" rx="12" fill="#f2f5fb" stroke="#e1e0d9" stroke-width="1.5"/>
+  <rect x="52" y="566" width="140" height="28" rx="14" fill="#0b0b0b"/>
+  <text x="122" y="585" text-anchor="middle" font-size="13" font-weight="700" fill="#ffffff" letter-spacing="1">KEY IDEAS</text>
+
+  <g font-size="13" fill="#0b0b0b">
+    <circle cx="60" cy="622" r="9" fill="#0ca30c"/>
+    <path d="M56,622 l3,4 l6,-8" stroke="#ffffff" stroke-width="1.8" fill="none"/>
+    <text x="78" y="620" font-size="13">Orchestrator only ever sees short summaries —</text>
+    <text x="78" y="638" font-size="13">raw PDFs never enter its context.</text>
+
+    <circle cx="60" cy="672" r="9" fill="#0ca30c"/>
+    <path d="M56,672 l3,4 l6,-8" stroke="#ffffff" stroke-width="1.8" fill="none"/>
+    <text x="78" y="670" font-size="13">Workers run in parallel, isolated — each</text>
+    <text x="78" y="688" font-size="13">returns a path + ≤2k-token manifest.</text>
+
+    <circle cx="60" cy="722" r="9" fill="#0ca30c"/>
+    <path d="M56,722 l3,4 l6,-8" stroke="#ffffff" stroke-width="1.8" fill="none"/>
+    <text x="78" y="720" font-size="13">Every deliverable passes a hallucination +</text>
+    <text x="78" y="738" font-size="13">self-eval gate before it reaches you.</text>
+  </g>
+
+  <rect x="630" y="580" width="580" height="180" rx="12" fill="#f2f5fb" stroke="#e1e0d9" stroke-width="1.5"/>
+  <rect x="652" y="566" width="200" height="28" rx="14" fill="#e34948"/>
+  <text x="752" y="585" text-anchor="middle" font-size="13" font-weight="700" fill="#ffffff" letter-spacing="1">GUARDRAILS USED</text>
+
+  <g font-size="11.5" fill="#52514e">
+    <g>
+      <circle cx="682" cy="655" r="20" fill="none" stroke="#e34948" stroke-width="2.2"/>
+      <text x="682" y="661" text-anchor="middle" font-size="16" font-weight="700" fill="#e34948">!</text>
+      <text x="682" y="695" text-anchor="middle" font-size="10.5">hallucination</text>
+      <text x="682" y="708" text-anchor="middle" font-size="10.5">-guard</text>
+    </g>
+    <g>
+      <circle cx="762" cy="655" r="20" fill="none" stroke="#0ca30c" stroke-width="2.2"/>
+      <path d="M752,655 l7,7 l13,-15" stroke="#0ca30c" stroke-width="2.2" fill="none"/>
+      <text x="762" y="695" text-anchor="middle" font-size="10.5">verification-</text>
+      <text x="762" y="708" text-anchor="middle" font-size="10.5">before-completion</text>
+    </g>
+    <g>
+      <rect x="825" y="638" width="34" height="34" rx="6" fill="none" stroke="#2a78d6" stroke-width="2.2"/>
+      <line x1="832" y1="648" x2="852" y2="648" stroke="#2a78d6" stroke-width="1.8"/>
+      <line x1="832" y1="656" x2="852" y2="656" stroke="#2a78d6" stroke-width="1.8"/>
+      <text x="842" y="695" text-anchor="middle" font-size="10.5">self-</text>
+      <text x="842" y="708" text-anchor="middle" font-size="10.5">evaluator</text>
+    </g>
+    <g>
+      <path d="M905,638 h30 v22 c0,8 -15,12 -15,12 c0,0 -15,-4 -15,-12 z" fill="none" stroke="#1baf7a" stroke-width="2.2"/>
+      <text x="920" y="695" text-anchor="middle" font-size="10.5">artifact-</text>
+      <text x="920" y="708" text-anchor="middle" font-size="10.5">manager</text>
+    </g>
+    <g>
+      <rect x="985" y="640" width="30" height="26" rx="3" fill="none" stroke="#eda100" stroke-width="2.2"/>
+      <line x1="991" y1="649" x2="1009" y2="649" stroke="#eda100" stroke-width="1.6"/>
+      <line x1="991" y1="656" x2="1009" y2="656" stroke="#eda100" stroke-width="1.6"/>
+      <text x="1000" y="695" text-anchor="middle" font-size="10.5">audit-log</text>
+    </g>
+  </g>
+
+  <!-- Bottom callout -->
+  <rect x="30" y="778" width="1180" height="46" rx="10" fill="#fef4e3" stroke="#eda100" stroke-width="1.2"/>
+  <circle cx="65" cy="801" r="11" fill="#eda100"/>
+  <text x="65" y="806" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff">i</text>
+  <text x="90" y="798" font-size="13.5" fill="#0b0b0b" font-weight="600">GOBAL turns one Vietnamese request into the right specialist skill — every time.</text>
+  <text x="90" y="815" font-size="12" fill="#52514e">That's why it stays fast even with 66 skills in the roster.</text>
+</svg>

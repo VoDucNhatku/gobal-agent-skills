@@ -5,7 +5,7 @@ workbench-conventions §9): the skill emits a compact JSON spec, this script wri
 every byte of the Markdown/Mermaid boilerplate and performs the merge.
 
 Usage:
-    python kg_builder.py /tmp/knowledge-graph_<id>.json [--notes-dir notes]
+    python kg_builder.py .tmp/knowledge-graph_<id>.json [--notes-dir notes]
 
 Spec schema (see references/kg-schema.md):
     {
@@ -44,6 +44,10 @@ RELATION_TYPES = [
     "proposes", "addresses", "uses", "part-of", "based-on", "evaluated-on",
     "measured-by", "improves-over", "compared-with", "trained-on",
 ]
+# Edge strength vocabulary (added 2026-07-20). Ordered weakest → strongest so
+# max() during merge keeps the strongest evidence across papers.
+STRENGTH_RANK = {"inferred": 1, "secondary": 2, "primary": 3}
+DEFAULT_STRENGTH = "secondary"
 # Distinct Mermaid classDef colours, one per entity type.
 TYPE_COLOURS = {
     "Method": "#2563eb", "Model": "#7c3aed", "Dataset": "#059669",
@@ -86,6 +90,14 @@ def validate(spec: dict) -> None:
                      f"(allowed: {', '.join(RELATION_TYPES)})")
         if t.get("s") not in ids or t.get("o") not in ids:
             sys.exit(f"[kg_builder] triple references unknown entity id: {t}")
+        if t.get("strength") and t["strength"] not in STRENGTH_RANK:
+            sys.exit(f"[kg_builder] unknown strength {t.get('strength')!r} "
+                     f"(allowed: {', '.join(STRENGTH_RANK)})")
+
+
+def _strength(t: dict) -> str:
+    """Default + normalize. Missing strength → DEFAULT_STRENGTH."""
+    return t.get("strength") or DEFAULT_STRENGTH
 
 
 def render_mermaid(entities_by_key: dict, edges: list[tuple]) -> str:
@@ -130,9 +142,14 @@ def write_per_paper(spec: dict, notes_dir: Path) -> Path:
     edges = []
     for t in spec["triples"]:
         s, o = by_id[t["s"]], by_id[t["o"]]
-        rows.append((s["label"], t["r"], o["label"]))
+        strength = _strength(t)
+        # Inferred edges get a visible tag on the relation text so downstream
+        # consumers (paper-synthesize) can see them at a glance.
+        r_display = f"{t['r']} (inferred)" if strength == "inferred" else t["r"]
+        rows.append((s["label"], r_display, o["label"], strength))
         edges.append((node_key(s["type"], s["label"]), t["r"],
-                      node_key(o["type"], o["label"]), [f"[{pid}]"]))
+                      node_key(o["type"], o["label"]),
+                      [f"[{pid}]", strength]))
 
     out = [
         f"# Knowledge graph — paper {pid}",
@@ -144,10 +161,10 @@ def write_per_paper(spec: dict, notes_dir: Path) -> Path:
         "",
         f"## Triples ({len(rows)})",
         "",
-        "| Subject | Relation | Object |",
-        "|---------|----------|--------|",
+        "| Subject | Relation | Object | Strength |",
+        "|---------|----------|--------|----------|",
     ]
-    out += [f"| {s} | {r} | {o} |" for s, r, o in rows]
+    out += [f"| {s} | {r} | {o} | {st} |" for s, r, o, st in rows]
     out += ["", "## Mermaid graph", "", render_mermaid(entities_by_key, edges), ""]
     path = notes_dir / f"{pid}-kg.md"
     path.write_text("\n".join(out), encoding="utf-8")
@@ -175,16 +192,23 @@ def merge_master(spec: dict, notes_dir: Path) -> tuple[Path, int, int]:
         s, o = by_id[t["s"]], by_id[t["o"]]
         sk, ok = node_key(s["type"], s["label"]), node_key(o["type"], o["label"])
         ek = f"{sk}|{t['r']}|{ok}"
-        edge = state["edges"].setdefault(ek, {"s": sk, "r": t["r"], "o": ok, "papers": []})
+        strength = _strength(t)
+        # First time we see this edge → seed with this triple's strength; later
+        # papers can only UPGRADE it (primary > secondary > inferred).
+        edge = state["edges"].setdefault(
+            ek, {"s": sk, "r": t["r"], "o": ok, "papers": [], "strength": strength})
         if pid not in edge["papers"]:
             edge["papers"].append(pid)
+        if STRENGTH_RANK[strength] > STRENGTH_RANK[edge["strength"]]:
+            edge["strength"] = strength
 
     state_path.write_text(json.dumps(state, ensure_ascii=False, indent=2), encoding="utf-8")
 
     # render master .md
     entities_by_key = {k: {"type": v["type"], "label": v["label"]}
                        for k, v in state["nodes"].items()}
-    edges = [(v["s"], v["r"], v["o"], [f"[{p}]" for p in v["papers"]])
+    edges = [(v["s"], v["r"], v["o"],
+              [f"[{p}]" for p in v["papers"]] + [v["strength"]])
              for v in state["edges"].values()]
     today = _dt.date.today().isoformat()
     out = [
@@ -195,15 +219,17 @@ def merge_master(spec: dict, notes_dir: Path) -> tuple[Path, int, int]:
         f"- papers merged: {sorted({p for v in state['nodes'].values() for p in v['papers']})}",
         f"- nodes: {len(state['nodes'])} · edges: {len(state['edges'])}",
         "",
-        "## All triples (source ids in brackets)",
+        "## All triples (source ids + strength in brackets)",
         "",
-        "| Subject | Relation | Object | Papers |",
-        "|---------|----------|--------|--------|",
+        "| Subject | Relation | Object | Papers | Strength |",
+        "|---------|----------|--------|--------|----------|",
     ]
     for v in state["edges"].values():
         sl = state["nodes"][v["s"]]["label"]
         ol = state["nodes"][v["o"]]["label"]
-        out.append(f"| {sl} | {v['r']} | {ol} | {' '.join('['+p+']' for p in v['papers'])} |")
+        papers = ' '.join('['+p+']' for p in v["papers"])
+        r_display = f"{v['r']} (inferred)" if v["strength"] == "inferred" else v["r"]
+        out.append(f"| {sl} | {r_display} | {ol} | {papers} | {v['strength']} |")
     out += ["", "## Mermaid master graph", "", render_mermaid(entities_by_key, edges), ""]
     md_path = notes_dir / "knowledge-graph.md"
     md_path.write_text("\n".join(out), encoding="utf-8")

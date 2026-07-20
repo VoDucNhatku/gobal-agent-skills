@@ -20,7 +20,7 @@ allowed-tools: Read Bash Glob WebSearch
    - **High:** verified by code/experiment or direct source read
    - **Medium:** read source but not independently verified
    - **Low:** inference from context, not verified → flag as "suy luận"
-4. **No phantom references** — Every file path must exist. Every API name must be real.
+6. **No phantom references** — Every file path must exist. Every API name must be real.
 
 ---
 
@@ -76,6 +76,11 @@ Source: <file path, URL, or "no source found">
 1. [line/context] "<claim>" — Status: unverified | Fix: <suggestion>
 2. ...
 ```
+
+**Re-scan loop (bắt buộc khi có fix):** after flagged claims are fixed, re-run the scan
+on the CHANGED spans only. Loop until zero flags remain, or every remaining flag is
+explicitly accepted by the user (ghi rõ "user accepted — <lý do>"). A scan whose fixes
+were never re-scanned must not be reported as "clean".
 
 ---
 

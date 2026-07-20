@@ -1,92 +1,31 @@
 ---
 name: latex-math-renderer
-description: LaTeX math renderer for GOBAL AGENT — renders mathematical expressions as HTML for web display. Handles KaTeX (VS Code) and MathJax (GitHub/web) output formats. Modes: render (convert LaTeX to HTML), preview (show rendered output + compatibility notes), batch (process multiple expressions). Source: ~/.claude/rules/latex-katex-compat.md + KaTeX/MathJax documentation. It renders; it does NOT write math content (use paper-method for that).
-argument-hint: <latex-expression | file> [render|preview|batch]
-allowed-tools: Read Write Bash Glob
+description: DEPRECATED alias (2026-07-20) — math repair lives in latex-fix; the compatibility table lives in ~/.claude/rules/latex-katex-compat.md. The HTML render modes were dropped (CDN-script snippets are blocked by Artifact CSP and were never part of a real workflow). This stub only redirects; if invoked, immediately apply latex-fix instead.
+argument-hint: (deprecated — use latex-fix)
+allowed-tools: Skill Read
 ---
 
-# LaTeX Math Renderer
+# latex-math-renderer — DEPRECATED alias → `latex-fix`
 
-> **Source:** ~/.claude/rules/latex-katex-compat.md + KaTeX/MathJax documentation
-> **Purpose:** Render LaTeX math for web display, compatible with both engines.
+Skill này đã ngừng phát triển (2026-07-20). Việc làm cho công thức render đúng trên cả
+hai engine nằm ở **`latex-fix`** (linter + fix theo
+`~/.claude/rules/latex-katex-compat.md`) — file này chỉ tồn tại để các tham chiếu cũ
+không gãy.
 
-## Engine Selection
+## Nếu skill này bị gọi
 
-| Context | Engine | Why |
-|---------|--------|-----|
-| VS Code Markdown preview | KaTeX | Fast, lightweight, built-in |
-| GitHub README/issues | MathJax | Full LaTeX support |
-| Web application (static) | KaTeX | Faster load, smaller bundle |
-| Web application (dynamic) | MathJax | More commands supported |
-| Jupyter notebook | MathJax | Default in Jupyter |
+Chuyển ngay sang `latex-fix` với cùng input. Mapping mode cũ → mới:
 
----
+| Mode cũ (latex-math-renderer) | Thay bằng |
+|---|---|
+| `preview` (liệt kê lệnh không tương thích + gợi ý thay thế) | `latex-fix` Phase 1 (linter flag) + bảng fix trong `latex-katex-compat.md` |
+| `batch` (quét nhiều expression trong file) | `latex-fix` (vốn là batch repair trên `notes/`) |
+| `render` (LaTeX → HTML snippet nhúng CDN) | ĐÃ BỎ — snippet nhúng CDN MathJax bị CSP của Artifact chặn (external hosts); web surface viết math theo thẳng luật `latex-katex-compat.md` |
+| Bảng Engine Selection (surface nào chạy engine nào) | đã chuyển vào `latex-fix` §Engine context |
 
-## Render Modes
+## Lý do deprecate
 
-### Mode: render
-
-Convert LaTeX expression to HTML for web display.
-
-**Process:**
-1. Validate LaTeX syntax (balanced braces, supported commands)
-2. Choose engine based on context
-3. Generate HTML wrapper with appropriate class/attributes
-4. Return HTML snippet + fallback text for non-JS environments
-
-**Output formats:**
-
-**KaTeX:**
-```html
-<span class="math-tex">$$ \mathcal{L} = \lambda_1 \mathcal{L}_{rec} + \lambda_2 \mathcal{L}_{perceptual} $$</span>
-<script>renderMathInElement(document.body)</script>
-```
-
-**MathJax:**
-```html
-<script src="https://cdn.jsdelivr.net/npm/mathjax@4/es5/tex-mml-chtml.js"></script>
-$$ \mathcal{L} = \lambda_1 \mathcal{L}_{rec} + \lambda_2 \mathcal{L}_{perceptual} $$
-```
-
----
-
-### Mode: preview
-
-Show rendered output description:
-1. List which commands are used
-2. Note any cross-platform compatibility issues
-3. Suggest alternatives for KaTeX-incompatible commands
-4. Provide both KaTeX and MathJax versions
-
----
-
-### Mode: batch
-
-Process multiple LaTeX expressions from a file:
-1. Read file, extract all `$$...$$` and `$...$` blocks
-2. Validate each block
-3. Generate HTML for each
-4. Report: total expressions, issues found, compatibility notes
-
----
-
-## Common Patterns
-
-| Pattern | LaTeX | Notes |
-|---------|-------|-------|
-| Loss function | `\mathcal{L} = \lambda_1 \mathcal{L}_{rec} + \lambda_2 \mathcal{L}_{perceptual}` | Safe in both engines |
-| Norm | `\|x\|_2` | Use `\|` not `||` |
-| Argmin | `\arg\min_{\theta}` | Use `\arg\min` not ASCII |
-| Fraction | `\frac{a}{b}` | Safe in both |
-| Matrix | `\begin{pmatrix} a & b \\ c & d \end{pmatrix}` | Use `pmatrix` (KaTeX supports) |
-| Cases | `\begin{cases} x & \text{if } y \\ z & \text{otherwise} \end{cases}` | Keep conditions ASCII-only for KaTeX |
-| Summation | `\sum_{i=1}^{N} x_i` | Safe in both |
-
----
-
-## Cross-References
-
-- `latex-fix` → Repair broken LaTeX before rendering
-- `~/.claude/rules/latex-katex-compat.md` → Full compatibility rules (read at runtime)
-- `paper-method` → Source LaTeX from paper analysis
-- `vi-translate` → Translated papers with math
+Hai skill cùng phục vụ một mục tiêu ("công thức hiện đúng trên KaTeX + MathJax") nhưng
+tách đôi: bảng tương thích một nơi, repair một nơi, còn mode `render` sinh HTML không
+dùng được ở surface nào của suite. Common-patterns table của skill này trùng nội dung
+`latex-katex-compat.md` — nguồn chuẩn duy nhất là rules file đó.

@@ -7,7 +7,7 @@ downloader, repo clone, the section-annotated cells, and — for run-results —
 results-vs-paper comparison cell). The model never hand-writes notebook structure.
 
 Usage:
-    python nb_builder.py /tmp/paper-to-notebook_<id>_<mode>.json [--out-dir notebooks]
+    python nb_builder.py .tmp/paper-to-notebook_<id>_<mode>.json [--out-dir notebooks]
 
 Spec schema:
     {
@@ -163,20 +163,42 @@ def build(spec: dict) -> dict:
             header = f"# {sec.get('title','')}{(' — paper ' + sec['paper_ref']) if sec.get('paper_ref') else ''}\n"
             cells.append(code(header + sec.get("body", "")))
 
-    # --- run-results: comparison cell ---
+    # --- run-results: comparison cell with delta-flag (tolerance-gated) ---
     if mode == "run-results" and spec.get("reported_results"):
         rows = spec["reported_results"]
         rep = ",\n    ".join(f'("{r["metric"]}", {r["paper"]})' for r in rows)
-        cells.append(md("## Results vs paper\n\nFill `produced` from the eval output above, "
-                        "then run this cell to compare against the paper's reported numbers."))
+        # Tolerance is optional; defaults keep the old behavior + add the flag column.
+        tol = spec.get("tolerance", {"match": 0.5, "close": 1.0})
+        tol_match = tol.get("match", 0.5)
+        tol_close = tol.get("close", 1.0)
+        cells.append(md(
+            "## Results vs paper\n\n"
+            "Fill `produced` from the eval output above, then run this cell to compare "
+            "against the paper's reported numbers. Each metric gets a flag:\n"
+            f"- `match` — |Δ| ≤ {tol_match}\n"
+            f"- `close` — {tol_match} < |Δ| ≤ {tol_close} (note environment)\n"
+            f"- `diverge` — |Δ| > {tol_close} (investigate: seed / hardware / "
+            "preprocessing version / subset vs full eval)\n"
+            "- `missing` — paper reports it, you did not reproduce it (NOT fabricated).\n\n"
+            "Do NOT round or adjust reproduced numbers to match the paper."))
         cells.append(code(
             "reported = [\n    " + rep + ",\n]\n"
-            "produced = {}  # e.g. {'Spearman rho': 0.77}\n"
-            "print(f\"{'metric':24} {'paper':>8} {'ours':>8} {'delta':>8}\")\n"
+            f"TOL_MATCH, TOL_CLOSE = {tol_match}, {tol_close}\n"
+            "produced = {}  # e.g. {'Spearman rho': 0.77}\n\n"
+            "def flag(paper_val, ours):\n"
+            "    if ours is None:\n"
+            "        return 'missing'\n"
+            "    d = abs(ours - paper_val)\n"
+            "    if d <= TOL_MATCH:\n"
+            "        return 'match'\n"
+            "    return 'close' if d <= TOL_CLOSE else 'diverge'\n\n"
+            "hdr = f\"{'metric':24} {'paper':>8} {'ours':>8} {'delta':>9} {'flag':>9}\"\n"
+            "print(hdr)\n"
             "for metric, paper_val in reported:\n"
             "    ours = produced.get(metric)\n"
             "    delta = '' if ours is None else f'{ours - paper_val:+.4f}'\n"
-            "    print(f'{metric:24} {paper_val:>8} {str(ours):>8} {delta:>8}')"
+            "    fg = flag(paper_val, ours)\n"
+            "    print(f'{metric:24} {paper_val:>8} {str(ours):>8} {delta:>9} {fg:>9}')"
         ))
 
     return {

@@ -38,17 +38,21 @@ invent new types. Extract:
 1. **Entities**, each tagged with a type from the fixed set (Method, Model, Dataset, Metric,
    Concept, Task, Problem, Component, PriorWork).
 2. **Relations** as triples from the fixed set (proposes, addresses, uses, part-of, based-on,
-   evaluated-on, measured-by, improves-over, compared-with, trained-on).
+   evaluated-on, measured-by, improves-over, compared-with, trained-on), each tagged
+   with a **strength** (`primary` / `secondary` / `inferred`) per `references/kg-schema.md`.
+   Default: `secondary` when the paper implies but doesn't explicitly test. `inferred`
+   for reader-only connections — always flag as `(inferred)`.
 Every triple must be grounded in the source (§8); do not fabricate edges. Missing → omit, never
 invent.
 
 ### Phase 3 — Build the JSON spec and offload to the script (§9)
 Do **not** hand-write the Mermaid block or the master-graph merge by hand. Assemble a compact
 JSON spec — `{ paper_id, title, entities: [{id, type, label}], triples: [{s, r, o}] }` — write
-it to `/tmp/knowledge-graph_<id>.json`, and call the bundled builder:
+it to `.tmp/knowledge-graph_<id>.json` (project-relative, never `/tmp/` — see
+conventions §9), and call the bundled builder:
 
 ```
-python "<skills>/knowledge-graph/scripts/kg_builder.py" /tmp/knowledge-graph_<id>.json
+python "<skills>/knowledge-graph/scripts/kg_builder.py" .tmp/knowledge-graph_<id>.json
 ```
 
 The script emits the per-paper `notes/<id>-kg.md` (triples table + Mermaid `flowchart LR` with a

@@ -1,6 +1,6 @@
 ---
 name: code-reviewer
-description: Code reviewer for GOBAL AGENT — performs 5-axis code review with severity classification. Reviews tests first, then implementation. Source: addyosmani (code-review-and-quality) + superpowers (requesting-code-review). It reviews; it does NOT write code (use code-senior) or decide design (use design-web).
+description: Code reviewer for GOBAL AGENT — performs 6-axis code review with severity classification. Reviews tests first, then implementation. Source: addyosmani (code-review-and-quality) + superpowers (requesting-code-review). It reviews; it does NOT write code (use code-senior) or decide design (use design-web).
 argument-hint: <diff | PR> [review|approve|request-changes]
 allowed-tools: Read Write Edit Glob Bash Grep
 ---
@@ -8,7 +8,7 @@ allowed-tools: Read Write Edit Glob Bash Grep
 # Code Reviewer
 
 > **Source:** addyosmani agent-skills (code-review-and-quality) + superpowers (requesting-code-review)
-> **Purpose:** Systematic 5-axis code review with actionable feedback.
+> **Purpose:** Systematic 6-axis code review with actionable feedback.
 
 ## When to Request Review
 
@@ -19,7 +19,7 @@ allowed-tools: Read Write Edit Glob Bash Grep
 
 ---
 
-## Five-Axis Review
+## Six-Axis Review
 
 ### 1. Correctness
 - Matches spec/requirements
@@ -51,6 +51,13 @@ allowed-tools: Read Write Edit Glob Bash Grep
 - No unbounded operations (use pagination)
 - No unnecessary re-renders
 - Images optimized (srcset, lazy loading)
+
+### 6. Algorithmic Justification & Complexity *(added 2026-07-20 — applies only when the diff contains a real algorithmic choice: search/sort/optimization/ML/numerical/graphics/crypto/concurrency/data-structure-by-complexity; skip for CRUD/UI/glue)*
+- Complexity stated or derivable: time/space vs the REAL input bound — does it fit? (an O(n²) pass over "n ≤ 100" is fine; over a corpus is a finding)
+- Method provenance present: [cited] source that actually contains it / [derived] with a sanity check / [design] heuristic marked experimental (per `research-proposal-integrity.md` §4) — "looks standard" is not provenance
+- Correctness idea named: invariant / termination / convergence assumption / numerical stability region
+- Edge cases from the algorithm's preconditions covered by tests (empty, duplicates, singular/degenerate input, overflow/NaN, non-convergence)
+- Numeric representation matches the domain math (integer cents for money, log-space for tiny probabilities, epsilon-aware float compares)
 
 ---
 
@@ -159,7 +166,7 @@ allowed-tools: Read Write Edit Glob Bash Grep
 - `superpowers (requesting-code-review)` → When and how to request review
 
 ## Mode: review
-Full 5-axis review. All findings.
+Full 6-axis review. All findings. Axis 6 fires only when the diff contains a real algorithmic choice.
 
 ## Mode: quick
 Critical + Important only. Skip Minor.

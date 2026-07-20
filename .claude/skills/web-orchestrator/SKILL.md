@@ -36,12 +36,11 @@ Vietnamese report + artifacts
 
 | Alias cũ | Skill thực | Lý do đổi |
 |---|---|---|
-| design-web | design-web | tên chuẩn theo Workbench |
-| build-ui | build-ui | tên chuẩn theo Workbench |
+| design-ui-direction | design-web | tên chuẩn theo Workbench |
 | build-ui-component | build-ui (mode `component`) | gộp vào mode |
 | build-admin-dashboard | build-ui (mode `admin`) | gộp vào mode |
 | scaffold-course-platform | build-ui (mode `scaffold`) | gộp vào mode |
-| latex-fix | latex-fix | tên chuẩn theo Workbench |
+| latex-math-renderer | latex-fix | repair là chức năng thật; mode render HTML đã bỏ |
 
 ### Routing Rules (tên thực)
 
@@ -71,6 +70,6 @@ Fullstack scaffold: detect stack → generate project structure → basic CRUD.
 - design-web → always first for new UI work
 - build-ui → reads locked design-record FIRST
 - review-frontend → checks production readiness and slop
-- latex-math-renderer → for math-heavy pages
+- latex-fix → math repair (KaTeX/MathJax intersection) for math-heavy pages; latex-math-renderer là alias đã deprecate
 - fullstack-builder → for new project scaffolding
 - backend-engineer → for API layer in fullstack

@@ -1,7 +1,9 @@
 # Knowledge Graph Schema
 
 Entity types and relation types for the GOBAL AGENT knowledge graph.
-Read this file; reference it, never inline it.
+This file is the **single source of truth** and stays in lock-step with
+`scripts/kg_builder.py` (its `ENTITY_TYPES` / `RELATION_TYPES` whitelists).
+Read it; reference it, never inline it.
 
 ## Entity Types
 
@@ -16,24 +18,21 @@ Read this file; reference it, never inline it.
 | `Problem` | A specific problem being addressed |
 | `Component` | A building block or subsystem |
 | `PriorWork` | A referenced prior paper or work |
-| `Architecture` | A system or network architecture |
-| `Loss` | A loss function or objective |
-| `Hyperparameter` | A configurable training parameter |
 
-## Relation Types
+## Relation Types (kebab-case — matches `kg_builder.py` whitelist exactly)
 
 | Label | Description | Domain |
 |-------|-------------|--------|
-| `trained_on` | Model trained on Dataset | Model → Dataset |
-| `evaluated_on` | Method evaluated on Dataset | Method → Dataset |
-| `outperforms` | A beats B on Metric | Method/Model → PriorWork |
-| `uses` | Component uses Component/Loss | Component → Component/Loss |
-| `extends` | Method extends PriorWork | Method → PriorWork |
-| `introduces` | Paper introduces Concept/Method | Paper → Concept/Method |
-| `reports` | Paper reports Metric result | Paper → Metric |
-| `addresses` | Method addresses Problem | Method → Problem |
-| `part_of` | Component part of Architecture | Component → Architecture |
-| `employs` | Method employs Concept/Loss | Method → Concept/Loss |
+| `proposes` | Method/Model proposes an idea | Method/Model → Concept/Problem |
+| `addresses` | Method addresses a Problem | Method → Problem |
+| `uses` | Component/Method uses a building block | Component/Method → Component/Loss-like |
+| `part-of` | Component is part of a larger system | Component → Method/Model |
+| `based-on` | Method is based on a PriorWork | Method → PriorWork |
+| `evaluated-on` | Method evaluated on a Dataset | Method → Dataset |
+| `measured-by` | Method/Model measured by a Metric | Method/Model → Metric |
+| `improves-over` | Method beats a PriorWork/baseline | Method/Model → PriorWork |
+| `compared-with` | Method is compared with another | Method → Method/PriorWork |
+| `trained-on` | Model trained on a Dataset | Model → Dataset |
 
 ## Merge / De-dup Rules
 
@@ -41,3 +40,20 @@ Read this file; reference it, never inline it.
 2. **Edge dedup:** if an edge (source, relation, target) exists from any paper, do not re-add on re-run with the same or different paper.
 3. **Source tagging:** every edge carries `source_paper: <id>` so provenance is always recoverable.
 4. **Node labels:** do not merge across entity types even if strings match (e.g. a `Concept` "BERT" vs a `Model` "BERT" are different nodes).
+
+## Edge Strength
+
+Every edge carries a `strength` tag — inferred by the extractor from the paper's
+text, not computed. This lets any downstream reader of the KG (e.g. a future synthesis
+pass) weigh evidence quality instead of treating every edge as equally certain.
+
+| Strength | When to assign | Downstream trust |
+|----------|---------------|-----------------|
+| `primary` | The paper **explicitly states** the relation with evidence (experiment, theorem, table, figure) | High — citable as direct evidence |
+| `secondary` | The paper **implies** the relation (architectural diagram, naming convention, "based on X") but does not test it | Medium — useful for trend analysis, not for strong claims |
+| `inferred` | The relation is a **reasonable reader inference** not present in the paper (e.g. Method A and Method B share a dataset → `compared-with` inferred) | Low — must flag as inferred in any synthesis |
+
+**Rules:** default to `secondary` when unsure. Never assign `primary` to a
+relation the paper does not explicitly test or state. Inferred edges must be
+tagged `(inferred)` in the per-paper triples table so any reader can filter or
+down-weight them at a glance.

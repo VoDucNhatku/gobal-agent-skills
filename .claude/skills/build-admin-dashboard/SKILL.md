@@ -46,7 +46,7 @@ Required cross-cutting skills used by this skill:
 - `review-frontend` — post-build a11y + slop audit
 - `audit-log` — record mutations with materiality filter
 - `token-budget` — estimate fan-out cost before spawning subagents
-- `reuse-checker` — check existing admin modules/specs before rebuilding
+- `artifact-manager` — check existing admin modules/specs before rebuilding (mode `reuse`)
 
 ## Triggers
 

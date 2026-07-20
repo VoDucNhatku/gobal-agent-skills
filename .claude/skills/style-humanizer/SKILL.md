@@ -47,6 +47,22 @@ user, không tự sửa nghĩa.
    - pattern mở đầu đoạn, pattern chuyển đoạn, pattern dùng semicolon/em dash
    - save vào `style_profile`. Khi draft, giữ hòa theo profile (trong ngưỡng discipline convention).
 
+## Pagination budget (chỉ khi có PDF đã compile — thêm 2026-07-20)
+
+Văn phong quyết định điểm ngắt trang: kéo dài/cắt ngắn một đoạn có thể đẩy heading
+xuống đáy trang, để lại widow line, hoặc làm trang cuối gần rỗng. Sau khi sửa văn
+phong xong VÀ tài liệu compile được:
+
+1. Chạy `python ~/.claude/skills/latex-fix/scripts/pdf_pagination_check.py <paper.pdf>`
+   — script đo fill từng trang (chuẩn hóa theo type area, tính cả hình vector) và flag:
+   `last_page_sparse` · `sparse_mid_page` · `orphan_heading` · `widow_line`.
+2. Mỗi finding sửa Ở TẦNG PROSE trước (nới/cắt vài từ trong đoạn gần điểm ngắt —
+   vẫn dưới LUẬT 0), chỉ dùng lệnh layout (`\vspace`, `\enlargethispage`,
+   ép float `[tb]`) khi prose-fix không đủ.
+3. Xác nhận bằng mắt trước khi sửa — script là heuristic hình học, không phải phán quyết.
+4. Recompile → chạy lại script đến khi exit 0 hoặc mọi finding còn lại được waive
+   có lý do trong report.
+
 ## Output format
 
 ```markdown
@@ -71,8 +87,12 @@ user, không tự sửa nghĩa.
 - Matched past style in: paragraph length distribution, register
 - Diverged: over-reliance on "Furthermore" as transition → suggest alternate
 
+### Pagination Flags (nếu có PDF compiled)
+- p.N [type] → prose fix đã áp / waived vì <lý do>
+
 ### Acceptance
 - [ ] Burstiness cue addressed
+- [ ] Pagination check exit 0 hoặc mọi flag được waive có lý do (khi có PDF)
 - [ ] All flagged term replaced OR justified as domain term
 - [ ] Throat-cleaning removed
 - [ ] Paragraph length varied (no uniform 150w pattern)

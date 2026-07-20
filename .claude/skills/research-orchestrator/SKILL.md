@@ -1,7 +1,7 @@
 ---
 name: research-orchestrator
-description: Research domain orchestrator cho GOBAL AGENT — quản lý toàn bộ pipeline nghiên cứu học thuật: triage → shard deep-reads → merge → knowledge graph → synthesis → self-check. Gọi trực tiếp khi request thuộc domain nghiên cứu (đọc bài báo, tổng hợp, phân tích phương pháp so sánh). Chạy độc lập, tự mình quản lý subagents, không qua gobal-orchestrator ở mỗi bước. Modes: pipeline (full corpus ingest), triage (filter papers), read (read specific paper), synthesize (combine findings).
-argument-hint: <research request> [pipeline|triage|read|synthesize]
+description: Research domain orchestrator cho GOBAL AGENT — quản lý toàn bộ pipeline nghiên cứu học thuật: scope → triage → shard deep-reads → merge → knowledge graph → synthesis → self-check. Gọi trực tiếp khi request thuộc domain nghiên cứu (đọc bài báo, tổng hợp, phân tích phương pháp so sánh). Chạy độc lập, tự mình quản lý subagents, không qua gobal-orchestrator ở mỗi bước. Modes: scope (domain problem → candidate AI technique families, dùng khi CHƯA có papers/), pipeline (full corpus ingest), triage (filter papers), read (read specific paper), synthesize (combine findings).
+argument-hint: <research request> [scope|pipeline|triage|read|synthesize]
 allowed-tools: Skill Agent WebSearch WebFetch Read Write Glob Bash
 ---
 
@@ -18,14 +18,45 @@ This orchestrator is the **sole entry point** for research-centered goals. gobal
 
 | Mode | Pipeline | When to Use |
 |------|----------|-------------|
+| `scope` | Domain problem → 2–4 candidate AI technique families + search keywords | User có ý tưởng domain nhưng CHƯA có papers/ và chưa biết tìm gì (không ghi file, chỉ trả lời chat) |
 | `pipeline` | Full: triage → read → method → synthesize → graph | New research topic with papers in `./papers/` |
 | `triage` | Filter + rank only | Large corpus (>12 papers), user wants reading plan first |
 | `read` | Read specific paper(s) | User named a paper, need summary/detail |
 | `synthesize` | Combine existing findings | Multiple papers already read, need comparison/gaps |
 
+## Mode: scope — domain problem → candidate AI technique families
+
+**Domain-neutral** — không khóa cứng vào 1 lĩnh vực (giáo dục/BA/y tế/...), logic dùng
+chung cho mọi domain. Chạy khi user mô tả 1 bài toán cụ thể ("dự đoán học sinh bỏ học",
+"tự động hóa phân tích yêu cầu dự án") nhưng `papers/` rỗng hoặc chưa tồn tại — tức là
+**trước** khi `triage` có gì để lọc.
+
+**Input:** 1 câu mô tả bài toán domain.
+
+**Việc làm:**
+1. Nhận diện loại dữ liệu ngầm định trong bài toán (tĩnh theo bảng / theo chuỗi thời gian
+   / văn bản / đồ thị quan hệ...) — đây là tín hiệu chính để chọn nhóm kỹ thuật.
+2. Liệt kê **2–4 nhóm kỹ thuật AI** khả dĩ, mỗi nhóm: tên kỹ thuật + 1 dòng lý do khớp
+   với loại dữ liệu/bài toán + từ khóa tiếng Anh nên search.
+3. **Không bịa từ trí nhớ như sự thật chắc chắn.** Nếu mapping domain→kỹ thuật là kiến
+   thức phổ biến, đã ổn định (vd: classification cho bảng dữ liệu tĩnh) → nêu thẳng. Nếu
+   là subfield mới/thay đổi nhanh (vd: ứng dụng LLM gần đây) → 1 WebSearch nhanh verify
+   trước khi nêu, đừng trình bày như chắc chắn nếu chưa search.
+4. **Lọc theo feasibility của user** (research-proposal-integrity §5): user nêu constraint
+   (sinh viên/thời gian còn lại/GPU/mục tiêu venue) → chỉ giữ nhóm kỹ thuật chạy được
+   trong constraint đó; nhóm vượt tầm → nói thẳng "vượt budget hiện tại" thay vì bỏ lửng.
+
+**Output (chat only, không ghi file):** bảng ngắn 2–4 dòng — kỹ thuật | lý do khớp | từ
+khóa search. Kết thúc bằng: "Chọn 1–2 hướng rồi tôi WebSearch tìm bài báo theo từ khóa
+đó, tải về `papers/`, lúc đó `triage`/`pipeline` mới chạy được."
+
+**Handoff:** sau khi user chọn hướng → WebSearch/WebFetch theo từ khóa đã chọn → tải các
+paper thật vào `papers/` → chuyển sang mode `pipeline` hoặc `triage`.
+
 ## Full Pipeline (Mode: pipeline — full corpus ingest)
 
 Goal = "hiểu/trích xuất kiến thức từ N papers" với N lớn (≳8). Tuân theo token economy & workbench conventions.
+`papers/` rỗng/không tồn tại → chạy mode `scope` trước, đừng vào thẳng Step 1.
 
 ### Step 1 — Triage (1 inline call)
 `paper-triage` quét toàn `papers/` qua abstract → relevance 0–5, rationale VI, action (deep-read / skim / skip), next-skill.
@@ -75,7 +106,8 @@ Fan-out ONLY khi:
 
 | Request Type | Primary Skill | Supporting |
 |-------------|--------------|------------|
-| "Đọc bài báo X" | paper-read | reuse-checker |
+| "Tôi muốn nghiên cứu AI cho domain X (chưa có bài báo)" | mode `scope` (self) | WebSearch sau khi chọn hướng → tải papers/ → `pipeline`/`triage` |
+| "Đọc bài báo X" | paper-read | artifact-manager (mode `reuse`) |
 | "So sánh N bài về Y" | paper-synthesize | paper-read (×N) |
 | "Phân tích phương pháp bài X" | paper-method | paper-read |
 | "Lọc bài báo phù hợp" | paper-triage | paper-read |
@@ -127,8 +159,7 @@ Chỉ figure-generation được chạy song song với draft prose; phần còn
 
 | Skill | Khi nào invoke |
 |-------|---------------|
-| reuse-checker | Trước khi đọc paper nào → check INDEX.md |
-| artifact-manager | Register all outputs |
+| artifact-manager | Trước khi đọc paper nào → check INDEX.md (mode `reuse`); register all outputs |
 | audit-log | Log synthesis decisions |
 | token-budget | Estimate cost trước fan-out |
 | hallucination-guard | MANDATORY scan trước claim done |

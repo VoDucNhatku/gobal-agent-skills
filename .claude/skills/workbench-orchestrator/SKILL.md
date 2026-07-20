@@ -25,21 +25,27 @@ just-in-time only inside the subagent that runs it.
 
 ```
 RESEARCH (topic-agnostic — infer the research context and inject it into each spec)
-  paper-read         — one paper, depth gist|summary|eli5|mindmap (orient/condense/intuition/visual)
+  paper-read         — one paper, depth gist|summary|eli5|mindmap|think (orient/condense/intuition/visual/argument-map)
   paper-method       — one paper, deep method: critique | recipe
   paper-synthesize   — many papers: compare | taxonomy | gaps | expand
   paper-triage     — rank a corpus vs a question (cheap entry point)
   knowledge-graph    — typed triples + cumulative master graph (offloaded merge)
   vi-translate       — faithful full translation (param --to <lang>)
+PAPER WRITING (sequential chain — paper-writing-integrity §6; figures may run parallel)
+  paper-submission   — draft | format | rebuttal (venue template mechanics, TODO discipline)
+  paper-storytelling — SARD-style structure + pipeline/headline figures (thay khâu draft)
+  latex-tikz-generator — TikZ/pgfplots figures (the one parallel-safe stage)
+  citation-guard     — zero-orphan + DOI verify + synthesis scan
+  style-humanizer    — style calibration under meaning-preservation invariant §4
+  ieee-q1-devil-advocate — adversarial pre-submission review vs claims-ledger
 CODE & RUN MODELS
   paper-to-notebook  — paper → runnable .ipynb (reproduce|run-results), Colab/local
   run-on-modal       — paper → modal_app.py on serverless GPU (+cost), reproduce|run-results|inference
-WEB & UI (course-selling platform, F8 / fullstack.edu.vn style)
-  scaffold-course-platform — Next.js+Tailwind+shadcn+DB+Stripe LMS scaffold (project files)
-  design-ui-direction      — anti-slop tokens + HTML Artifact preview → port to project
-  build-ui-component       — one accessible, on-brand component
-  build-admin-dashboard    — CRUD resources + tables + role-gated shell + analytics
-  review-frontend          — screenshot-driven slop + a11y + token audit → HTML report
+WEB & UI (theme-neutral — visual style comes from the project's design brief, not this registry)
+  design-web      — anti-slop design direction + tokens + HTML Artifact preview → design-record
+  build-ui        — component | page | admin | scaffold from the locked design-record
+                    (folds the old build-ui-component / build-admin-dashboard / scaffold-course-platform)
+  review-frontend — screenshot-driven slop + a11y + token audit → HTML report
 UTIL / GOVERNANCE
   latex-fix          — batch KaTeX/MathJax repair of notes/
   audit-log          — materiality-filtered decision log (called at non-obvious choices)
@@ -93,11 +99,11 @@ routine plans where scope is obvious from the request.
   platform build → many, divided.
 - **Monitor:** if a subagent returns nothing, errors, or writes a suspiciously short
   file, re-dispatch once with a clarified instruction before reporting failure.
-- **Mixed-domain example** ("dựng web kiểu F8, có theme và trang quản trị"):
-  `scaffold-course-platform` **first** (dependency) → then in parallel
-  `design-ui-direction` + `build-admin-dashboard` → then `build-ui-component` for key
-  surfaces → then `review-frontend`. Sequence the dependent step; parallelize the
-  rest.
+- **Mixed-domain example** ("dựng LMS + theme + trang quản trị"):
+  `build-ui scaffold` **first** (khung project, chưa cần design-record) →
+  `design-web` (lock the design-record) → then in parallel `build-ui admin` +
+  `build-ui component` for key surfaces → then `review-frontend`. Sequence the
+  dependent steps; parallelize the rest.
 
 #### Corpus ingest (a large set of papers — the token-bounded fan-out)
 When the goal is "understand / extract knowledge from N papers" and N is large (≳8),
@@ -179,9 +185,9 @@ Không rõ domain → Hỏi 1 câu duy nhất
 
 | Domain | Orchestrator | Worker Skills |
 |--------|-------------|---------------|
-| Research & Academic | research-orchestrator | paper-triage, paper-read, paper-method, paper-synthesize, knowledge-graph, latex-fix, vi-translate, paper-submission |
+| Research & Academic | research-orchestrator | paper-triage, paper-read, paper-method, paper-synthesize, knowledge-graph, latex-fix, vi-translate, paper-submission, paper-storytelling, latex-tikz-generator, citation-guard, style-humanizer, ieee-q1-devil-advocate |
 | Code & Development | code-orchestrator | code-senior, understand-codebase, tdd-enforcer, debug-investigator, spec-writer, code-reviewer, paper-to-notebook |
-| Web & UI Design | web-orchestrator | design-web, build-ui, review-frontend, fullstack-builder, latex-math-renderer |
+| Web & UI Design | web-orchestrator | design-web, build-ui, review-frontend, fullstack-builder |
 | Backend & Security | (domain riêng) | backend-engineer, security-review |
 | Study & Learning | study-tutor | concept-explainer, knowledge-quiz |
 | Deploy & Ops | deploy-orchestrator | ship-validator, monitor-setup, rollback-manager, run-on-modal |
@@ -272,9 +278,9 @@ Paths: [danh sách file paths]
 **Required cross-cutting skills (auto-invoked):**
 - `token-budget` — estimate cost before fan-out
 - `context-compressor` — compress when context grows large
-- `artifact-manager` — track file artifacts
+- `artifact-manager` — track file artifacts + check reuse before re-reading (mode `reuse`;
+  folds the deprecated `reuse-checker`)
 - `audit-log` — log routing decisions + materiality choices
-- `reuse-checker` — check existing artifacts before re-reading
 - `self-evaluator` — evaluate output before delivering
 
 > Notes: research pipeline cross-cutting (hallucination-guard, knowledge-graph, latex-fix) được `research-orchestrator` tự quản lý. Orchestrator này KHÔNG invoke chúng trực tiếp.

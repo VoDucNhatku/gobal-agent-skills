@@ -11,6 +11,8 @@ Checks:
 5. Duplicate section detection
 6. Anti-slop patterns (design skills only)
 7. Frontmatter description format (third-person, trigger-focused)
+8. Announce line presence
+9. Algorithm-justification vocabulary (implement-mode skills only)
 
 Usage:
     python test_skills.py                    # Run all checks, print report
@@ -54,6 +56,13 @@ PROVENANCE_MARKER = re.compile(r'> \*\*Source:\*\*', re.M)
 
 # Duplicate section detector (look for repeated ## headings)
 SECTION_HEADING = re.compile(r'^##\s+(.+)$', re.M)
+
+# Algorithm-justification check (implement-mode skills): the skill body must carry
+# method-justification vocabulary so fabricated-METHOD is guarded, not just results.
+IMPLEMENT_MODE_HINT = re.compile(r'\bimplement\b', re.I)
+ALGO_JUSTIFY_KEYWORDS = re.compile(
+    r'Algorithm Justification|complexity|Big-?O|O\(\?\)|invariant|convergence|'
+    r'provenance|correctness idea', re.I)
 
 # ─── Helpers ─────────────────────────────────────────────────────────────────
 
@@ -180,6 +189,22 @@ def check_cross_refs(refs, all_skill_names):
     return broken
 
 
+def check_algorithm_justification(fm, body):
+    """Implement-mode skills must carry algorithm-justification vocabulary.
+
+    Returns None when not applicable (skill has no implement mode), [] when the
+    vocabulary is present, or a list of issues when it is missing.
+    """
+    hint = (fm or {}).get("argument-hint", "")
+    has_implement_mode = bool(IMPLEMENT_MODE_HINT.search(hint))
+    if not has_implement_mode:
+        return None
+    if ALGO_JUSTIFY_KEYWORDS.search(body):
+        return []
+    return ["implement-mode skill lacks algorithm-justification vocabulary "
+            "(complexity/Big-O/invariant/convergence/provenance)"]
+
+
 # ─── Main Test Runner ────────────────────────────────────────────────────────
 
 def run_tests(skill_filter=None, json_output=False, report_path=None):
@@ -279,6 +304,15 @@ def run_tests(skill_filter=None, json_output=False, report_path=None):
             finding["checks"]["announce_line"] = "WARN"
             finding["warnings"].append("Missing announce line ('I'm using the...')")
 
+        # Check 9: Algorithm justification (implement-mode skills only)
+        algo_issues = check_algorithm_justification(fm, body)
+        if algo_issues is not None:
+            if algo_issues:
+                finding["checks"]["algorithm_justification"] = "WARN"
+                finding["warnings"].extend(algo_issues)
+            else:
+                finding["checks"]["algorithm_justification"] = "PASS"
+
         # Tally
         for check, status in finding["checks"].items():
             if status == "PASS":
@@ -376,6 +410,10 @@ def run_tests(skill_filter=None, json_output=False, report_path=None):
 # ─── CLI ─────────────────────────────────────────────────────────────────────
 
 if __name__ == "__main__":
+    # Windows consoles default to cp1252, which cannot print the report's
+    # emoji status icons — force UTF-8 so the script runs everywhere.
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     parser = argparse.ArgumentParser(description="GOBAL Skill Test Framework")
     parser.add_argument("--json", action="store_true", help="Output as JSON")
     parser.add_argument("--skill", help="Test single skill by name")

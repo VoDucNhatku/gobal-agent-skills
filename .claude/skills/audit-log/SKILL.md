@@ -1,90 +1,99 @@
 ---
 name: audit-log
-description: Append-only governance log of MATERIAL AI decisions in a research project — records only the choices that would change the project if absent (scope-decision = a paper/topic intentionally included or excluded; synthesis-framing = the lens chosen to combine sources; cross-source-assumption = treating two sources as connected without explicit evidence). Auto-stamps timestamp + entry id; offloads the line format to a bundled script. Output is English JSON-lines in notes/audit-log.md. Triggers — log this decision, audit log, ghi nhật ký quyết định, record this choice, why did we exclude, governance log, audit summary, materiality. Typically CALLED BY workbench-orchestrator at non-obvious choice points, not invoked directly; it does NOT do analysis (use the worker skills).
-argument-hint: <json-spec | "summary" | "clear">
-allowed-tools: Skill Agent Read Write Glob Bash
+description: Append-only decision-moment log for AI/ML research. Captures only the 1–3 key decisions per thinking session (architecture change, debug direction, hallucination catch), not transcripts. Compact md entries with evidence. Triggers — log session, audit log, ghi quyết định, record decision.
+argument-hint: <context | "summary" | "clear">
+allowed-tools: Skill Agent Read Write Bash
 ---
 
-# Audit Log (nhật ký quyết định — governance)
+# AI Audit Log — Decision Moment Capture
 
-An append-only log of **material** AI decisions, so a research project's non-obvious choices
-are traceable. Built to be called by `workbench-orchestrator` (and any Worker) at the moments
-the conventions flag — not as routine narration.
+Append-only log of **material decisions** from AI/ML thinking sessions.
+One session → 1–3 entries. Log what changed, why, your thinking, where's the proof.
 
-## Conventions
-This skill treats `~/.claude/rules/workbench-conventions.md` as binding (output location §3a:
-`notes/audit-log.md`, append-only JSON-lines; script-offloading §9; scope handoff §10). Log
-entries are **English** (machine-facing content, §1). It reads the convention file at run time.
+## Principles
 
-## The materiality filter (the whole point)
-Log an entry **only** if it is one of these three event types — reject everything else:
-- **`scope-decision`** — a paper / topic / surface intentionally **included or excluded**, where
-  the choice is non-obvious (not "obviously in scope from the request").
-- **`synthesis-framing`** — the **lens** chosen to combine sources (e.g. "group by learning
-  paradigm, not by year"), when more than one framing was sensible.
-- **`cross-source-assumption`** — treating two sources as **connected** without the source
-  stating it (an inferred link the synthesis leans on).
+1. **Log quyết định, không log transcript.** Thinking session dài → extract
+   decision moments. Ghi WHAT changed, WHY, Delta, Evidence.
+2. **Materiality.** Chỉ log khi quyết định **thay đổi hướng dự án** — kiến trúc
+   model, hướng debug, phát hiện hallucination. Syntax/formatting = skip.
+3. **Không bịa.** Chỉ log quyết định THẬT. Evidence phải tồn tại; nếu chưa
+   có → ghi `[chưa có evidence]`. Không bịa path, không bịa metric.
 
-If a decision is routine, obvious, or reversible-without-consequence, **do not log it** — noise
-defeats an audit log. This filter is the skill's reason to exist.
+## Event Types
+
+| Type | Khi ghi | Ví dụ |
+|---|---|---|
+| **DESIGN** | Chọn/đổi backbone, loss, architecture, pipeline, hướng chính | ResNet→EfficientNet; thêm contrastive loss; flatten→point cloud |
+| **TROUBLE** | Hướng debug, optimize, regularization, fix sau gặp vấn đề | Overfit→dropout+wd; NaN loss→grad clip; data leak→loại feature |
+| **VERIFY** | Phát hiện hallucination, sanity check, phản biện AI, verify claim | AI bịa "Smith 2023"→verify Scholar; AI đề xuất ViT cho 2K data→discard |
+
+## Entry Format (~6 dòng / entry)
+
+```md
+### <entry_id> · <timestamp> · <TYPE>
+**Decision:** <1 dòng — điều đã quyết/thay đổi>
+**Why:** <1–2 dòng — lý do, context, số liệu>
+**Delta:** <1 dòng — 3 phần: (1) phản biện AI đúng/sai, (2) sáng tạo thêm/giảm, (3) quyết định cuối + lý do>
+**Evidence:** <path> hoặc [chưa có evidence]
+```
+
+Ví dụ:
+```
+### ae_a3f1c2 · 2026-07-20T14:30 · DESIGN
+**Decision:** Chuyển backbone ResNet-50 → EfficientNet-B3
+**Why:** Dataset 2K ảnh, ResNet overfit (train 99% val 72%). EfficientNet compound scaling phù hợp data-limited.
+**Delta:** AI đề xuất ViT nhưng data quá ít → discard; thêm progressive resize; quyết định test 2 epoch trước commit.
+**Evidence:** experiments/backbone_compare.csv
+```
+
+## Compression Rule
+
+Khi user request "log session" / "audit":
+1. Review conversation từ entry gần nhất (hoặc đầu session nếu chưa log).
+2. Tìm các **decision moments** — khoảnh khắc ra quyết định material.
+3. Mỗi moment → 1 entry. **Tối đa 3 entries/session.** Nếu hơn → chọn 3 quan trọng nhất.
+4. Không có moment material → nói thẳng "không có quyết định đáng log", đừng ép log.
 
 ## Procedure
 
 ### Phase 0 — Parse `$ARGUMENTS`
-One of:
-- a **JSON spec** (a decision to log) — see schema below;
-- the literal **`summary`** — print counts by event type + the last 10 entries (no write);
-- the literal **`clear`** — archive the current log to `notes/audit-log-archive-<date>.md` and
-  reset (confirm once before clearing).
+- **context mô tả** hoặc model tự review session → extract decisions.
+- **`summary`** → thống kê (số/tuyến/5 entry gần nhất).
+- **`clear`** → archive `notes/audit-log-archive-<date>.md`, reset.
 
-### Phase 1 — Apply the materiality filter
-For a JSON spec, verify `event_type` ∈ {`scope-decision`, `synthesis-framing`,
-`cross-source-assumption`}. If it is anything else, **refuse to log** and say why (one Vietnamese
-line). Do not water down the filter.
+### Phase 1 — Materiality check
+Mỗi candidate: thuộc {DESIGN, TROUBLE, VERIFY}? Không → skip.
+Không rõ → hỏi user 1 câu duy nhất.
 
-### Phase 2 — Offload the line format (§9)
-Do **not** hand-write the JSON line or the timestamp. Write the decision spec to
-`/tmp/audit-log_entry.json` and call the bundled appender, which auto-fills `timestamp` (ISO
-8601), `entry_id`, and `session` (date), validates the event type, and appends one line to
-`notes/audit-log.md`:
-
-```
-python "<skills>/audit-log/scripts/audit_append.py" /tmp/audit-log_entry.json
-# or:  python "<skills>/audit-log/scripts/audit_append.py" --summary
-# or:  python "<skills>/audit-log/scripts/audit_append.py" --clear
+### Phase 2 — Offload to script
+Ghi JSON spec tạm vào `.tmp/audit-log_<entry_id>.json` (project-relative, không bao giờ
+`/tmp/` — xem conventions §9, path này silently fail trên Windows) → gọi `audit_append.py`
+tự stamp + append:
+```bash
+python "<skill-path>/scripts/audit_append.py" .tmp/audit-log_<entry_id>.json
+# --summary / --clear cũng qua script
 ```
 
-### Phase 3 — Preview (§3)
-Print to chat ONLY a **2–4 line** confirmation: the event type, the one-line decision, the new
-entry id, and the path. For `summary`, print the counts + the last entries as returned by the
-script. Never echo the whole log into chat.
+### Phase 3 — Confirm
+In 1 dòng: entry_id + type + decision. Đừng dump log.
 
-## Entry JSON spec (you provide → the script completes)
+## JSON Spec (model viết → script hoàn thiện)
 ```json
 {
-  "actor": "workbench-orchestrator",
-  "event_type": "scope-decision",
-  "target": "paper 005",
-  "decision": "Excluded from the synthesis corpus",
-  "rationale": "Survey paper, not a primary method — out of scope for the gap analysis",
-  "alternatives_considered": "Include as background context",
-  "artifacts": ["notes/synthesize-gaps-viewpoint.md"]
+  "event_type": "DESIGN",
+  "decision": "chuyển backbone ResNet → EfficientNet-B3",
+  "why": "overfit (train 99% val 72%) do dataset nhỏ 2K",
+  "delta": "AI đề xuất ViT → discard (data ít); thêm progressive resize; test 2 epoch trước commit",
+  "evidence": "experiments/backbone_compare.csv"
 }
 ```
-The script adds `timestamp`, `entry_id`, `session`. Fields `actor`, `event_type`, `decision`,
-`rationale` are required; `target`, `alternatives_considered`, `artifacts` optional.
-
-## Output
-- `notes/audit-log.md` — append-only, one JSON object per line (written by the script).
-- chat — the 2–4 line confirmation only.
+Script tự thêm `entry_id` + `timestamp`. `evidence` optional.
 
 ## Gotchas
-- **Materiality is the point.** Logging routine/obvious choices makes the log useless. Three
-  event types only; refuse the rest.
-- **Offload the format (§9).** Never hand-write the JSON line or timestamp — call
-  `audit_append.py`. Hand-writing risks malformed lines and clock drift.
-- **Append-only.** Never edit or delete past entries; `clear` archives, it does not erase.
-- **Called, not narrated.** This is invoked by the orchestrator at flagged choice points — not a
-  running commentary on every step.
-- **Stay in scope (§10).** This skill records decisions; it does not make them or do analysis —
-  `→ dùng` the worker skills for the actual work.
+
+- **Materiality là điểm.** Log sai thứ → log vô dụng. 3 type, skip tất cả khác.
+- **Compression.** 1 session ≤ 3 entries. Không gì đáng log → nói thẳng.
+- **Evidence thật.** Path tồn tại, không bịa. Chưa có → `[chưa có evidence]`.
+- **Append-only.** Không sửa/xóa cũ. `clear` = archive, không erase.
+- **Được gọi, không tường thuật.** Orchestrator gọi tại decision point —
+  không phải running commentary.

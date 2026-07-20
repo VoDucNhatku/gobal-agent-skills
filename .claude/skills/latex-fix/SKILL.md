@@ -1,6 +1,6 @@
 ---
 name: latex-fix
-description: Repairs math in notes/ artifacts so it renders on BOTH VS Code (KaTeX) and GitHub (MathJax). Runs a bundled linter that flags only the offending spans — plain-text math (L_total, ||x||, theta, argmin), wrong delimiters (\[...\], \(...\), ```math fences), and KaTeX-fragile macros (\tag, \label, \ref, \boldsymbol, \operatorname) — then fixes only those spans in place, leaving prose and Mermaid untouched. Output prose is Vietnamese; the fix-log is a compact table. Triggers — fix LaTeX, sửa LaTeX, fix the math, sửa công thức, latex render broken, công thức không hiện, fix \tag, fix delimiters, sửa delimiter, make math render on GitHub, KaTeX MathJax, fix all notes math. Repairs existing math formatting only; it does NOT author analysis (use paper-method / paper-read) or translate (use vi-translate).
+description: Repairs math in notes/ artifacts so it renders on BOTH VS Code (KaTeX) and GitHub (MathJax). Runs a bundled linter that flags only the offending spans — plain-text math (L_total, ||x||, theta, argmin), wrong delimiters (\[...\], \(...\), ```math fences), and KaTeX-fragile macros (\tag, \label, \ref, \boldsymbol, \operatorname) — then fixes only those spans in place, leaving prose and Mermaid untouched. Output prose is Vietnamese; the fix-log is a compact table. Triggers — fix LaTeX, sửa LaTeX, fix the math, sửa công thức, latex render broken, công thức không hiện, fix \tag, fix delimiters, sửa delimiter, make math render on GitHub, KaTeX MathJax, fix all notes math. Repairs existing math formatting only; it does NOT author analysis (use paper-method / paper-read) or translate (use vi-translate). Absorbs the deprecated latex-math-renderer skill (engine-selection context lives here).
 argument-hint: <notes-path|id|all>
 allowed-tools: Skill Agent Read Write Glob Bash
 ---
@@ -16,6 +16,20 @@ This skill treats `~/.claude/rules/workbench-conventions.md` as binding (input r
 output + preview-not-dump §3, script-offloading §9, scope handoff §10) and
 `~/.claude/rules/latex-katex-compat.md` as the authoritative compatibility table — **reference
 it, never inline it**. Human-facing prose (the fix-log preview) is Vietnamese.
+
+## Engine context (absorbed from latex-math-renderer)
+
+Repair always targets the **intersection**; this table only records which engine a surface
+actually runs, for when a caller asks "vì sao phải sửa cho cả hai":
+
+| Surface | Engine |
+|---|---|
+| VS Code Markdown preview | KaTeX |
+| GitHub README / issues | MathJax |
+| Jupyter notebook | MathJax |
+| Web app / Artifact | KaTeX-class subset — CDN `<script>` snippets are blocked by Artifact CSP |
+
+Never emit HTML + CDN-script math snippets (the old renderer's `render` mode — dropped).
 
 ## Procedure
 
@@ -45,6 +59,20 @@ For each flagged span, apply the fix from `latex-katex-compat.md`:
 - plain-text math → proper LaTeX (`L_{total}`, `\|x\|`, `\theta`, `\arg\min`).
 Edit **in place**, one pass, touching only the flagged spans — never reflow prose, never alter
 Mermaid, never change content meaning.
+
+### Phase 2b — Pagination QA (optional, chỉ khi có PDF đã compile)
+Khi caller đưa một `.pdf` compiled (hoặc sau khi compile pass của chuỗi manuscript):
+
+```
+python "<skills>/latex-fix/scripts/pdf_pagination_check.py" <paper.pdf> [--json]
+```
+
+Flags 4 lỗi dàn trang: `last_page_sparse` (trang cuối <25% type area) ·
+`sparse_mid_page` (trang giữa <60%) · `orphan_heading` (heading nằm đáy trang) ·
+`widow_line` (1 dòng lẻ đầu trang). Exit 0 = sạch. Fill chuẩn hóa theo type area
+(đo từ bbox, tính cả hình vector TikZ/pgfplots) nên dùng được cho cả llncs lề rộng
+lẫn IEEE 2 cột. Fix ưu tiên tầng prose (xem `style-humanizer` §Pagination budget);
+script là heuristic — xác nhận bằng mắt trước khi sửa.
 
 ### Phase 3 — Preview (§3)
 Print to chat ONLY the fix-log as a compact table — `| File | Dòng | Gốc | Sửa thành |` — capped

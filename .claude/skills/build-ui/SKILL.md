@@ -16,7 +16,8 @@ and scaffold-course-platform stubs into one mode-parameterized skill (now topic-
 Binding: `~/.claude/rules/workbench-conventions.md` (bilingual §1 — code English, report Vietnamese;
 preview-not-dump §3; scope handoff §10) and `~/.claude/rules/frontend-aesthetics.md` (quality floor
 §7 — responsive, focus-visible, all states, reduced-motion; the server-side-authorization rule). The
-component catalog + stack matrix live in `references/` — read on demand; never inline. Also subject to
+component catalog lives in `references/component-catalog.md` — read on demand; never inline (the
+stack is not a table here; it is inferred from the project in Phase 0). Also subject to
 `~/.claude/rules/course-domain-model.md` ONLY when the project actually is a course/LMS (its
 authorization rules are universal; the entities are not — do not impose them on other domains).
 

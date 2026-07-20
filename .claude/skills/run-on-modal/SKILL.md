@@ -40,10 +40,11 @@ tier price/hr × expected runtime. If the paper omits a signal, state the assump
 (§8) — never fabricate a hardware number.
 
 ### Phase 3 — Build the JSON spec and offload (§9 — do NOT hand-write the Modal envelope)
-Assemble a compact spec and write it to `/tmp/run-on-modal_<id>_<mode>.json`, then call:
+Assemble a compact spec and write it to `.tmp/run-on-modal_<id>_<mode>.json`
+(project-relative, never `/tmp/` — see conventions §9), then call:
 
 ```
-python "<skills>/run-on-modal/scripts/modal_builder.py" /tmp/run-on-modal_<id>_<mode>.json
+python "<skills>/run-on-modal/scripts/modal_builder.py" .tmp/run-on-modal_<id>_<mode>.json
 ```
 
 The builder writes `modal_apps/<id>-<mode>/modal_app.py` with the **two-phase architecture**

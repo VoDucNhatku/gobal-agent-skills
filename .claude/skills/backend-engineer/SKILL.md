@@ -37,8 +37,11 @@ that changes the contract or the trust boundary, **ask one targeted question** b
    status map (400 invalid · 401 unauth · 403 forbidden · 404 missing · 409 conflict · 422
    validation · 500 server — never leak internals). Prefer addition over modification; new fields
    are optional + backward-compatible.
-2. **Data model.** Entities, relations, keys, uniqueness/constraints; money as integer `*_cents` +
-   ISO currency (never floats). Name the migration, never edit an applied one.
+2. **Data model.** Entities, relations, keys, uniqueness/constraints. **Numeric representation
+   must match the math of the domain** — money as integer `*_cents` + ISO currency (never floats);
+   probabilities/likelihoods in log-space when they get tiny; timestamps as UTC instants (not local
+   strings); quantities with a unit column, not a bare number. Name the migration, never edit an
+   applied one.
 3. **Threat-model the new surface** (5 min, the design gate): name each trust boundary where
    untrusted data enters, the assets worth stealing, and the abuse case per feature.
 4. Write the contract spec to `notes/backend-<slug>.md` (locked source-of-truth that `implement`
@@ -124,7 +127,12 @@ already-applied migration; add a new one.
 - **Threat-model the boundary** before securing it — if you can't name the trust boundaries, you're
   not ready to build the feature (OWASP A04: Insecure Design).
 - **Authorize server-side, every protected op.** Authentication ≠ authorization; check ownership.
-- **Money is integer cents + currency**, never floats. Never edit an applied migration.
+- **Numeric representation matches the domain math** — money is integer cents + currency (never
+  floats); log-space for tiny probabilities; UTC instants for time. Never edit an applied migration.
+- **Justify non-trivial algorithms.** If an implement task involves a real algorithmic choice
+  (queueing, rate-limiting, pagination cursors, dedup, scheduling), run code-senior's Algorithm
+  Justification Gate: complexity vs the real input bound + provenance + edge cases. Plain CRUD is
+  exempt.
 - **Verify for real (§ gate).** Send the request / run the integration test; report the actual
   status + body; never "should work".
 - **Don't dump to chat (§3).** Report paths + key lines + the verify result.

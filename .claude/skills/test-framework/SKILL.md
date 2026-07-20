@@ -31,3 +31,7 @@ python scripts/test_skills.py --skill <skill-name>
 - `anti_slop`: Design skills follow aesthetics rules.
 - `description_format`: Correct trigger format.
 - `announce_line`: Contains announce pattern.
+- `algorithm_justification`: Implement-mode skills (argument-hint contains `implement`)
+  carry method-justification vocabulary (complexity / Big-O / invariant / convergence /
+  provenance) — guards fabricated METHOD, not just fabricated results. N/A for
+  non-implementation skills.

@@ -40,10 +40,11 @@ command. For `run-results`, locating real weights is mandatory; if none exist, s
 `reproduce` instead.
 
 ### Phase 3 — Build the JSON spec and offload (§9 — do NOT hand-write nbformat)
-Assemble a compact spec and write it to `/tmp/paper-to-notebook_<id>_<mode>.json`, then call:
+Assemble a compact spec and write it to `.tmp/paper-to-notebook_<id>_<mode>.json`
+(project-relative, never `/tmp/` — see conventions §9), then call:
 
 ```
-python "<skills>/paper-to-notebook/scripts/nb_builder.py" /tmp/paper-to-notebook_<id>_<mode>.json
+python "<skills>/paper-to-notebook/scripts/nb_builder.py" .tmp/paper-to-notebook_<id>_<mode>.json
 ```
 
 The builder writes `notebooks/<id>-<mode>.ipynb` with all boilerplate cells auto-inserted: GPU
@@ -84,6 +85,10 @@ gets the 6–9 line report + path only.
 - **Don't fabricate (§8).** Use real hyperparameters, dataset URLs, and weight files. Missing →
   mark it a manual step; never invent a download URL or a shape.
 - **`run-results` needs real weights.** If none exist, fall back to `reproduce` and say so.
+- **Delta-flag (auto by `nb_builder.py`):** the comparison cell auto-flags each
+  metric `match`/`close`/`diverge`/`missing` based on tolerance. Pass optional
+  `"tolerance": {"match": 0.5, "close": 1.0}` in the spec to customize
+  thresholds; defaults to 0.5/1.0. Do NOT round reproduced numbers to match.
 - **Don't dump cells to chat (§3).** The notebook holds the cells; chat gets the report + path.
 - **Stay in scope (§10).** This skill writes a notebook:
   - `→ dùng run-on-modal cho` deploy GPU serverless + ước tính chi phí.

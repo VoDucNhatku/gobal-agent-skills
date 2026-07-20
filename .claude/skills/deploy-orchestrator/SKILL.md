@@ -76,65 +76,20 @@ Every flag has:
 - Data integrity issues
 - Security vulnerability discovered
 
-## Monitor: Post-Deploy Observability
+## Monitor: Post-Deploy Observability (handoff — không chép nội dung)
 
-### Define "Working"
+Toàn bộ chi tiết kỹ thuật — on-call questions, structured logging, RED/USE metrics,
+alerting rules, cardinality rule — thuộc về **`monitor-setup`**; invoke skill đó thay vì
+lặp lại ở đây. Orchestrator này chỉ quyết định **khi nào**: monitoring phải sẵn sàng
+TRƯỚC khi bật canary, và được verify lại sau mỗi lần deploy.
 
-Write 2-4 on-call questions:
-- Can a user complete the core flow?
-- Is the API responding within SLA?
-- Are background jobs processing?
+## Rollback: Emergency Procedures (handoff — không chép nội dung)
 
-### Structured Logging
-
-```python
-# BAD: string interpolation
-logger.info(f"Payment {id} failed for user {userId}")
-
-# GOOD: structured fields
-logger.warn({
-    "event": "payment_failed",
-    "paymentId": id,
-    "provider": "stripe",
-    "errorCode": err.code,
-    "attempt": n
-}, "payment failed")
-```
-
-### Metrics (RED/USE)
-
-- **RED:** Rate, Errors, Duration (for services)
-- **USE:** Utilization, Saturation, Errors (for resources)
-
-### Alerting Rules
-
-1. Must be actionable
-2. Must link to runbook
-3. Must have justified threshold/duration
-4. Two severities only: page and ticket
-
-### Cardinality Rule
-
-Labels from small fixed sets only. NEVER: user IDs, raw URLs, error message text.
-
-## Rollback: Emergency Procedures
-
-### Decision Matrix
-
-| Situation | Action |
-|-----------|--------|
-| Error rate spike | Rollback immediately |
-| Data corruption | Rollback + investigate |
-| Security breach | Rollback + incident response |
-| Performance degradation | Hold or rollback based on thresholds |
-
-### Rollback Process
-
-1. **Assess** — What's the impact?
-2. **Decide** — Rollback or hold?
-3. **Execute** — Deploy previous version
-4. **Verify** — Metrics return to normal
-5. **Investigate** — Root cause while stable
+Chi tiết — decision matrix, 5-step rollback process, blue-green switch, schema-migration
+safety — thuộc về **`rollback-manager`**; invoke skill đó. Orchestrator này chỉ giữ phần
+quyết định: bảng **Rollout Decision Thresholds** ở trên là nguồn canonical duy nhất cho
+cả 3 cột Advance/Hold/Roll back (rollback-manager chỉ trích cột Roll back, không lặp lại
+bảng); mode `rollback` bên dưới nói thứ tự gọi.
 
 ## Cross-References
 

@@ -31,6 +31,11 @@ For each category, rate `full` / `partial` / `missing`.
 - [ ] Inference procedure (greedy, beam search k, temperature)
 - [ ] Comparison baseline details
 
+### Ablation causality
+- [ ] Per-component ablation table provided (rows = "w/o X")
+- [ ] Each ablation row maps to a claim it tests
+- [ ] Components not ablated are flagged (asserted without evidence)
+
 ### Code Availability
 - [ ] Official code repo linked and runnable
 - [ ] Third-party reimplementation works
