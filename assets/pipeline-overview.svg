@@ -65,9 +65,14 @@
   <!-- Node 4: WORKER SKILLS (parallel) -->
   <g>
     <rect x="719" y="150" width="190" height="170" rx="10" fill="#1baf7a"/>
-    <rect x="746" y="176" width="136" height="20" rx="4" fill="#ffffff" opacity="0.9"/>
-    <rect x="746" y="200" width="136" height="20" rx="4" fill="#ffffff" opacity="0.75"/>
-    <rect x="746" y="224" width="136" height="20" rx="4" fill="#ffffff" opacity="0.6"/>
+    <g stroke="#ffffff" stroke-width="2" fill="none" stroke-linejoin="round">
+      <rect x="755" y="174" width="34" height="34" rx="6"/>
+      <rect x="797" y="174" width="34" height="34" rx="6"/>
+      <rect x="839" y="174" width="34" height="34" rx="6"/>
+      <path d="M763,191 l6,6 l12,-13" stroke-width="2.4"/>
+      <path d="M805,191 l6,6 l12,-13" stroke-width="2.4"/>
+      <path d="M847,191 l6,6 l12,-13" stroke-width="2.4"/>
+    </g>
     <text x="814" y="255" text-anchor="middle" font-size="16" font-weight="700" fill="#ffffff">WORKER</text>
     <text x="814" y="274" text-anchor="middle" font-size="16" font-weight="700" fill="#ffffff">SKILLS</text>
     <text x="814" y="298" text-anchor="middle" font-size="11.5" fill="#e2f7ee">parallel, isolated —</text>
