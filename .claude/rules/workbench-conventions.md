@@ -1,12 +1,14 @@
 # Workbench Conventions (binding for all Workbench skills)
 
-These are the shared, binding conventions for every skill in the Workbench global
-suite (`workbench-orchestrator`, `paper-read`, `paper-method`, `paper-synthesize`,
-`reading-triage`, `knowledge-graph`, `vi-translate`, `paper-to-notebook`,
-`run-on-modal`, `scaffold-course-platform`, `design-ui-direction`,
-`build-ui-component`, `build-admin-dashboard`, `review-frontend`, `latex-fix`,
-`audit-log`, and any future skill). Each skill cites this file in **one line** and
-reads it **at run time only** — keeping it out of the always-loaded context.
+These are the shared, binding conventions for **every** skill in the GOBAL suite —
+`admin` and its sub-admins, every worker skill, and any skill added later. Each skill
+cites this file in **one line** and reads it **at run time only**, keeping it out of the
+always-loaded context.
+
+> Deliberately not a skill list. This file used to enumerate its members and the list
+> went stale — it still named `reading-triage`, `design-ui-direction` and
+> `build-ui-component` long after they were renamed or deprecated. The conventions bind
+> the whole suite, so the roster is the skills directory, not a copy of it here.
 
 Each skill applies these rules unless its own `SKILL.md` explicitly overrides one.
 
@@ -22,7 +24,7 @@ Each skill applies these rules unless its own `SKILL.md` explicitly overrides on
   keys, config, CLI commands, commit messages, and the literal CONTENT of any
   generated source file (`.py`, `.ts`, `.tsx`, `.ipynb`, `modal_app.py`, etc.):
   **English**.
-- The `workbench-orchestrator` converses with the user in **Vietnamese**.
+- The `workbench-admin` converses with the user in **Vietnamese**.
 - Never invent a Vietnamese term for a concept with no settled translation — keep
   the English term and gloss it. Never translate API / library / function /
   dataset / model names.
@@ -110,15 +112,15 @@ filename · worker name · date (`YYYY-MM-DD`).
   that instead of `.tmp/`.
 
 ## 10. Single-pass & scope boundaries
-- Each non-orchestrator skill is **lightweight / single-pass** with a hard scope
+- Each non-admin skill is **lightweight / single-pass** with a hard scope
   boundary and an explicit `→ dùng skill Z cho việc Y` handoff note. Heavy
   multi-pass work (reading many papers, building a whole platform) is the
-  **orchestrator's** job (parallel subagents), not a single Worker's.
+  **admin's** job (parallel subagents), not a single Worker's.
 
 ## 11. Token-budget self-check (authoring & runtime)
 - A `SKILL.md` body stays **under 500 lines**; binding detail lives in `rules/` or
   the skill's `references/` (one level deep, never nested chains).
-- A subagent returns to the orchestrator **only** a saved path + a small distilled
+- A subagent returns to the admin **only** a saved path + a small distilled
   summary (target 1–2k tokens) — never the raw PDF/repo/full artifact.
 
 ## 12. Relationship to deep / multi-agent harnesses

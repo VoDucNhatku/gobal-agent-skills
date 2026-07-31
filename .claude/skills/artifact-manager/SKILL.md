@@ -1,6 +1,6 @@
 ---
 name: artifact-manager
-description: Artifact management for GOBAL AGENT — indexes, tracks, and manages file artifacts across sessions. Maintains notes/INDEX.md as central registry. Detects reuse opportunities (don't re-read what exists). Cleans up stale artifacts. Modes: index (build/update INDEX.md), track (register new artifact), reuse (check before reading, with staleness assessment), suggest (find related artifacts for a task), diff (existing artifact vs new requirements), cleanup (archive stale). Absorbs the deprecated reuse-checker skill. Source: gstack (document-generate, context-restore) + addyosmani (context-engineering) + workbench-conventions §4 (REUSE-BEFORE-READ). It manages files; it does NOT generate content.
+description: Artifact management for GOBAL AGENT — indexes, tracks, and manages file artifacts across sessions. Maintains notes/INDEX.md as central registry. Detects reuse opportunities (don't re-read what exists). Cleans up stale artifacts. Modes: index (build/update INDEX.md), track (register new artifact), reuse (check before reading, with staleness assessment), suggest (find related artifacts for a task), diff (existing artifact vs new requirements), cleanup (archive stale). Absorbs the deprecated reuse-checker skill. It manages files; it does NOT generate content.
 argument-hint: [index|track|reuse|suggest|diff|cleanup]
 allowed-tools: Read Write Bash Glob
 ---
@@ -141,7 +141,7 @@ Scan INDEX.md for stale entries:
 
 ## Integration
 
-- `gobal-orchestrator` — auto-invokes before dispatching tasks
+- `admin` — auto-invokes before dispatching tasks
 - `project-memory` — project-specific artifact retention rules
 - `context-compressor` — archives old artifacts during compaction
 - `reuse-checker` — DEPRECATED alias of this skill (its staleness protocol + suggest/diff modes now live here)

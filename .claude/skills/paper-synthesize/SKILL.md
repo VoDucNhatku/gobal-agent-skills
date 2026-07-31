@@ -61,7 +61,7 @@ Consult `notes/INDEX.md` first. For each paper in scope, prefer an existing dist
 
 Open a raw PDF only for a single paper that has **no** note at all, reading only its high-density
 regions (§6). If **many** ids in scope lack a distillate, stop and hand back to
-`workbench-orchestrator` to dispatch reads first — do not fill the gap by opening many PDFs here
+`workbench-admin` to dispatch reads first — do not fill the gap by opening many PDFs here
 (that re-expands what ingest worked to bound).
 
 ### Phase 2 — Author the artifact (per mode)

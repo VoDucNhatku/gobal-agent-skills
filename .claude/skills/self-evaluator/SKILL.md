@@ -1,6 +1,6 @@
 ---
 name: self-evaluator
-description: Self-evaluation for GOBAL AGENT — checks output quality before delivery. Verifies completeness, accuracy, token efficiency, and hallucination risk. Modes — evaluate (full check), quick-check (fast pass/fail), post-mortem (analyze past failures). Source: superpowers (writing-skills) + gstack (retro) + addyosmani (definition-of-done). It evaluates; it does NOT fix issues (that's the producing skill's job).
+description: Self-evaluation for GOBAL AGENT — checks output quality before delivery. Verifies completeness, accuracy, token efficiency, and hallucination risk. Modes — evaluate (full check), quick-check (fast pass/fail), post-mortem (analyze past failures). It evaluates; it does NOT fix issues (that's the producing skill's job). Triggers — tự đánh giá, kiểm tra trước khi giao, output ổn chưa, self-check, rà lại kết quả.
 argument-hint: [evaluate|quick-check|post-mortem]
 allowed-tools: Read Bash Glob
 ---
@@ -101,7 +101,7 @@ Analyze a past failure:
 
 ## Integration
 
-- `gobal-orchestrator` → Runs evaluate before delivering multi-step outputs
+- `admin` → Runs evaluate before delivering multi-step outputs
 - `paper-read` / `paper-method` → Fidelity dimension checks source adherence
 - `code-senior` → Accuracy dimension checks code correctness
 - `hallucination-guard` → Hallucination dimension (shared checks)

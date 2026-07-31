@@ -14,6 +14,9 @@ it with a real check. Borrows API-contract discipline + the Always/Ask/Never sec
 RED observability from the addyosmani lifecycle skills, the anti-runaway-edit + verification gate
 from [[code-senior]], and reproduction-first debugging.
 
+> **Source:** addyosmani/agent-skills (API-contract + Always/Ask/Never boundary, RED
+> observability); [[code-senior]] (anti-runaway-edit contract, verification gate).
+
 ## Conventions
 Binding: `~/.claude/rules/workbench-conventions.md` (bilingual §1 — code/identifiers/contract English,
 the chat report Vietnamese; preview-not-dump §3; reuse §4; scope handoff §10). Read at run time;
@@ -114,7 +117,7 @@ already-applied migration; add a new one.
 
 ## Integration
 
-- `code-orchestrator` — routes backend tasks here
+- `code-admin` — routes backend tasks here
 - `security-review` — full security audit (threat model + STRIDE) on existing surfaces
 - `code-senior` — general refactor / review outside backend concerns
 - `code-reviewer` — diff-level review for backend changes

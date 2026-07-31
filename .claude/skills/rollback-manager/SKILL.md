@@ -1,6 +1,6 @@
 ---
 name: rollback-manager
-description: Rollback manager for GOBAL AGENT — handles emergency rollback of deployments. Modes: assess (evaluate situation), execute (perform rollback), verify (confirm recovery). Source: addyosmani (shipping-and-launch, ci-cd-and-automation) + gstack (land-and-deploy). It manages rollback; it does NOT investigate root cause (use debug-investigator).
+description: Rollback manager for GOBAL AGENT — handles emergency rollback of deployments. Modes: assess (evaluate situation), execute (perform rollback), verify (confirm recovery). It manages rollback; it does NOT investigate root cause (use debug-investigator). Triggers — rollback, hoàn tác deploy, quay lại bản cũ, sự cố production, revert release.
 argument-hint: <incident | deployment> [assess|execute|verify]
 allowed-tools: Read Write Bash Glob
 ---
@@ -32,11 +32,11 @@ allowed-tools: Read Write Bash Glob
 ## Rollback Triggers
 
 The full Advance/Hold/Roll-back threshold table (error rate, P95 latency, client JS
-errors, business metrics) is owned by **`deploy-orchestrator`** (`### Rollout Decision
+errors, business metrics) is owned by **`deploy-admin`** (`### Rollout Decision
 Thresholds`) — it decides the whole canary progression, not just rollback. This skill
 only needs the **Roll back** column: error rate >2x baseline, P95 latency >50% above,
 client JS errors >0.1% sessions, business metrics decline >5%. Same numbers, single
-source — invoke `deploy-orchestrator` if Advance/Hold values are needed too.
+source — invoke `deploy-admin` if Advance/Hold values are needed too.
 
 ## Rollback Process
 
@@ -76,7 +76,7 @@ source — invoke `deploy-orchestrator` if Advance/Hold values are needed too.
 
 ## Cross-References
 
-- `deploy-orchestrator` → Deployment coordination
+- `deploy-admin` → Deployment coordination
 - `debug-investigator` → Root cause analysis
 - `ship-validator` → Pre-deploy validation
 - `monitor-setup` → Verify metrics after rollback
@@ -120,6 +120,6 @@ Confirm recovery:
 - Always verify after rollback
 
 ## Integration
-- deploy-orchestrator → deploy coordination
+- deploy-admin → deploy coordination
 - monitor-setup → verify health after rollback
 - debug-investigator → root cause analysis (after recovery)

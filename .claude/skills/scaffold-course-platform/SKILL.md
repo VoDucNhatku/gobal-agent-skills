@@ -1,17 +1,17 @@
 ---
 name: scaffold-course-platform
-description: Scaffolds a course-selling LMS platform. Modes: scaffold. Reads stack defaults from references/stack-matrix.md, overrides recorded in audit-log.
+description: Scaffolds a course-selling LMS platform. Modes: scaffold. Reads stack defaults from references/stack-matrix.md, overrides recorded in audit-log. Triggers — dựng web bán khóa học, LMS, course platform, trang khóa học online.
 argument-hint: <resource-key>
 allowed-tools: Skill Agent Read Write Edit Glob Bash Grep
 ---
 
 # Scaffold Course Platform — Scaffold Reference
 
-> **Purpose:** Provide the reference stack matrix and scaffold rules for a course-selling platform used by `code-orchestrator`. Act as the registry-resolved entrypoint; the canonical defaults live in `references/`.
+> **Purpose:** Provide the reference stack matrix and scaffold rules for a course-selling platform used by `code-admin`. Act as the registry-resolved entrypoint; the canonical defaults live in `references/`.
 
 ## Role
 
-This skill does not build the entire platform alone. It is the gatekeeper that `code-orchestrator` and `web-orchestrator` consult before writing any project file. The heavy design and content scaffolding is delegated via fan-out to `design-web`, `build-ui`, and `build-admin-dashboard`.
+This skill does not build the entire platform alone. It is the gatekeeper that `code-admin` and `web-admin` consult before writing any project file. The heavy design and content scaffolding is delegated via fan-out to `design-web`, `build-ui`, and `build-admin-dashboard`.
 
 ## Modes
 
@@ -55,7 +55,7 @@ For every webhook route, add a TODO comment where the signature verification bel
 
 ## Integration
 
-- `code-orchestrator` — primary caller
+- `code-admin` — primary caller
 - `design-web` / `build-ui` — branding and components
 - `build-admin-dashboard` — admin shell
 - `audit-log` — record stack decisions

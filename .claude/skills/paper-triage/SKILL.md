@@ -1,5 +1,5 @@
 ---
-name: reading-triage
+name: paper-triage
 description: Ranks every paper in papers/ against a research question via a fast abstract-level pass — assigning each a relevance score, a one-line rationale, an action (deep-read / skim / skip), and the next worker skill to run on it. The cheap planning entry point you run BEFORE any deep read, so you spend expensive full-reads only where they pay off. Triggers — triage, triage the papers, what should I read first, reading order, where do I start, prioritize papers, rank papers, which papers matter, build a reading plan, xếp thứ tự đọc, đọc bài nào trước, ưu tiên đọc, lọc bài báo, lập kế hoạch đọc, bài nào liên quan. Reads only high-density regions (title, abstract, headings); it does NOT deep-read or condense a paper (use paper-read), analyze a method (use paper-method), or compare papers (use paper-synthesize).
 argument-hint: <research question / focus>
 allowed-tools: Skill Agent Read Write Glob Bash
@@ -70,7 +70,7 @@ For every paper assign:
 
 ### Phase 4 — Rank & write the plan
 Sort papers by `score` descending (ties → ascending id). Write the full ranked plan to
-`notes/reading-triage-<slug>.md`, where `<slug>` is a short kebab slug of the research
+`notes/paper-triage-<slug>.md`, where `<slug>` is a short kebab slug of the research
 question. Use the template below. Then update `notes/INDEX.md` with a row for this
 artifact (`id · worker · path · one-line gist`); create `notes/` and `INDEX.md` if
 absent.
@@ -82,12 +82,12 @@ band (`deep-read N · skim M · skip K`), and the **absolute saved path**. Never
 full plan into chat.
 
 ## Output template
-Write this to `notes/reading-triage-<slug>.md`:
+Write this to `notes/paper-triage-<slug>.md`:
 
 ```markdown
 # Reading Triage — <câu hỏi nghiên cứu>
 Câu hỏi (research question): <full question, original wording>
-Worker: reading-triage · Ngày (date): <YYYY-MM-DD> · Corpus: papers/ (N papers)
+Worker: paper-triage · Ngày (date): <YYYY-MM-DD> · Corpus: papers/ (N papers)
 
 ## Bảng xếp hạng (Ranked plan)
 | Rank | id | Paper (filename / title) | Score (0–5) | Action | Next skill | Lý do (rationale, VI) |

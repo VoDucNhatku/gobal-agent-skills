@@ -1,11 +1,11 @@
 ---
-name: deploy-orchestrator
-description: Deploy orchestrator for GOBAL AGENT — coordinates deployment pipeline: validate → ship → monitor → rollback. Modes: ship (pre-ship validation + deploy), monitor (setup monitoring), rollback (emergency rollback), canary (staged rollout). Source: addyosmani (ci-cd-and-automation, shipping-and-launch) + gstack (land-and-deploy, ship). It orchestrates; it does NOT execute deploy commands directly.
+name: deploy-admin
+description: Deploy admin for GOBAL AGENT — coordinates deployment pipeline: validate → ship → monitor → rollback. Modes: ship (pre-ship validation + deploy), monitor (setup monitoring), rollback (emergency rollback), canary (staged rollout). It coordinates; it does NOT execute deploy commands directly. Triggers — deploy, triển khai, ship lên production, canary, rollback, quy trình phát hành.
 argument-hint: <deploy task> [ship|monitor|rollback|canary]
 allowed-tools: Skill Read Write Bash Glob
 ---
 
-# Deploy Orchestrator
+# Deploy Admin
 
 > **Source:** addyosmani agent-skills (ci-cd-and-automation, shipping-and-launch) + gstack (land-and-deploy, ship)
 > **Purpose:** Coordinate deployment pipeline with quality gates.
@@ -80,13 +80,13 @@ Every flag has:
 
 Toàn bộ chi tiết kỹ thuật — on-call questions, structured logging, RED/USE metrics,
 alerting rules, cardinality rule — thuộc về **`monitor-setup`**; invoke skill đó thay vì
-lặp lại ở đây. Orchestrator này chỉ quyết định **khi nào**: monitoring phải sẵn sàng
+lặp lại ở đây. Admin này chỉ quyết định **khi nào**: monitoring phải sẵn sàng
 TRƯỚC khi bật canary, và được verify lại sau mỗi lần deploy.
 
 ## Rollback: Emergency Procedures (handoff — không chép nội dung)
 
 Chi tiết — decision matrix, 5-step rollback process, blue-green switch, schema-migration
-safety — thuộc về **`rollback-manager`**; invoke skill đó. Orchestrator này chỉ giữ phần
+safety — thuộc về **`rollback-manager`**; invoke skill đó. Admin này chỉ giữ phần
 quyết định: bảng **Rollout Decision Thresholds** ở trên là nguồn canonical duy nhất cho
 cả 3 cột Advance/Hold/Roll back (rollback-manager chỉ trích cột Roll back, không lặp lại
 bảng); mode `rollback` bên dưới nói thứ tự gọi.

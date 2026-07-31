@@ -1,6 +1,6 @@
 ---
 name: context-compressor
-description: Context compression for GOBAL AGENT — reduces context size when approaching token limits. Strategies: summarization (condense conversation history), artifact offloading (push content into files), progressive disclosure (load only what's needed). Source: addyosmani (context-engineering) + gstack (context-save/restore). It compresses; it does NOT delete important state (that's the orchestrator's judgment).
+description: Context compression for GOBAL AGENT — reduces context size when approaching token limits. Strategies: summarization (condense conversation history), artifact offloading (push content into files), progressive disclosure (load only what's needed). It compresses; it does NOT delete important state (that's the admin's judgment). Triggers — nén context, sắp hết token, context đầy, compact hội thoại, tóm gọn lịch sử.
 argument-hint: [summarize|offload|prune]
 allowed-tools: Read Write Bash
 ---
@@ -115,7 +115,7 @@ Scan loaded artifacts → archive stale ones → update index.
 
 ## Integration
 
-- `gobal-orchestrator` → Triggers compression when buffer < 30%
+- `admin` → Triggers compression when buffer < 30%
 - `project-memory` → Offloads old context to memory files
 - `artifact-manager` → Prunes stale artifacts
 - `token-budget` → Monitors context size, triggers compression

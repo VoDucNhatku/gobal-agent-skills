@@ -1,6 +1,6 @@
 ---
 name: learnings-db
-description: Learnings database for GOBAL AGENT — captures lessons learned from every session. Modes: capture (log a learning), query (search learnings), suggest (recommend based on current task), pattern (extract cross-project patterns). Source: gstack (learn, sync-gbrain) + superpowers. It learns; it does NOT apply learnings automatically (that is the orchestrator's decision).
+description: Learnings database for GOBAL AGENT — captures lessons learned from every session. Modes: capture (log a learning), query (search learnings), suggest (recommend based on current task), pattern (extract cross-project patterns). It learns; it does NOT apply learnings automatically (that is the admin's decision). Triggers — ghi bài học, lesson learned, rút kinh nghiệm, đã học được gì, lỗi này lặp lại.
 argument-hint: [capture|query|suggest|pattern]
 allowed-tools: Read Write Bash Glob
 ---
@@ -127,10 +127,10 @@ Based on current task, suggest relevant past learnings:
 
 - `audit-log` → feeds into learnings-db (decisions → lessons)
 - `project-memory` → project-specific learnings
-- `gobal-orchestrator` → consults learnings before routing
+- `admin` → consults learnings before routing
 
 ## Cross-References
 
 - `project-memory` → Project-specific context
-- `gobal-orchestrator` → Load learnings at session start; also consults learnings for
+- `admin` → Load learnings at session start; also consults learnings for
   routing decisions (folds the deprecated `skill-router`)

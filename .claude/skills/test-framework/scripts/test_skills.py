@@ -3,16 +3,19 @@
 GOBAL AGENT Skill Test Framework
 Automated structural validation for all skills in gobal-skills/.
 
-Checks:
-1. YAML frontmatter validity (name, description, argument-hint, allowed-tools)
-2. SKILL.md body line count (< 500)
-3. Cross-reference integrity (referenced skills exist)
-4. Provenance completeness (source attribution present)
-5. Duplicate section detection
-6. Anti-slop patterns (design skills only)
-7. Frontmatter description format (third-person, trigger-focused)
-8. Announce line presence
-9. Algorithm-justification vocabulary (implement-mode skills only)
+Checks (FAIL = the skill is broken; WARN = it is degraded):
+1.  YAML frontmatter validity (name, description, argument-hint, allowed-tools)
+1b. FAIL — `name:` matches its directory, or Claude Code cannot resolve the skill
+1c. FAIL — `description:` within the 1024-char cap, past which it is truncated
+2.  FAIL — SKILL.md body line count (< 500)
+3.  Cross-reference integrity, read only from wiki links, "→ `skill`" handoffs,
+    and Cross-References/Integration sections — a bare backtick is not a reference
+4.  Provenance, required only where the skill claims an upstream source
+5.  Duplicate section detection
+6.  Anti-slop patterns (design skills only)
+7.  Description format: third-person, and says when to fire ("Use when ..." or
+    this suite's "Triggers — ..."); DEPRECATED stubs exempt
+8.  Algorithm-justification vocabulary (implement-mode skills only)
 
 Usage:
     python test_skills.py                    # Run all checks, print report
@@ -21,28 +24,30 @@ Usage:
     python test_skills.py --report <path>    # Write report to file
 """
 
-import os
 import re
 import sys
 import json
 import argparse
 from pathlib import Path
-from collections import defaultdict
 
 # ─── Configuration ───────────────────────────────────────────────────────────
 
 SKILLS_DIR = Path(__file__).resolve().parent.parent.parent
 MAX_BODY_LINES = 500
+MAX_DESC_CHARS = 1024
 REPORT_DIR = SKILLS_DIR / "test-reports"
 
 # Required frontmatter keys
 REQUIRED_FM_KEYS = {"name", "description", "argument-hint", "allowed-tools"}
 
-# Cross-reference patterns to detect
-REF_PATTERNS = [
-    r'`([a-z][a-z0-9-]+)`',           # backtick: `skill-name`
-    r'\[\[([a-z][a-z0-9-]+)\]\]',      # wiki: [[skill-name]]
-]
+# Cross-reference patterns. Only these three contexts denote a real skill
+# handoff — see find_cross_references for why a bare backtick does not.
+WIKI_REF = re.compile(r'\[\[([a-z][a-z0-9-]+)\]\]')
+ARROW_REF = re.compile(r'(?:→|->)\s*`([a-z][a-z0-9-]+)`')
+BACKTICK_REF = re.compile(r'`([a-z][a-z0-9-]+)`')
+XREF_SECTION_HEADING = re.compile(
+    r'^#{2,3}\s*(?:Cross[- ]?References?|Integration|Handoffs?|See also)\b.*$',
+    re.I | re.M)
 
 # Anti-slop patterns (design skills)
 SLOP_PATTERNS = {
@@ -53,6 +58,41 @@ SLOP_PATTERNS = {
 
 # Provenance marker
 PROVENANCE_MARKER = re.compile(r'> \*\*Source:\*\*', re.M)
+
+# A skill only needs a provenance marker when it CLAIMS to be derived from an
+# upstream repo. Original skills have nothing to attribute, and inventing a
+# Source line to satisfy a linter is exactly the fabrication these skills forbid.
+#
+# The upstream name must sit on a line with an attribution verb. Matching the
+# bare name flagged a CV template whose YAML has a `superpowers:` field, and a
+# TikZ rule about captioning a figure "adapted from [x]" — neither is a claim
+# about where the SKILL came from.
+UPSTREAM = r'superpowers|addyosmani|gstack|AIL-Premium|mattpocock|anthropics/skills|obra'
+ATTRIBUTION_VERB = r'borrow\w*|adapt\w*|port\w*|base[ds]? on|deriv\w*|inspired by|from'
+# `Source:` counts only as a line-leading attribution, matching the repo's own
+# `> **Source:** ...` convention. Unanchored, it also matched a CV skill's
+# "Data source: (kaggle, ...)" — a project's data, not the skill's origin.
+DERIVATION_CLAIM = re.compile(
+    rf'^\s*>?\s*\*{{0,2}}Source:|'
+    rf'^.*(?:{ATTRIBUTION_VERB})\b.*\b(?:{UPSTREAM})\b.*$|'
+    rf'^.*\b(?:{UPSTREAM})\b.*(?:{ATTRIBUTION_VERB})\b.*$',
+    re.I | re.M)
+
+# Generic backticked vocabulary that is never a skill name. Bodies backtick any
+# identifier-ish token, so these would otherwise read as broken references.
+NON_SKILL_VOCAB = {
+    # status / verdict values
+    "yes", "no", "partial", "pass", "fail", "warn", "skip", "todo", "done",
+    "match", "close", "diverge", "missing", "primary", "secondary", "inferred",
+    "green", "red", "high", "medium", "low", "critical", "major", "minor",
+    # frontmatter + template placeholders
+    "name", "description", "argument-hint", "allowed-tools", "frontmatter",
+    "slug", "candidate-slug", "timestamp", "date", "path", "id", "next",
+    "field", "key", "value", "mode", "all", "none",
+    # common prose nouns that happen to be backticked
+    "notes", "papers", "scripts", "references", "templates", "assets", "output",
+    "input", "logs", "src", "test", "tests", "main", "null", "true", "false",
+}
 
 # Duplicate section detector (look for repeated ## headings)
 SECTION_HEADING = re.compile(r'^##\s+(.+)$', re.M)
@@ -103,16 +143,71 @@ def get_body(content):
     return content[end + 3:].strip()
 
 
-def find_cross_references(body):
-    """Extract all skill-name references from backtick and wiki patterns."""
+def collect_mode_vocabulary(skill_files):
+    """Every mode token any skill declares in its `argument-hint`.
+
+    Bodies write modes in backticks exactly like skill names (`implement`,
+    `corpus`, `scaffold`), so without this the reference check flags every mode
+    in the suite as a broken skill.
+    """
+    modes = set()
+    for f in skill_files:
+        try:
+            fm = parse_frontmatter(f.read_text(encoding="utf-8"))
+        except OSError:
+            continue
+        hint = (fm or {}).get("argument-hint", "")
+        modes.update(re.findall(r'[a-z][a-z0-9-]{2,}', hint.lower()))
+    return modes
+
+
+def collect_rule_names(rules_dir):
+    """Basenames of `~/.claude/rules/*.md`, which bodies cite in backticks."""
+    if not rules_dir.is_dir():
+        return set()
+    return {p.stem for p in rules_dir.glob("*.md")}
+
+
+def _xref_section_text(body):
+    """Text of the sections where this suite lists its skill handoffs."""
+    chunks = []
+    for m in XREF_SECTION_HEADING.finditer(body):
+        rest = body[m.end():]
+        nxt = re.search(r'^#{1,3}\s', rest, re.M)
+        chunks.append(rest[:nxt.start()] if nxt else rest)
+    return "\n".join(chunks)
+
+
+def find_cross_references(body, known_non_skills=frozenset()):
+    """Extract skill-name references from explicit cross-reference contexts.
+
+    A bare backtick match is far too broad here: these bodies backtick every
+    identifier-ish token — modes (`implement`), enum values (`verified`), LaTeX
+    macros (`tikzpicture`), file types (`bib`), even ordinary words (`and`).
+    Enumerating that vocabulary is endless, so instead this reads only the three
+    places a real handoff is written:
+
+      * a wiki link, `[[skill-name]]`
+      * an arrow handoff, "→ `skill-name`"
+      * a backticked name inside a Cross-References / Integration section
+
+    `known_non_skills` then removes modes and rule basenames, which legitimately
+    appear in those same positions.
+    """
     refs = set()
-    for pat in REF_PATTERNS:
-        if isinstance(pat, str):
-            pat = re.compile(pat)
-        for m in pat.finditer(body):
+    sources = [
+        (WIKI_REF, body),
+        (ARROW_REF, body),
+        (BACKTICK_REF, _xref_section_text(body)),
+    ]
+    for pat, text in sources:
+        for m in pat.finditer(text):
             candidate = m.group(1)
-            if len(candidate) > 2 and "_" not in candidate:
-                refs.add(candidate)
+            if len(candidate) <= 2 or "_" in candidate:
+                continue
+            if candidate in known_non_skills:
+                continue
+            refs.add(candidate)
     return refs
 
 
@@ -141,16 +236,26 @@ def check_slop(body, skill_name):
     return findings
 
 
-def validate_description(desc):
-    """Check description follows 'Use when...' third-person format."""
+def validate_description(desc, skill_name=""):
+    """A description must be third-person and must say when the skill fires.
+
+    Two conventions satisfy the trigger requirement: the upstream 'Use when...'
+    phrasing, and this suite's own 'Triggers — <bilingual keyword list>', which
+    carries the same information in a form the router can match on directly.
+    DEPRECATED stubs are exempt: they exist so old references resolve, and are
+    meant NOT to fire.
+    """
     issues = []
     if not desc:
-        issues.append("empty description")
+        return ["empty description"]
+    low = desc.lower()
+    if "deprecated" in low:
         return issues
     if desc[0].islower():
         issues.append("starts with lowercase (should be capitalized)")
-    if "use when" not in desc.lower() and "use for" not in desc.lower():
-        issues.append("missing 'Use when...' trigger phrase")
+    has_trigger = any(k in low for k in ("use when", "use for", "trigger"))
+    if not has_trigger:
+        issues.append("no trigger guidance ('Use when...' or 'Triggers — ...')")
     if any(desc.startswith(p) for p in ("I ", "We ", "This skill")):
         issues.append("first-person (should be third-person)")
     return issues
@@ -171,14 +276,49 @@ def check_frontmatter(fm):
     return issues
 
 
+def check_name_matches_dir(fm, dir_name):
+    """`name:` must equal the containing directory.
+
+    Claude Code registers a skill under its directory name; a mismatched `name:`
+    makes every routing table that calls the skill by directory silently miss.
+    This is a hard failure, not a style warning.
+    """
+    declared = (fm or {}).get("name")
+    if declared is None:
+        return None
+    if declared != dir_name:
+        return f"name: '{declared}' does not match directory '{dir_name}' — skill will not resolve"
+    return None
+
+
+def check_description_length(fm):
+    """`description:` is capped at MAX_DESC_CHARS; past that it is truncated."""
+    desc = (fm or {}).get("description")
+    if not desc:
+        return None
+    n = len(desc)
+    if n > MAX_DESC_CHARS:
+        return f"description is {n} chars (max {MAX_DESC_CHARS}) — will be truncated"
+    return None
+
+
 def check_body_lines(body):
     lines = body.split("\n")
     count = len(lines)
     return count if count > MAX_BODY_LINES else 0
 
 
-def check_provenance(body):
-    return 1 if PROVENANCE_MARKER.search(body) else 0
+def check_provenance(body, description=""):
+    """Provenance is required only where derivation is claimed.
+
+    Returns 1 (satisfied) for an original skill that claims no upstream, 1 for a
+    derived skill that carries the marker, and 0 only when a skill says it came
+    from somewhere but never says where.
+    """
+    if PROVENANCE_MARKER.search(body):
+        return 1
+    claims_derivation = DERIVATION_CLAIM.search(f"{description}\n{body}")
+    return 0 if claims_derivation else 1
 
 
 def check_cross_refs(refs, all_skill_names):
@@ -209,12 +349,26 @@ def check_algorithm_justification(fm, body):
 
 def run_tests(skill_filter=None, json_output=False, report_path=None):
     skill_dirs = find_skill_dirs()
-    all_skill_names = {d.name for d in skill_dirs}
+    # Every directory holding a SKILL.md is a resolvable skill, including the
+    # ones find_skill_dirs() declines to TEST. Building this from the tested set
+    # alone made a reference to `test-framework` read as broken.
+    all_skill_names = {
+        d.name for d in SKILLS_DIR.iterdir()
+        if d.is_dir() and (d / "SKILL.md").exists()
+    }
 
     results = []
     total_pass = 0
     total_fail = 0
     total_warn = 0
+
+    # Vocabulary that is backticked like a skill name but never is one: every
+    # mode any skill declares, every rule basename, plus generic tokens.
+    known_non_skills = (
+        collect_mode_vocabulary(d / "SKILL.md" for d in skill_dirs)
+        | collect_rule_names(SKILLS_DIR.parent / "rules")
+        | NON_SKILL_VOCAB
+    )
 
     for skill_dir in skill_dirs:
         skill_name = skill_dir.name
@@ -247,6 +401,22 @@ def run_tests(skill_filter=None, json_output=False, report_path=None):
             else:
                 finding["checks"]["frontmatter"] = "PASS"
 
+        # Check 1b: name must match its directory (hard failure — breaks routing)
+        name_issue = check_name_matches_dir(fm, skill_file.parent.name)
+        if name_issue:
+            finding["checks"]["name_matches_dir"] = "FAIL"
+            finding["issues"].append(name_issue)
+        else:
+            finding["checks"]["name_matches_dir"] = "PASS"
+
+        # Check 1c: description length cap
+        desc_issue = check_description_length(fm)
+        if desc_issue:
+            finding["checks"]["description_length"] = "FAIL"
+            finding["issues"].append(desc_issue)
+        else:
+            finding["checks"]["description_length"] = "PASS"
+
         # Check 2: Body line count
         line_count = len(body_lines)
         if line_count > MAX_BODY_LINES:
@@ -256,7 +426,7 @@ def run_tests(skill_filter=None, json_output=False, report_path=None):
             finding["checks"]["body_lines"] = "PASS"
 
         # Check 3: Provenance
-        has_prov = check_provenance(content) > 0
+        has_prov = check_provenance(content, (fm or {}).get("description", "")) > 0
         if not has_prov:
             finding["checks"]["provenance"] = "WARN"
             finding["warnings"].append("No provenance marker (> **Source:**) found")
@@ -264,7 +434,7 @@ def run_tests(skill_filter=None, json_output=False, report_path=None):
             finding["checks"]["provenance"] = "PASS"
 
         # Check 4: Cross-references
-        refs = find_cross_references(body)
+        refs = find_cross_references(body, known_non_skills)
         broken = check_cross_refs(refs, all_skill_names)
         if broken:
             finding["checks"]["cross_refs"] = "WARN"
@@ -290,19 +460,22 @@ def run_tests(skill_filter=None, json_output=False, report_path=None):
 
         # Check 7: Description format
         if fm and "description" in fm:
-            desc_issues = validate_description(fm["description"])
+            desc_issues = validate_description(fm["description"], skill_name)
             if desc_issues:
                 finding["checks"]["description_format"] = "WARN"
                 finding["warnings"].extend(desc_issues)
             else:
                 finding["checks"]["description_format"] = "PASS"
 
-        # Check 8: Announce line
-        if "I'm using the" in body or "Announce at start" in body:
-            finding["checks"]["announce_line"] = "PASS"
-        else:
-            finding["checks"]["announce_line"] = "WARN"
-            finding["warnings"].append("Missing announce line ('I'm using the...')")
+        # Check 8 (removed 2026-08-01): announce line.
+        #
+        # This matched the literal English string "I'm using the ..." — a
+        # convention from obra/superpowers that arrived with the six skills
+        # imported from it and was never adopted suite-wide. The other 58 skills
+        # write their bodies in Vietnamese, so the check was flagging a language
+        # mismatch as a defect, and the harness already shows the user which
+        # skill fired. Adopt it deliberately or drop it; silently warning 58
+        # times taught nobody anything.
 
         # Check 9: Algorithm justification (implement-mode skills only)
         algo_issues = check_algorithm_justification(fm, body)

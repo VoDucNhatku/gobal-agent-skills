@@ -1,6 +1,6 @@
 ---
 name: token-budget
-description: Token budget manager for GOBAL AGENT — estimates, allocates, and tracks token usage per task and per session. Invoked before any fan-out dispatch or large operation. Enforces progressive disclosure tiers (Tier 1 ~100 token metadata, Tier 2 <5k token body, Tier 3 on-demand). Modes — estimate (calculate cost for a task), allocate (distribute budget across sub-tasks), track (log actual usage), overflow (handle budget exceeded: compress/shard/skip). It manages budgets; it does NOT execute tasks.
+description: Token budget manager for GOBAL AGENT — estimates, allocates, and tracks token usage per task and per session. Invoked before any fan-out dispatch or large operation. Enforces progressive disclosure tiers (Tier 1 ~100 token metadata, Tier 2 <5k token body, Tier 3 on-demand). Modes — estimate (calculate cost for a task), allocate (distribute budget across sub-tasks), track (log actual usage), overflow (handle budget exceeded: compress/shard/skip). It manages budgets; it does NOT execute tasks. Triggers — ước tính token, tốn bao nhiêu token, chi phí, budget, trước khi fan-out.
 argument-hint: <task description> [estimate|allocate|track|overflow]
 allowed-tools: Read Bash
 ---
@@ -32,7 +32,7 @@ Tier 3 (on demand): references/ + scripts/
 
 ## Budget Allocation (fan-out)
 
-When orchestrator decides fan-out:
+When admin decides fan-out:
 
 1. **Estimate total budget** = sum of sub-task estimates + 20% overhead for synthesis
 2. **Per-agent budget** = total / N agents

@@ -1,6 +1,6 @@
 ---
 name: paper-read
-description: Reads and distills ONE paper at a chosen depth/format — the orientation-and-condense Worker of the Workbench suite. Modes — gist (quick should-I-read overview), summary (faithful section-by-section condensation, the default), eli5 (plain-language intuition with one analogy + toy example), mindmap (Mermaid structure diagram), think (argument map — claims→evidence links, ablation causality, implicit assumptions, what-would-falsify). Output prose is Vietnamese (academic), code/identifiers English. Triggers — overview of 003, summarize this paper, what's this paper about, is it worth reading, explain simply, ELI5, give me the intuition, mindmap of the paper, tóm tắt bài báo, bài này nói về gì, có đáng đọc không, giải thích đơn giản, trực giác, sơ đồ tư duy, đọc lướt bài, bản đồ lập luận, claim dựa trên gì, ablation nào gánh, phân tích lập luận. Condenses/maps ONE paper faithfully; it does NOT critique the method or math (use paper-method) and does NOT compare across papers (use paper-synthesize). Accepts an id, filename, path, or `all`.
+description: Reads and distills ONE paper at a chosen depth. Modes — gist (quick should-I-read overview), summary (faithful section-by-section condensation, the default), eli5 (plain-language intuition, one analogy + toy example), mindmap (Mermaid structure diagram), think (argument map — claims→evidence, ablation causality, implicit assumptions, what-would-falsify). Output prose is Vietnamese (academic), code/identifiers English. Triggers — overview of 003, summarize this paper, what's this paper about, is it worth reading, explain simply, ELI5, give me the intuition, mindmap of the paper, tóm tắt bài báo, bài này nói về gì, có đáng đọc không, giải thích đơn giản, trực giác, sơ đồ tư duy, đọc lướt bài, bản đồ lập luận, claim dựa trên gì, ablation nào gánh, phân tích lập luận. Condenses/maps ONE paper faithfully; it does NOT critique the method or math (use paper-method) and does NOT compare across papers (use paper-synthesize). Accepts an id, filename, path, or `all`.
 argument-hint: <id|file|path|all> [gist|summary|eli5|mindmap|think]
 allowed-tools: Skill Agent Read Write Glob Bash
 ---
@@ -86,7 +86,7 @@ scaling table in `references/depth-modes.md`: 2–4 papers (Deep) = one full
 `notes/<id>-read-<mode>.md` each; 5+ papers (Overview) = ONE compact block per paper
 (one-liner + 2–3 bullets) rolled up into a single `notes/read-<mode>-all.md`, and state
 the downscale in the preview. Heavy per-paper deep reads across a large corpus are the
-**orchestrator's** parallel-subagent job — note the handoff and stop, do not loop a full
+**admin's** parallel-subagent job — note the handoff and stop, do not loop a full
 deep read over the whole corpus in one pass (§10).
 
 ## Gotchas

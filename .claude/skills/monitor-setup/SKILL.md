@@ -1,6 +1,6 @@
 ---
 name: monitor-setup
-description: Monitoring setup for GOBAL AGENT — configures observability for deployed applications. Modes: setup (new monitoring), verify (check existing), dashboard (create dashboard), alerts (configure alerts). Source: addyosmani (observability-and-instrumentation). It sets up; it does NOT investigate incidents (use debug-investigator for that).
+description: Monitoring setup for GOBAL AGENT — configures observability for deployed applications. Modes: setup (new monitoring), verify (check existing), dashboard (create dashboard), alerts (configure alerts). It sets up; it does NOT investigate incidents (use debug-investigator for that). Triggers — dựng monitoring, thêm metrics, cấu hình alert, structured log, observability, dashboard giám sát.
 argument-hint: <app | service> [setup|verify|dashboard|alerts]
 allowed-tools: Read Write Bash Glob
 ---
@@ -114,7 +114,7 @@ Labels from small fixed sets only.
 
 ## Cross-References
 
-- `deploy-orchestrator` → Deploy with monitoring
+- `deploy-admin` → Deploy with monitoring
 - `debug-investigator` → Use logs/traces for debugging
 - `ship-validator` → Validate before deploy
 
@@ -170,6 +170,6 @@ Create/update dashboard:
 3. Generate dashboard config (Grafana JSON, etc.)
 
 ## Integration
-- deploy-orchestrator → deploy coordination
+- deploy-admin → deploy coordination
 - debug-investigator → incident investigation
 - backend-engineer → instrumentation in code

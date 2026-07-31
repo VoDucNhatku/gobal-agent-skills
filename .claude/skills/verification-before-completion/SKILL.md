@@ -1,6 +1,6 @@
 ---
 name: verification-before-completion
-description: Verification before completion for GOBAL AGENT — standalone verification gate that must pass before claiming any work is done. Iron Law: NO COMPLETION CLAIMS WITHOUT FRESH VERIFICATION. Source: superpowers (verification-before-completion). Use when work is supposedly complete and you are about to claim it done.
+description: Verification before completion for GOBAL AGENT — standalone verification gate that must pass before claiming any work is done. Iron Law: NO COMPLETION CLAIMS WITHOUT FRESH VERIFICATION. Use when work is supposedly complete and you are about to claim it done.
 argument-hint: [what-to-verify]
 allowed-tools: Read Write Bash Glob
 ---

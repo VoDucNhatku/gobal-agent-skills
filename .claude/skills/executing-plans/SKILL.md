@@ -1,13 +1,13 @@
 ---
 name: executing-plans
-description: Executing plans for GOBAL AGENT — implements a written plan task by task with per-task verification, plan-reality drift detection, and STOP-and-REGAIN on divergence. Source: superpowers (executing-plans) + gobal-orchestrator stop-regain protocol. Use when you have a written implementation plan to execute. It executes plans; it does NOT write them (use writing-plans) and does NOT replace the final done-gate (use verification-before-completion).
+description: Executing plans for GOBAL AGENT — implements a written plan task by task with per-task verification, plan-reality drift detection, and STOP-and-REGAIN on divergence. Use when you have a written implementation plan to execute. It executes plans; it does NOT write them (use writing-plans) and does NOT replace the final done-gate (use verification-before-completion).
 argument-hint: <plan-file>
 allowed-tools: Read Write Edit Bash Glob
 ---
 
 # Executing Plans
 
-> **Source:** superpowers (executing-plans) + stop-regain (gobal-orchestrator)
+> **Source:** superpowers (executing-plans) + stop-regain (admin)
 > **Purpose:** Load plan, review critically, execute task-by-task with verification, report honestly.
 
 **Announce at start:** "I'm using the executing-plans skill to implement this plan."
@@ -78,5 +78,5 @@ All tasks completed and verified →
 - `writing-plans` — creates the plan this skill executes
 - `using-git-worktrees` — isolated workspace
 - `verification-before-completion` — the final done-gate (Iron Law + rationalization table)
-- `gobal-orchestrator` — stop-regain protocol is the same discipline at orchestration level
+- `admin` — stop-regain protocol is the same discipline at orchestration level
 - `finishing-a-development-branch` — completion workflow

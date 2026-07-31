@@ -1,6 +1,6 @@
 ---
 name: concept-explainer
-description: Concept explainer for GOBAL AGENT — explains complex concepts at the right depth for the learner. Modes: eli5 (plain-language intuition with one analogy + toy example), deep-dive (technical depth with examples), analogy (find the right comparison). Source: gstack (learn) + addyosmani (context-engineering). It explains; it does NOT tutor (use study-tutor for full learning sessions).
+description: Concept explainer for GOBAL AGENT — explains complex concepts at the right depth for the learner. Modes: eli5 (plain-language intuition with one analogy + toy example), deep-dive (technical depth with examples), analogy (find the right comparison). It explains; it does NOT tutor (use study-tutor for full learning sessions). Triggers — giải thích khái niệm, X là gì, explain, ELI5, cho ví dụ dễ hiểu, ví von, analogy, không hiểu chỗ này.
 argument-hint: <concept> [eli5|deep-dive|analogy]
 allowed-tools: Read Write Bash Glob WebSearch WebFetch
 ---
@@ -82,7 +82,7 @@ allowed-tools: Read Write Bash Glob WebSearch WebFetch
 
 - `study-tutor` — full learning session following this concept
 - `knowledge-quiz` — test retention after the explanation
-- `paper-read` / `paper-method` — source paper context; usually invoked by `study-tutor` rather than research-orchestrator directly
+- `paper-read` / `paper-method` — source paper context; usually invoked by `study-tutor` rather than research-admin directly
 
 ## Progressive Disclosure
 

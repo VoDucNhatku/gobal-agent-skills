@@ -1,6 +1,6 @@
 ---
 name: spec-writer
-description: Specification writer for GOBAL AGENT — writes detailed implementation specs before any code is written. Gated workflow with human review at each gate. Modes: specify (write spec), plan (break into tasks), tasks (detailed task list). Source: addyosmani (spec-driven-development, planning-and-task-breakdown) + gstack (spec — 5 phases, files issues, spawns agent). It writes specs; it does NOT implement (use code-senior).
+description: Specification writer for GOBAL AGENT — writes detailed implementation specs before any code is written. Gated workflow with human review at each gate. Modes: specify (write spec), plan (break into tasks), tasks (detailed task list). It writes specs; it does NOT implement (use code-senior). Triggers — viết spec, tài liệu yêu cầu, requirement, đặc tả, chia nhỏ task.
 argument-hint: <feature description> [specify|plan|tasks]
 allowed-tools: Read Write Glob Bash WebSearch WebFetch
 ---
@@ -209,6 +209,6 @@ From gstack spec skill — 5 phases:
 - `code-senior` → Implements from spec
 - `tdd-enforcer` → Test strategy in spec
 - `design-web` → Design decisions before spec
-- `gobal-orchestrator` → Orchestrate spec → plan → implement
+- `admin` → Orchestrate spec → plan → implement
 - `writing-plans` → Plan creation methodology
 - `brainstorming` → Design before spec

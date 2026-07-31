@@ -1,6 +1,6 @@
 # Research Proposal Integrity (binding for idea-proposal & venue-claim outputs)
 
-Satellite rules file pulled at run time by `gobal-orchestrator`, `research-orchestrator`,
+Satellite rules file pulled at run time by `admin`, `research-admin`,
 `paper-synthesize` (gaps/expand), `paper-method`, and ANY skill that proposes research
 ideas, grades novelty, or names a venue tier (Q1/Q2/Q4/conference). Subordinate to
 `~/.claude/rules/workbench-conventions.md`; skills cite this file in one line and read it

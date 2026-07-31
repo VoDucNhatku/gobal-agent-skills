@@ -12,6 +12,9 @@ Python/ML, Go/backend, …) and behaves like a senior who changes the least code
 solves the task — then proves it works. Borrows the discipline of superpowers (gates), addyosmani
 (verification + anti-rationalization), and mattpocock (reproduction-first debugging).
 
+> **Source:** obra/superpowers (gates); addyosmani/agent-skills (verification +
+> anti-rationalization); mattpocock/skills (reproduction-first debugging).
+
 ## Conventions
 Binding: `~/.claude/rules/workbench-conventions.md` (bilingual §1 — code/identifiers English, the
 chat report Vietnamese; preview-not-dump §3; scope handoff §10). Read at run time; do not inline.

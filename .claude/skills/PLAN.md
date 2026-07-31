@@ -136,7 +136,7 @@ paper-to-notebook, run-on-modal, latex-fix, audit-log. → chỉ thêm ALIAS l�
    Modes: scan (default, incremental) | explain <file|fn> | onboard | diff (impact analysis).
    - Offload merge sang script (như kg_builder), KHÔNG đọc master graph ngược vào context.
 
-### NÂNG workbench-orchestrator (giữ core decompose→fan-out→synthesize)
+### NÂNG workbench-admin (giữ core decompose→fan-out→synthesize)
 Thêm lifecycle GATE (không phải advice): BRAINSTORM → PLAN → (UNDERSTAND) → BUILD → VERIFY → REVIEW.
 - BRAINSTORM: việc build phi-tầm-thường phải trình design + user duyệt TRƯỚC khi code; self-review
   spec tìm placeholder/mâu thuẫn trước. Next chỉ được là PLAN.

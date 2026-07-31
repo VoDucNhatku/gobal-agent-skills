@@ -1,66 +1,61 @@
-# Workbench — bộ skill nghiên cứu global cho Claude Code
+# GOBAL Agent Skills — thư mục cài đặt
 
-Bộ skill global (đặt ở `~/.claude/skills/`, dùng được cho **mọi** project) để **đọc — phân tích —
-tổng hợp — viết code — điều phối** tài liệu nghiên cứu học thuật. Hợp nhất **chuẩn Agent Skills
-chính thức của Anthropic** (định dạng `SKILL.md`, progressive disclosure) với **độ phủ rộng và
-token-economy** học từ bộ AIL-Premium. Giao tiếp **tiếng Việt học thuật**; code/định danh tiếng Anh.
+Thư mục này là thứ được copy vào `~/.claude/skills/`.
 
-> Theme-neutral: không gắn cứng chủ đề. Mỗi project khai báo ngữ cảnh (paper-ids, chủ đề) trong
-> `papers/` + `notes/INDEX.md`; các skill suy ra ngữ cảnh lúc chạy, không hard-code đề tài nào.
+**Tài liệu đầy đủ (66 skill, kiến trúc, token economy) nằm ở README gốc của repo.**
 
-## Danh sách skill (11 — nghiên cứu)
+## Có gì trong đây
 
-| Nhóm | Skill | Làm gì | Mode |
-|---|---|---|---|
-| **Điều phối** | `workbench-orchestrator` | Con chính: nhận mục tiêu lớn → chia việc → fan-out subagent song song → tổng hợp. Giữ `notes/INDEX.md` làm bộ nhớ chung. | — |
-| **Đọc** | `reading-triage` | Xếp hạng cả corpus theo câu hỏi NC (quét abstract) → kế hoạch đọc | single-pass |
-| | `paper-read` | Đọc & cô đọng MỘT bài | gist · summary · eli5 · mindmap |
-| | `vi-translate` | Dịch trung thực, đầy đủ + glossary | `--to <lang>` |
-| **Phân tích** | `paper-method` | Đọc sâu phương pháp MỘT bài | critique · recipe |
-| | `knowledge-graph` | Trích entity–relation có kiểu → graph + master graph gộp | single / all |
-| **Tổng hợp** | `paper-synthesize` | Tổng hợp NHIỀU bài | compare · taxonomy · gaps · expand |
-| **Code** | `paper-to-notebook` | Bài báo → notebook `.ipynb` chạy được | reproduce · run-results |
-| | `run-on-modal` | Bài báo → `modal_app.py` GPU serverless + chi phí | reproduce · run-results · inference |
-| **Tiện ích** | `latex-fix` | Sửa math render trên cả KaTeX + MathJax | lint → fix |
-| | `audit-log` | Nhật ký quyết định material (governance) | log · summary · clear |
+| Đường dẫn | Là gì |
+|---|---|
+| `<tên-skill>/SKILL.md` | 66 skill, mỗi thư mục một skill |
+| `admin/references/dispatch-protocol.md` | Quy trình điều phối nặng — `admin` chỉ đọc khi thật sự fan-out |
+| `references/ecosystem-research.md` | Ghi chép nghiên cứu 8 repo skill khác (đọc on-demand) |
+| `PLAN.md` | Nhật ký kế hoạch/tiến độ của bộ skill |
+| `test-framework/scripts/test_skills.py` | Validator cấu trúc cho cả bộ skill |
+| `../rules/` | 6 file rule ràng buộc, nhiều skill đọc lúc chạy |
 
-(Ngoài ra có nhánh **WEB/UI** — `scaffold-course-platform`, `design-ui-direction`,
-`build-ui-component`, `build-admin-dashboard`, `review-frontend` — cho việc dựng web bán khóa học,
-không thuộc phạm vi nghiên cứu.)
+## Điểm vào
 
-## Token economy (4 cơ chế cốt lõi — học từ AIL + đúng progressive disclosure của Anthropic)
+Gọi **`admin`** cho mọi thứ — nó tự chọn nhánh rẻ nhất:
 
-1. **PREVIEW-NOT-DUMP** — ghi artifact đầy đủ vào `notes/`, chat chỉ in preview 5–10 dòng + đường
-   dẫn. Không bao giờ đổ nguyên file vào chat.
-2. **REUSE-BEFORE-READ** — trước khi mở PDF thô, kiểm tra `notes/INDEX.md` + artifact đã chưng cất;
-   tái dùng nếu còn mới.
-3. **Mode-scaling theo cardinality** — N nhỏ thì chi tiết sâu; N lớn (≥5, hay `all`) thì 1 dòng/bài.
-   Tổng output tăng tuyến tính, không bùng nổ.
-4. **Script-offloading** — skill phát một JSON spec rồi gọi script dựng (`kg_builder.py`,
-   `nb_builder.py`, `modal_builder.py`, `latex_lint.py`, `audit_append.py`); **không** tự viết tay
-   boilerplate (nbformat JSON, Modal envelope, Mermaid, JSON-line). Code script không vào context —
-   chỉ output vào.
+| Request | Đi đâu | Chi phí |
+|---|---|---|
+| Hỏi nhanh · tra cứu · đọc 1 file | `admin` trả lời thẳng | ~1.4k tok |
+| Đúng 1 skill phủ được | `admin` gọi thẳng skill đó | + skill |
+| Nhiều bước, 1 domain | `research-admin` · `code-admin` · `web-admin` · `deploy-admin` | + sub-admin |
+| Đa domain hoặc chạy song song | `admin` đọc `dispatch-protocol.md` → Phase 0–6 | + ~3.9k tok |
 
-→ Cộng với **progressive disclosure 3 tầng của Anthropic**: metadata (name+description, ~100 token,
-luôn nạp) → SKILL.md body (chỉ nạp khi trigger, <5k) → references/scripts (nạp theo nhu cầu).
+Hoặc gõ thẳng tên skill khi đã biết mình cần gì: `/paper-read 003 summary`,
+`/paper-synthesize 001 003 008 compare`.
 
-## Luồng "nhiều bài báo" (corpus-ingest — token-bounded)
+Output: research → `notes/` · notebook → `notebooks/` · Modal app → `modal_apps/`.
 
-`workbench-orchestrator` xử lý N bài lớn mà không nổ token:
-**triage** (chỉ đọc abstract + INDEX) → **shard** thành ~8–12 nhóm → **fan-out theo lô 4–5 subagent**
-(mỗi subagent chạy trong context riêng, **chỉ trả path + summary ≤2k token**, không trả text PDF) →
-**merge vào INDEX rồi bỏ manifest** → tổng hợp từ INDEX/master-graph (không nạp lại N bài). Chi phí
-orchestrator ~tuyến tính theo số shard, không theo số trang.
+## Token economy (4 cơ chế cốt lõi)
 
-## Cách dùng
+1. **Preview-not-dump** — artifact đầy đủ ghi vào `notes/`, chat chỉ in 5–10 dòng + đường dẫn.
+2. **Reuse-before-read** — kiểm tra `notes/INDEX.md` trước khi mở lại PDF thô.
+3. **Mode-scaling theo cardinality** — N nhỏ đọc sâu; N lớn thì 1 dòng/bài. Output tăng
+   tuyến tính, không bùng nổ.
+4. **Script-offloading** — skill phát JSON spec rồi gọi script dựng (`kg_builder.py`,
+   `nb_builder.py`, `modal_builder.py`, `latex_lint.py`, `audit_append.py`) thay vì tự viết
+   boilerplate. Code script không vào context, chỉ output vào.
 
-- **Gõ trực tiếp** một skill: `/paper-read 003 summary`, `/paper-synthesize 001 003 008 compare`.
-- **Hoặc** nói mục tiêu lớn cho `/workbench-orchestrator` (vd: "hiểu hết các bài trong papers/, so
-  sánh phương pháp và tìm gap") — nó tự điều phối.
-- Output research → `notes/`; notebook → `notebooks/`; Modal app → `modal_apps/`.
+Cộng với progressive disclosure 3 tầng: metadata (~120 tok/skill, luôn nạp) → SKILL.md body
+(chỉ khi trigger) → `references/`, `scripts/` (nạp theo nhu cầu).
 
 ## Rules dùng chung (đọc lúc chạy, cite một dòng — không inline)
 
 - `~/.claude/rules/workbench-conventions.md` — song ngữ, output + preview, reuse, fidelity,
-  mode-scaling, script-offloading, scope handoff.
-- `~/.claude/rules/latex-katex-compat.md` — bảng tương thích KaTeX/MathJax cho math.
+  mode-scaling, script-offloading, scope handoff
+- `~/.claude/rules/latex-katex-compat.md` — bảng tương thích KaTeX/MathJax
+- `~/.claude/rules/research-proposal-integrity.md` — novelty tier, Venue Claim Card, claims ledger
+- `~/.claude/rules/paper-writing-integrity.md` — zero fabricated refs, chuỗi viết bản thảo
+- `~/.claude/rules/frontend-aesthetics.md` — anti-slop, motion budget
+- `~/.claude/rules/course-domain-model.md` — domain model LMS
+
+---
+
+> File này từng liệt kê riêng một danh sách 11 skill và đã trôi lệch khỏi thực tế (còn gọi
+> `reading-triage`, `design-ui-direction`, `build-ui-component` — đều đã đổi tên hoặc
+> deprecate). Nay chỉ trỏ về README gốc để khỏi phải bảo trì hai danh sách. — 2026-08-01

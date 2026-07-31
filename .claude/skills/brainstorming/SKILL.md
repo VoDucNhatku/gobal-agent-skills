@@ -1,6 +1,6 @@
 ---
 name: brainstorming
-description: Brainstorming for GOBAL AGENT — explores user intent, requirements, and design BEFORE any implementation. MUST be used before any creative work: creating features, building components, adding functionality, or modifying behavior. Source: superpowers (brainstorming). It designs; it does NOT write code or invoke implementation skills.
+description: Brainstorming for GOBAL AGENT — explores user intent, requirements, and design BEFORE any implementation. MUST be used before any creative work: creating features, building components, adding functionality, or modifying behavior. It designs; it does NOT write code or invoke implementation skills. Triggers — brainstorm, bàn ý tưởng, ý tưởng cho tính năng, thiết kế trước khi code, explore options, chưa biết làm thế nào.
 argument-hint: <project description>
 allowed-tools: Read Write Bash Glob WebSearch WebFetch
 ---
@@ -115,7 +115,7 @@ Wait for user response. Only proceed once approved.
 - `writing-plans` → ONLY skill to invoke after brainstorming (terminal state per this skill)
 - `design-web` → visual design direction
 - `spec-writer` → formal specification writing
-- `gobal-orchestrator` → orchestrates the full pipeline
+- `admin` → orchestrates the full pipeline
 
 ## Anti-Pattern
 
@@ -128,4 +128,4 @@ Wait for user response. Only proceed once approved.
 - `writing-plans` → ONLY skill to invoke after brainstorming
 - `design-web` → Visual design direction
 - `spec-writer` → Formal specification writing
-- `gobal-orchestrator` → Orchestrates the full pipeline
+- `admin` → Orchestrates the full pipeline

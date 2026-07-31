@@ -1,6 +1,6 @@
 ---
 name: hallucination-guard
-description: Hallucination guard for GOBAL AGENT — prevents fabricated content in code, citations, metrics, and file references. Every claim must have a verifiable source. Modes — verify (check a specific claim), scan (scan output for unverified claims), source-check (validate citations). Source: addyosmani (doubt-driven-development) + workbench-conventions §8 (fidelity). It guards; it does NOT generate content.
+description: Hallucination guard for GOBAL AGENT — prevents fabricated content in code, citations, metrics, and file references. Every claim must have a verifiable source. Modes — verify (check a specific claim), scan (scan output for unverified claims), source-check (validate citations). It guards; it does NOT generate content. Triggers — kiểm tra bịa, số liệu này thật không, có nguồn không, verify claim, scan hallucination, trích dẫn có thật không.
 argument-hint: [verify|scan|source-check]
 allowed-tools: Read Bash Glob WebSearch
 ---
@@ -97,7 +97,7 @@ were never re-scanned must not be reported as "clean".
 
 - `paper-read` / `paper-method` → Verify claims against actual paper content
 - `code-senior` → Verify API signatures before using them
-- `research-orchestrator` → Scan subagent outputs before synthesis
+- `research-admin` → Scan subagent outputs before synthesis
 - `self-evaluator` → Hallucination guard is one of its 4 check dimensions
 
 ---

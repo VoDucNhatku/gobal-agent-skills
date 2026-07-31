@@ -1,6 +1,8 @@
 ---
 name: latex-tikz-generator
 description: "Sinh code TikZ/Latex để vẽ diagram chuẩn Q1 (pipeline, block, attention, architecture, flow). Output là code LaTeX .tex inline, có thể compile trực tiếp. Tránh đạo văn hình ảnh vì TikZ là vector code, không có metadata. Triggers: vẽ pipeline, TikZ, system diagram, architecture diagram, flowchart, vẽ sơ đồ LaTeX, figure cho bài báo."
+argument-hint: <pipeline|architecture|attention-heatmap|training-curve>
+allowed-tools: Read Write Edit Glob Bash
 ---
 
 # LaTeX TikZ Generator — Hình học học thuật chuẩn Q1

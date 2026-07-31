@@ -95,5 +95,5 @@ Script tự thêm `entry_id` + `timestamp`. `evidence` optional.
 - **Compression.** 1 session ≤ 3 entries. Không gì đáng log → nói thẳng.
 - **Evidence thật.** Path tồn tại, không bịa. Chưa có → `[chưa có evidence]`.
 - **Append-only.** Không sửa/xóa cũ. `clear` = archive, không erase.
-- **Được gọi, không tường thuật.** Orchestrator gọi tại decision point —
+- **Được gọi, không tường thuật.** Admin gọi tại decision point —
   không phải running commentary.

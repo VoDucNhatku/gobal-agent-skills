@@ -1,6 +1,6 @@
 ---
 name: finishing-a-development-branch
-description: Finishing a development branch for GOBAL AGENT — guides completion of development work by presenting structured options for merge, PR, or cleanup. Source: superpowers (finishing-a-development-branch). Use when implementation is complete and all tests pass.
+description: Finishing a development branch for GOBAL AGENT — guides completion of development work by presenting structured options for merge, PR, or cleanup. Use when implementation is complete and all tests pass.
 argument-hint: <branch-name>
 allowed-tools: Read Write Bash Glob
 ---
@@ -142,6 +142,6 @@ git worktree prune
 
 ## Cross-References
 
-- `deploy-orchestrator` → Deploy coordination
+- `deploy-admin` → Deploy coordination
 - `code-reviewer` → Review before merge
 - `using-git-worktrees` → Workspace management

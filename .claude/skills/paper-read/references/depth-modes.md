@@ -137,7 +137,7 @@ template per paper. Scale per-item output DOWN so total output stays linear:
 - In Overview, prefer `gist`/`mindmap` granularity even if a heavier mode was named —
   state the downscale in the preview.
 - Update `notes/INDEX.md` with one row per paper touched.
-- Heavy per-paper deep reads across a big corpus are the **orchestrator's** parallel-
+- Heavy per-paper deep reads across a big corpus are the **admin's** parallel-
   subagent job, not a single `paper-read` pass — note the handoff and stop.
 
 ## Gotchas

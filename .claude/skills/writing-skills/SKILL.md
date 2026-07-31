@@ -1,6 +1,6 @@
 ---
 name: writing-skills
-description: Writing skills for GOBAL AGENT — meta skill for creating new GOBAL skills following progressive disclosure, token economy, and provenance rules. Source: superpowers (writing-skills). Use when creating a new skill for the GOBAL ecosystem.
+description: Writing skills for GOBAL AGENT — meta skill for creating new GOBAL skills following progressive disclosure, token economy, and provenance rules. Use when creating a new skill for the GOBAL ecosystem.
 argument-hint: <skill-name> <source-repo>
 allowed-tools: Read Write Bash Glob WebSearch WebFetch
 ---
@@ -97,7 +97,7 @@ Every skill MUST cite its source:
 - Source repo name (superpowers, gstack, etc.)
 - Section/topic extracted from
 - Key content extracted (bullet list)
-- Link to provenance/INDEX.md
+- Link to `notes/INDEX.md`
 
 ## Anti-Pattern: Skill Slop
 
@@ -137,7 +137,7 @@ Before saving a new skill:
 **This skill creates:** All other GOBAL skills.
 
 **Required by:**
-- `gobal-orchestrator` → Skill creation requests
+- `admin` → Skill creation requests
 - `brainstorming` → Design phase may identify need for new skill
 - `spec-writer` → Spec may require new capability
 
@@ -146,4 +146,4 @@ Before saving a new skill:
 - `brainstorming` → Design before creating skill
 - `writing-plans` → Plan skill implementation
 - `artifact-manager` → Register new skill in INDEX.md
-- `provenance` → Track skill sources
+- `artifact-manager` → Track skill outputs and reuse (mode `reuse`)

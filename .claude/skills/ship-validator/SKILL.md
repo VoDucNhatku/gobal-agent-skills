@@ -1,6 +1,6 @@
 ---
 name: ship-validator
-description: Ship validator for GOBAL AGENT — pre-deployment validation with verification-before-completion discipline. Modes: validate (run all checks), quick (critical checks only), report (generate validation report). Source: addyosmani (shipping-and-launch) + superpowers (verification-before-completion). It validates; it does NOT deploy (use deploy-orchestrator).
+description: Ship validator for GOBAL AGENT — pre-deployment validation with verification-before-completion discipline. Modes: validate (run all checks), quick (critical checks only), report (generate validation report). It validates; it does NOT deploy (use deploy-admin). Triggers — kiểm tra trước khi ship, pre-deploy check, chạy lint/type/test, sẵn sàng deploy chưa.
 argument-hint: [validate|quick|report]
 allowed-tools: Read Bash Glob Grep
 ---
@@ -97,7 +97,7 @@ For EACH claim:
 
 ## Cross-References
 
-- `deploy-orchestrator` → Execute deployment after validation
+- `deploy-admin` → Execute deployment after validation
 - `code-senior` → Code quality standards
 - `security-review` → Security audit
 - `monitor-setup` → Post-deploy monitoring
@@ -151,4 +151,4 @@ Generate validation report: timestamp, checks run, results, recommendations.
 ## Integration
 - code-reviewer → code quality
 - security-review → security audit
-- deploy-orchestrator → deploy coordination
+- deploy-admin → deploy coordination

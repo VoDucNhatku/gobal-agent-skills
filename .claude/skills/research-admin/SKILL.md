@@ -1,18 +1,18 @@
 ---
-name: research-orchestrator
-description: Research domain orchestrator cho GOBAL AGENT — quản lý toàn bộ pipeline nghiên cứu học thuật: scope → triage → shard deep-reads → merge → knowledge graph → synthesis → self-check. Gọi trực tiếp khi request thuộc domain nghiên cứu (đọc bài báo, tổng hợp, phân tích phương pháp so sánh). Chạy độc lập, tự mình quản lý subagents, không qua gobal-orchestrator ở mỗi bước. Modes: scope (domain problem → candidate AI technique families, dùng khi CHƯA có papers/), pipeline (full corpus ingest), triage (filter papers), read (read specific paper), synthesize (combine findings).
+name: research-admin
+description: Research domain admin cho GOBAL AGENT — quản lý toàn bộ pipeline nghiên cứu học thuật: scope → triage → shard deep-reads → merge → knowledge graph → synthesis → self-check. Gọi trực tiếp khi request thuộc domain nghiên cứu (đọc bài báo, tổng hợp, phân tích phương pháp so sánh). Chạy độc lập, tự mình quản lý subagents, không qua admin ở mỗi bước. Modes: scope (domain problem → candidate AI technique families, dùng khi CHƯA có papers/), pipeline (full corpus ingest), triage (filter papers), read (read specific paper), synthesize (combine findings). Triggers — đọc bài báo, nghiên cứu, tổng hợp paper, so sánh phương pháp, tìm gap, viết/nộp bài báo.
 argument-hint: <research request> [scope|pipeline|triage|read|synthesize]
 allowed-tools: Skill Agent WebSearch WebFetch Read Write Glob Bash
 ---
 
-# Research Orchestrator
+# Research Admin
 
 > **Purpose:** Coordinate full-stack academic research pipeline. Owns the corpus workflow from intake to Vietnamese deliverable.
-> **Principle:** gobal-orchestrator routes HERE once; from this point, this orchestrator owns the entire research lifecycle autonomously.
+> **Principle:** admin routes HERE once; from this point, this admin owns the entire research lifecycle autonomously.
 
 ## Core Responsibility
 
-This orchestrator is the **sole entry point** for research-centered goals. gobal-orchestrator delegates research requests here; from that point all coordination, fan-out, and synthesis happens within this skill. This keeps gobal-orchestrator lightweight (~50 lines routing table) while research-orchestrator carries the heavy pipeline.
+This admin is the **sole entry point** for research-centered goals. admin delegates research requests here; from that point all coordination, fan-out, and synthesis happens within this skill. This keeps admin lightweight (~50 lines routing table) while research-admin carries the heavy pipeline.
 
 ## Modes
 
@@ -65,13 +65,13 @@ Goal = "hiểu/trích xuất kiến thức từ N papers" với N lớn (≳8). 
 ### Step 2 — Shard deep-reads
 Nhóm paper cần đọc sâu thành shard ~8–12 ids. Dispatch waves 4–5 Task calls mỗi wave; mỗi subagent chạy `paper-read` summary rồi optional `paper-method`.
 
-**Quy tắc nguyên tắc:** Raw PDF text không được đưa vào context của orchestrator. Mỗi subagent trả về CHỈ path + ≤2k-token manifest. Orchestrator chỉ nhận manifest, không đọc raw PDF.
+**Quy tắc nguyên tắc:** Raw PDF text không được đưa vào context của admin. Mỗi subagent trả về CHỈ path + ≤2k-token manifest. Admin chỉ nhận manifest, không đọc raw PDF.
 
 ### Step 3 — Merge rồi drop
-Sau mỗi wave: merge `notes/INDEX.md` + ghi log nếu cần `audit-log`. Bỏ manifests khỏi context — chỉ giữ INDEX. Orchestrator không đọc lại full note bodies sau khi đã merge.
+Sau mỗi wave: merge `notes/INDEX.md` + ghi log nếu cần `audit-log`. Bỏ manifests khỏi context — chỉ giữ INDEX. Admin không đọc lại full note bodies sau khi đã merge.
 
 ### Step 4 — Knowledge graph (optional)
-Fan out `knowledge-graph` đọc id đã triage. Merge/shard via script `scripts/kg_builder.py`. Orchestrator KHÔNG đọc file master graph (`notes/knowledge-graph.md`). Chỉ lấy counts từ script stdout.
+Fan out `knowledge-graph` đọc id đã triage. Merge/shard via script `scripts/kg_builder.py`. Admin KHÔNG đọc file master graph (`notes/knowledge-graph.md`). Chỉ lấy counts từ script stdout.
 
 ### Step 5 — Synthesis
 `paper-synthesize` (compare/taxonomy/gaps/expand.mp) trên INDEX gists + master graph summary. Không load N distillate đầy đủ cùng lúc. Mỗi claim phải có id nguồn.

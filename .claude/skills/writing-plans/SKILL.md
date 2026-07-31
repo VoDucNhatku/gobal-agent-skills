@@ -1,6 +1,6 @@
 ---
 name: writing-plans
-description: Writing plans for GOBAL AGENT — creates detailed implementation plans from a spec or requirements. Bite-sized tasks (2-5 min each), exact file paths, complete code in every step, no placeholders. Source: superpowers (writing-plans). Use when you have a spec before touching code.
+description: Writing plans for GOBAL AGENT — creates detailed implementation plans from a spec or requirements. Bite-sized tasks (2-5 min each), exact file paths, complete code in every step, no placeholders. Use when you have a spec before touching code.
 argument-hint: <spec-file | requirements>
 allowed-tools: Read Write Bash Glob
 ---
@@ -153,4 +153,5 @@ After saving the plan:
 - `brainstorming` → Provides the spec this plan implements
 - `spec-writer` → Formal specification (alternative input)
 - `executing-plans` → Executes the plan
-- `subagent-driven-development` → Subagent execution pattern
+- `admin` → Subagent execution pattern (dispatch machinery in
+  `admin/references/dispatch-protocol.md`, Phase 3)

@@ -6,7 +6,7 @@ language: en / vi
 
 A curated collection of **66 specialist skills** for [Claude Code](https://claude.ai/claude-code) — covering academic research, software engineering, UI/UX design, career prep, and operations. Each skill is a self-contained playbook that teaches Claude how to do one thing well, plus 6 binding rule files (`~/.claude/rules/`) that several skills share at runtime.
 
-Built on the **GOBAL Orchestrator** pattern: one master router receives your request, classifies it, routes to a domain orchestrator, which dispatches worker skills — in parallel where independent — then synthesizes a single deliverable (chat reply in Vietnamese, code/identifiers in English).
+Built on the **GOBAL Admin** pattern: you talk to one skill, `admin`. It answers cheap requests itself and escalates only what earns it — to a domain admin (`research-admin`, `code-admin`, `web-admin`, `deploy-admin`), which dispatches worker skills, in parallel where independent, then synthesizes a single deliverable (chat reply in Vietnamese, code/identifiers in English). Asking `admin` a small question stays a small question: the dispatch machinery lives in a reference file it only reads when it actually fans out.
 
 [Browse Skills](#skills) · [Phiên bản Tiếng Việt](#tiếng-việt)
 
@@ -25,9 +25,9 @@ Built on the **GOBAL Orchestrator** pattern: one master router receives your req
 
 ## How It Works
 
-![GOBAL Orchestrator pipeline: a request flows from you through the GOBAL Orchestrator, a domain orchestrator, parallel worker skills, and a synthesis + guardrails stage, into a final Vietnamese reply with file paths](assets/pipeline-overview.svg)
+![GOBAL Admin pipeline: a request flows from you through the root admin, a domain admin, parallel worker skills, and a synthesis + guardrails stage, into a final Vietnamese reply with file paths](assets/pipeline-overview.svg)
 
-**Key principles:** Orchestrator sees only summaries. Raw PDFs never enter the orchestrator context. Workers handle them in isolation.
+**Key principles:** The admin sees only summaries. Raw PDFs never enter the admin context. Workers handle them in isolation.
 
 ---
 
@@ -35,19 +35,46 @@ Built on the **GOBAL Orchestrator** pattern: one master router receives your req
 
 Skills marked **`DEPRECATED`** are kept as thin redirect stubs (not deleted) so old references don't break — they point to the skill that absorbed them.
 
-### Meta Orchestration (3)
+### Admin Layer (3)
 
 | Skill | Description |
 |-------|-------------|
-| `gobal-orchestrator` | Master router — classifies intent, estimates token cost, routes to a domain orchestrator or worker skill, synthesizes multi-agent results |
-| `workbench-orchestrator` | Lead orchestrator for the Workbench suite — same 3-domain routing (research / code / web), maintains `notes/INDEX.md` |
-| `skill-router` | `DEPRECATED` → `gobal-orchestrator` (mode `classify`/`route`) |
+| `admin` | The one entry point. Cheap requests (a question, a lookup, one file) are answered inline; only genuinely multi-step goals get classified, routed to a domain admin, or fanned out. Loads `references/dispatch-protocol.md` **only** when it actually fans out |
+| `workbench-admin` | `DEPRECATED` → `admin` (its Phase 0–6 procedure now lives in `admin/references/dispatch-protocol.md`) |
+| `skill-router` | `DEPRECATED` → `admin` (mode `classify`/`route`) |
+
+**The fast path is the point.** `admin` is meant to be your default entry, so it must not
+tax you for asking a small question. Measured cost of an `admin` call:
+
+| Request | Loads | Cost |
+|---|---|---|
+| A question, a web lookup, reading one file | `admin/SKILL.md` only | **1.9k tok** |
+| One skill obviously covers it | + that skill | 1.9k + skill |
+| Multi-step inside one domain | + a `<domain>-admin` | 1.9k + sub-admin |
+| Independent sub-tasks worth parallelising | + `dispatch-protocol.md` | 5.8k tok |
+
+Before this split, every `admin` call cost 2.5k regardless — and `workbench-admin`, a
+near-duplicate, cost 3.7k. Merging the two by concatenation would have made the cheap
+path cost ~5.8k. Extracting the heavy machinery into an on-demand reference made the
+cheap path **25% cheaper** while keeping the better of the two dispatch procedures.
+
+**What decides the branch is the number of independent sub-tasks, not how much you
+type.** "Explain X thoroughly, with an example and the formula" is verbose but still one
+task, so it stays on the fast path; "read everything in `papers/`" is three words and
+thirty independent ones, so it dispatches. Detail helps `admin` classify correctly and
+avoids the clarifying-question branch — it does not by itself buy a fan-out. The test
+that decides this (≥2 independent sub-tasks, each ≥2k output, known scope) lives in
+`admin/SKILL.md`, deliberately: an earlier draft kept it inside `dispatch-protocol.md`,
+which meant paying 3.9k tokens to read the file just to learn you should not have.
+
+Override it when you want to own the cost: `admin nhanh <task>` locks the fast path,
+`admin sâu <task>` forces the dispatch path.
 
 ### Research & Academic (15)
 
 | Skill | Description |
 |-------|-------------|
-| `research-orchestrator` | Owns the full academic pipeline — `scope` (domain problem → candidate technique families, before any papers exist) → triage → shard deep-reads → merge → knowledge graph → synthesis → self-check |
+| `research-admin` | Owns the full academic pipeline — `scope` (domain problem → candidate technique families, before any papers exist) → triage → shard deep-reads → merge → knowledge graph → synthesis → self-check |
 | `paper-triage` | Ranks every paper by relevance (0–5) from an abstract-level pass → reading plan + next skill |
 | `paper-read` | Reads ONE paper at chosen depth: `gist` / `summary` / `eli5` / `mindmap` / `think` (argument map + ablation causality + what-would-falsify) |
 | `paper-method` | Deep method analysis: `critique` (formulation, math, novelty, ablation causality, 6-criterion reproducibility) or `recipe` (reimplementation pipeline table) |
@@ -67,7 +94,7 @@ Skills marked **`DEPRECATED`** are kept as thin redirect stubs (not deleted) so 
 
 | Skill | Description |
 |-------|-------------|
-| `code-orchestrator` | Coordinates understand → plan → implement → review → verify for code tasks |
+| `code-admin` | Coordinates understand → plan → implement → review → verify for code tasks |
 | `code-senior` | Implements/debugs/reviews with an anti-runaway-edit contract + verification gate; gated **Algorithm Justification** step for non-trivial algorithms (complexity, provenance, correctness, edge cases) |
 | `understand-codebase` | Maps an unfamiliar repo into a token-bounded structural summary |
 | `code-reviewer` | 6-axis severity-coded review — tests reviewed first, then implementation |
@@ -88,7 +115,7 @@ Skills marked **`DEPRECATED`** are kept as thin redirect stubs (not deleted) so 
 
 | Skill | Description |
 |-------|-------------|
-| `web-orchestrator` | Routes web/UI requests through design-web → build-ui → review-frontend |
+| `web-admin` | Routes web/UI requests through design-web → build-ui → review-frontend |
 | `design-web` | Decides a theme-neutral visual direction (anti-slop token system), renders an HTML Artifact preview, locks a design-record |
 | `build-ui` | Builds accessible, on-brand components / pages / admin dashboards from a locked design-record |
 | `build-admin-dashboard` | CRUD admin surfaces with server-side role-gated access + analytics |
@@ -117,7 +144,7 @@ Skills marked **`DEPRECATED`** are kept as thin redirect stubs (not deleted) so 
 
 | Skill | Description |
 |-------|-------------|
-| `deploy-orchestrator` | Coordinates validate → ship → monitor → rollback; owns the canonical Advance/Hold/Roll-back threshold table |
+| `deploy-admin` | Coordinates validate → ship → monitor → rollback; owns the canonical Advance/Hold/Roll-back threshold table |
 | `ship-validator` | Pre-ship gate — lint / types / tests / security / Core Web Vitals (INP ≤ 200ms) |
 | `monitor-setup` | Sets up RED/USE metrics, structured logging, alerting rules |
 | `rollback-manager` | Decision matrix + structured 5-step emergency rollback |
@@ -149,11 +176,33 @@ Skills marked **`DEPRECATED`** are kept as thin redirect stubs (not deleted) so 
 
 ## Recent Changes
 
+**2026-08 — orchestrators renamed to admins, and the entry point made cheap.**
+
+- **Rename:** `gobal-orchestrator` → **`admin`**; the domain orchestrators → `research-admin`, `code-admin`, `web-admin`, `deploy-admin`. Directories, frontmatter, every routing table and cross-reference moved together.
+- **Real bug found and fixed:** `paper-triage` declared `name: reading-triage`, so it did not match its own directory — every routing table calling `paper-triage` would have missed. The suite's own validator never caught it because it checked kebab-case but not `name` vs. directory. Both checks (`name == dir`, `description ≤ 1024 chars`) are now in `test_skills.py`, and they fail hard rather than warn.
+- **Merge without inflating the entry point:** `admin` and `workbench-admin` shared 87 of 174 identical lines. Rather than concatenating them, the heavy dispatch machinery (worker registry, Phase 0–6, corpus pipeline, context specs) moved to `admin/references/dispatch-protocol.md`, read only on a real fan-out. Cheap `admin` calls went 2.5k → 1.4k tokens; `workbench-admin` became a redirect stub.
+- **Stale claims corrected:** `web-admin` listed `build-admin-dashboard` and `scaffold-course-platform` as absorbed aliases — both are live, independent skills with their own `references/`. `.claude/skills/README.md` still advertised 11 skills and called deprecated names; it now points at this file instead of maintaining a second list.
+- **Housekeeping:** `PLAN.md` and the 77 KB `ecosystem-research.md` existed as byte-identical copies in two places — the root duplicates were removed, keeping the ones that actually ship to `~/.claude/skills/`. `ai-cv-forge` (the one skill failing validation) had its market-strategy section moved to `references/`, putting it back under the 500-line cap.
+
+**The validator was lying in both directions.** It reported 204 warnings; 3 of its 5 warning classes were the check's fault, not the skills':
+
+| Class | Count | Verdict |
+|---|---|---|
+| `cross_refs` | 48 | Matched *any* backticked token, so modes (`implement`), enum values (`verified`), LaTeX macros (`tikzpicture`), even `and` all read as broken skills. Rewritten to read only wiki links, `→ \`skill\`` handoffs, and Cross-References sections — 48 noisy hits became **2 real ones**, both dangling: `writing-plans` → a skill that never existed here, `writing-skills` → a directory that was deleted. It also excluded `test-framework` from the valid-name set, so referring to it looked broken. |
+| `announce_line` | 58 | Grepped the literal English `"I'm using the ..."` — a convention from the six imported obra/superpowers skills that the other 58 (written in Vietnamese) never adopted. Enforcing it was flagging a language mismatch as a defect. Removed. |
+| `provenance` | 37 | Demanded `> **Source:**` from every skill, including original ones with nothing to attribute — inventing a source to satisfy a linter is the exact fabrication these skills forbid. Now required only where a skill *claims* an upstream. Two that did claim one in prose (`code-senior`, `backend-engineer`) were missing the marker and got it. |
+| `description_format` | 55 | Demanded the literal "Use when...", while this suite uses `Triggers — <bilingual keywords>`. The check now accepts both and exempts DEPRECATED stubs — but 24 skills genuinely had neither, so they got real trigger keywords. |
+| `frontmatter` | 6 | Genuine. Six skills were missing `argument-hint` or `allowed-tools`; both were filled in from what each skill actually does. |
+
+Result: **0 failures, 0 warnings, 100% pass** — and the loosened checks were re-verified by fault injection (a mismatched `name`, a dangling reference, an oversized description each still fail).
+
+**Session baseline**, the descriptions loaded before you type anything: 7,897 → 8,240 tokens. The 24 new trigger lists cost ~900; moving `Source: ...` attribution out of 28 descriptions and into the body markers that already held it gave back ~570. Net +343 tokens for routing that no longer has to guess.
+
 A full audit pass (2026-07) verified every skill's actual file content against its own claims — not just a self-report — and fixed what didn't hold up:
 
-- **Deduplication:** 4 redundant skills (`skill-router`, `reuse-checker`, `design-ui-direction`, `build-ui-component`) converted to thin `DEPRECATED` redirect stubs; every routing table that still called them by name was updated to point at the real owner.
+- **Deduplication:** 4 redundant skills (`skill-router`, `reuse-checker`, `design-ui-direction`, `build-ui-component`) — and, in 2026-08, a 5th (`workbench-admin`) — converted to thin `DEPRECATED` redirect stubs; every routing table that still called them by name was updated to point at the real owner.
 - **Root-cause fix:** a hardcoded `/tmp/...` spec-file path (breaks on Windows) traced back to the shared `workbench-conventions.md` rule, not just one skill — fixed at the source and propagated to all 4 skills that used it.
-- **New capability:** `research-orchestrator` gained a `scope` mode — domain problem → candidate AI technique families + search keywords, for when you have an idea but no papers yet.
+- **New capability:** `research-admin` gained a `scope` mode — domain problem → candidate AI technique families + search keywords, for when you have an idea but no papers yet.
 - **New capability:** `paper-read` gained a `think` mode (argument map, ablation causality, implicit assumptions, what-would-falsify) and a new `paper-storytelling` skill for IEEE/Springer manuscript structure + figure generation.
 - **New capability:** `code-senior` gained an Algorithm Justification Gate (complexity, provenance, correctness idea, edge cases) so an algorithm choice can't be "fabricated" the same way a fake benchmark number can.
 - **Verified, not just described:** `latex-tikz-generator`'s 4 diagram skeletons were previously prose-only; they're now real `tikzpicture` code, compile-tested with `pdflatex` before being committed.
@@ -163,14 +212,14 @@ A full audit pass (2026-07) verified every skill's actual file content against i
 
 ## Architecture Decisions
 
-### Why orchestrators?
+### Why a hierarchy of admins?
 
 ```
 Single big skill   → hard to maintain, low token efficiency
 Many flat skills   → hard to route, no context sharing
 
-Solution: Hierarchical orchestrators
-  GOBAL → domain orchestrator → worker skills
+Solution: Hierarchical admins
+  admin → <domain>-admin → worker skills
 ```
 
 ### Token economy (5 principles)
@@ -179,7 +228,7 @@ Solution: Hierarchical orchestrators
 2. **Fan-out judiciously** — parallel costs ~10x tokens. Gate on: independence + value ≥ 2k tokens + clear scope
 3. **Preview-not-dump** — chat = 5–10 lines + file paths. Full content lives in files
 4. **Reuse-before-read** — check `INDEX.md` + existing artifacts before ingesting sources
-5. **Context isolation** — each worker gets ONLY its spec. Orchestrator never sees raw PDF text
+5. **Context isolation** — each worker gets ONLY its spec. The admin never sees raw PDF text
 
 ### Hallucination defense (tiered, not one mega-skill)
 
@@ -226,7 +275,7 @@ GOBAL Agent Skills là **bộ công cụ "siêu trợ lý"** cho Claude Code —
 Bạn (Giám đốc)
     │
     ▼
-GOBAL Orchestrator (Trợ lý điều phối)
+admin (Trợ lý điều phối gốc)
     ├── "Cần đọc bài báo?"      → Phòng Nghiên cứu
     ├── "Cần code?"              → Phòng Kỹ thuật
     ├── "Cần thiết kế web?"      → Phòng Thiết kế
@@ -234,17 +283,17 @@ GOBAL Orchestrator (Trợ lý điều phối)
     └── "Cần học tập?"           → Phòng Học tập
 ```
 
-Mỗi "phòng ban" có Trưởng phòng (orchestrator) và nhiều chuyên gia (worker skill). Sơ đồ dưới đây là đúng luồng thật (đã dịch nghĩa các nhãn, tên riêng giữ tiếng Anh vì đó là tên skill thật):
+Mỗi "phòng ban" có Trưởng phòng (`<domain>-admin`) và nhiều chuyên gia (worker skill). Sơ đồ dưới đây là đúng luồng thật (đã dịch nghĩa các nhãn, tên riêng giữ tiếng Anh vì đó là tên skill thật):
 
-![Sơ đồ pipeline GOBAL Orchestrator: yêu cầu đi từ bạn qua GOBAL Orchestrator, Domain Orchestrator, các worker skill chạy song song, bước tổng hợp + kiểm tra, rồi ra câu trả lời tiếng Việt kèm đường dẫn file](assets/pipeline-overview.svg)
+![Sơ đồ pipeline GOBAL Admin: yêu cầu đi từ bạn qua admin gốc, domain admin, các worker skill chạy song song, bước tổng hợp + kiểm tra, rồi ra câu trả lời tiếng Việt kèm đường dẫn file](assets/pipeline-overview.svg)
 
-Ví dụ khi bạn nói *"nghiên cứu các bài báo về AI, so sánh phương pháp, tìm khoảng trống"*: GOBAL phân loại là Research → route sang Research Orchestrator → chạy `paper-triage` 1 lần (chỉ đọc title + abstract, ra 5 bài liên quan nhất) → chia thành các batch đọc song song (mỗi batch chỉ trả về ≤2k ký tự tóm tắt + đường dẫn file, không trả nguyên PDF) → gom vào `notes/INDEX.md` + chạy `hallucination-guard`/`self-evaluator` → trả bạn kết quả cuối: 5 bài liên quan nhất, phương pháp chính, khoảng trống, và đường dẫn từng file.
+Ví dụ khi bạn nói *"nghiên cứu các bài báo về AI, so sánh phương pháp, tìm khoảng trống"*: GOBAL phân loại là Research → route sang `research-admin` → chạy `paper-triage` 1 lần (chỉ đọc title + abstract, ra 5 bài liên quan nhất) → chia thành các batch đọc song song (mỗi batch chỉ trả về ≤2k ký tự tóm tắt + đường dẫn file, không trả nguyên PDF) → gom vào `notes/INDEX.md` + chạy `hallucination-guard`/`self-evaluator` → trả bạn kết quả cuối: 5 bài liên quan nhất, phương pháp chính, khoảng trống, và đường dẫn từng file.
 
 ### Sơ đồ cây skill
 
 ```
 gobal-agent-skills/
-├── meta-orchestration/    ← Điều phối gốc (3 skills)
+├── admin-layer/           ← Điều phối gốc (3 skills)
 ├── research/              ← Nghiên cứu (15 skills)
 ├── code/                  ← Kỹ thuật (16 skills)
 ├── web-ui/                ← Thiết kế web (9 skills)
@@ -255,16 +304,18 @@ gobal-agent-skills/
 └── governance/            ← Kiểm soát chất lượng (12 skills)
 ```
 
-*(4 trong số này là "stub" đã deprecated — vẫn giữ file để không vỡ tham chiếu cũ, nhưng chỉ trỏ sang skill đã gộp: `skill-router`→`gobal-orchestrator`, `reuse-checker`→`artifact-manager`, `design-ui-direction`→`design-web`, `build-ui-component`→`build-ui`.)*
+*(5 trong số này là "stub" đã deprecated — vẫn giữ file để không vỡ tham chiếu cũ, nhưng chỉ trỏ sang skill đã gộp: `skill-router`→`admin`, `reuse-checker`→`artifact-manager`, `design-ui-direction`→`design-web`, `build-ui-component`→`build-ui`, `workbench-admin`→`admin`.)*
 
 ### Mỗi nhóm skill làm gì — giải thích đời thường
 
 **Điều phối gốc:**
-- **gobal-orchestrator:** Trợ lý trưởng — bạn nói mục tiêu lớn, nó phân loại và gọi đúng người
-- **workbench-orchestrator:** Bản điều phối song song cho bộ Workbench, cùng logic 3 domain
+- **admin:** Điểm vào duy nhất. Hỏi nhanh / tra cứu / đọc 1 file → nó trả lời thẳng
+  (~1.4k token). Chỉ việc nhiều bước mới phân loại → gọi sub-admin, và chỉ khi cần chạy
+  song song mới nạp `dispatch-protocol.md`. Gọi `admin` hỏi câu nhỏ vẫn là câu nhỏ
+- **workbench-admin:** `DEPRECATED` → gộp vào `admin`. Quy trình Phase 0–6 nay nằm ở `admin/references/dispatch-protocol.md`, chỉ đọc khi thật sự fan-out
 
 **Nghiên cứu (15 skills):**
-- **research-orchestrator:** Quản lý toàn bộ pipeline — kể cả mode `scope` mới: có ý tưởng domain mà CHƯA có bài báo nào → gợi ý nhóm kỹ thuật AI + từ khóa tìm kiếm trước
+- **research-admin:** Quản lý toàn bộ pipeline — kể cả mode `scope` mới: có ý tưởng domain mà CHƯA có bài báo nào → gợi ý nhóm kỹ thuật AI + từ khóa tìm kiếm trước
 - **paper-triage:** "Đống bài báo này — cái nào đáng đọc?" (quét abstract → điểm 0–5)
 - **paper-read:** "Đọc bài báo số 003" — 5 mức: gist/summary/eli5/mindmap/**think** (bản đồ lập luận + chuỗi nhân quả ablation)
 - **paper-method:** "Phân tích sâu — tái lập được không? điểm mới gì?" (critique 6 tiêu chí + recipe pipeline)
@@ -280,7 +331,7 @@ gobal-agent-skills/
 - **ieee-q1-devil-advocate:** Đóng vai reviewer Q1 khó tính — điểm mới thật không, ablation đủ chưa, không bịa % xác suất
 
 **Kỹ thuật (16 skills):**
-- **code-orchestrator:** Điều phối hiểu → lên kế hoạch → code → review → verify
+- **code-admin:** Điều phối hiểu → lên kế hoạch → code → review → verify
 - **code-senior:** Code/sửa/review có gate chặn edit tràn lan; thêm bước bắt buộc giải trình thuật toán (độ phức tạp, nguồn gốc, edge case) trước khi code thuật toán không tầm thường
 - **understand-codebase:** Giải thích dự án cũ, gói gọn trong ngân sách token
 - **code-reviewer:** Review 6 trục, có phân mức độ nghiêm trọng
@@ -297,7 +348,7 @@ gobal-agent-skills/
 - **test-framework:** Tự kiểm tra chính bộ skill có bị lỗi cấu trúc không
 
 **Thiết kế Web (9 skills):**
-- **web-orchestrator:** Điều phối design-web → build-ui → review-frontend
+- **web-admin:** Điều phối design-web → build-ui → review-frontend
 - **design-web:** Chọn hướng thiết kế (chống mẫu AI-slop), preview HTML, chốt design-record
 - **build-ui:** Dựng component/trang/admin thật từ design-record, có accessibility
 - **build-admin-dashboard:** Trang quản trị CRUD, phân quyền server-side, có analytics
@@ -315,7 +366,7 @@ gobal-agent-skills/
 - **knowledge-quiz:** Ra quiz nghiêm túc, chống distractor dễ đoán
 
 **Vận hành (5 skills):**
-- **deploy-orchestrator:** Điều phối validate → ship → monitor → rollback, giữ bảng ngưỡng canonical duy nhất
+- **deploy-admin:** Điều phối validate → ship → monitor → rollback, giữ bảng ngưỡng canonical duy nhất
 - **ship-validator:** Cổng kiểm tra trước khi ship (lint/type/test/security/Core Web Vitals)
 - **monitor-setup:** Dựng RED/USE metrics, log, alert
 - **rollback-manager:** Ma trận quyết định + quy trình rollback khẩn cấp 5 bước

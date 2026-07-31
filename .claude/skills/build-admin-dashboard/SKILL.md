@@ -1,6 +1,6 @@
 ---
 name: build-admin-dashboard
-description: Generates production-grade admin surfaces with CRUD tables, role-gated access, and analytics. Modes: admin, scaffold, audit. Requires design tokens from design-web.
+description: Generates production-grade admin surfaces with CRUD tables, role-gated access, and analytics. Modes: admin, scaffold, audit. Requires design tokens from design-web. Triggers — admin dashboard, trang quản trị, bảng CRUD, quản lý người dùng, phân quyền admin, role-gated table.
 argument-hint: <resource-key>
 allowed-tools: Skill Agent Read Write Edit Glob Bash Grep
 ---
