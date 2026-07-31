@@ -2,32 +2,72 @@
 language: en / vi
 ---
 
+<div align="center">
+
 # GOBAL Agent Skills
 
-A curated collection of **66 specialist skills** for [Claude Code](https://claude.ai/claude-code) — covering academic research, software engineering, UI/UX design, career prep, and operations. Each skill is a self-contained playbook that teaches Claude how to do one thing well, plus 6 binding rule files (`~/.claude/rules/`) that several skills share at runtime.
+**66 specialist skills for [Claude Code](https://claude.ai/claude-code) behind one entry point —
+which spends only what your request is actually worth.**
 
-Built on the **GOBAL Admin** pattern: you talk to one skill, `admin`. It answers cheap requests itself and escalates only what earns it — to a domain admin (`research-admin`, `code-admin`, `web-admin`, `deploy-admin`), which dispatches worker skills, in parallel where independent, then synthesizes a single deliverable (chat reply in Vietnamese, code/identifiers in English). Asking `admin` a small question stays a small question: the dispatch machinery lives in a reference file it only reads when it actually fans out.
+![skills](https://img.shields.io/badge/skills-66-2a78d6?style=flat-square)
+![validator](https://img.shields.io/badge/validator-0%20failures%20·%200%20warnings-17915f?style=flat-square)
+![baseline](https://img.shields.io/badge/session%20baseline-8.3k%20tok-4a3aa7?style=flat-square)
+![license](https://img.shields.io/badge/license-MIT-52514e?style=flat-square)
 
-[Browse Skills](#skills) · [Phiên bản Tiếng Việt](#tiếng-việt)
+[Quick Start](#quick-start) · [Skills](#skills) · [Architecture](#architecture-decisions) · [Tiếng Việt](#tiếng-việt)
+
+</div>
 
 ---
 
-## Table of Contents
+Ask for something small and you get something small. Ask for something that genuinely
+needs thirty papers read in parallel, and only then does the machinery wake up:
 
-- [How It Works](#how-it-works)
-- [Skills](#skills)
-- [Recent Changes](#recent-changes)
-- [Architecture Decisions](#architecture-decisions)
-- [Quick Start](#quick-start)
-- [Tiếng Việt](#tiếng-việt)
+| You say | What runs | Cost |
+|---|---|---|
+| `admin, RAG khác fine-tuning chỗ nào?` | Answered inline. Nothing dispatched. | **1.9k tok** |
+| `admin, review cái diff này` | `code-reviewer`, called directly | + 1 skill |
+| `admin, dựng trang pricing` | `web-admin` owns the design → build → audit chain | + sub-admin |
+| `admin, đọc hết papers/ rồi so sánh` | 30 papers, sharded across parallel isolated workers | **5.8k tok** |
+
+Every skill is a self-contained playbook for doing one thing well. Six binding rule files
+in `~/.claude/rules/` hold the policy they share, read at run time so they never sit in
+context. Replies come back in Vietnamese; code and identifiers stay English.
 
 ---
 
 ## How It Works
 
-![GOBAL Admin pipeline: a request flows from you through the root admin, a domain admin, parallel worker skills, and a synthesis + guardrails stage, into a final Vietnamese reply with file paths](assets/pipeline-overview.svg)
+![GOBAL Admin routing: a request enters the admin, which stops at the first of four branches that fits — answering inline, invoking one skill, handing off to a sub-admin, or fanning out to parallel isolated workers whose summaries are synthesized behind hallucination and verification gates](assets/pipeline-overview.svg)
 
-**Key principles:** The admin sees only summaries. Raw PDFs never enter the admin context. Workers handle them in isolation.
+The decision that picks a branch lives in `admin/SKILL.md` itself, not in the reference
+file — so choosing **not** to fan out costs nothing extra. Force either way with
+`admin nhanh <task>` or `admin sâu <task>`.
+
+---
+
+## Quick Start
+
+```bash
+git clone https://github.com/VoDucNhatku/gobal-agent-skills.git
+cd gobal-agent-skills
+
+# Install globally — available in every project
+cp -r .claude/skills/. ~/.claude/skills/
+cp -r .claude/rules/.  ~/.claude/rules/
+
+# Verify the install
+python ~/.claude/skills/test-framework/scripts/test_skills.py
+```
+
+Then just talk to it:
+
+```
+admin, tôi muốn nghiên cứu AI cho bài toán dự đoán học sinh bỏ học
+```
+
+**Requirements:** Claude Code, Python 3.9+, Git. `pdflatex`/MiKTeX is needed only for the
+TikZ and PDF skills, Modal only for GPU deploys — both optional.
 
 ---
 
@@ -43,32 +83,16 @@ Skills marked **`DEPRECATED`** are kept as thin redirect stubs (not deleted) so 
 | `workbench-admin` | `DEPRECATED` → `admin` (its Phase 0–6 procedure now lives in `admin/references/dispatch-protocol.md`) |
 | `skill-router` | `DEPRECATED` → `admin` (mode `classify`/`route`) |
 
-**The fast path is the point.** `admin` is meant to be your default entry, so it must not
-tax you for asking a small question. Measured cost of an `admin` call:
-
-| Request | Loads | Cost |
-|---|---|---|
-| A question, a web lookup, reading one file | `admin/SKILL.md` only | **1.9k tok** |
-| One skill obviously covers it | + that skill | 1.9k + skill |
-| Multi-step inside one domain | + a `<domain>-admin` | 1.9k + sub-admin |
-| Independent sub-tasks worth parallelising | + `dispatch-protocol.md` | 5.8k tok |
-
-Before this split, every `admin` call cost 2.5k regardless — and `workbench-admin`, a
-near-duplicate, cost 3.7k. Merging the two by concatenation would have made the cheap
-path cost ~5.8k. Extracting the heavy machinery into an on-demand reference made the
-cheap path **25% cheaper** while keeping the better of the two dispatch procedures.
-
 **What decides the branch is the number of independent sub-tasks, not how much you
 type.** "Explain X thoroughly, with an example and the formula" is verbose but still one
 task, so it stays on the fast path; "read everything in `papers/`" is three words and
 thirty independent ones, so it dispatches. Detail helps `admin` classify correctly and
-avoids the clarifying-question branch — it does not by itself buy a fan-out. The test
-that decides this (≥2 independent sub-tasks, each ≥2k output, known scope) lives in
-`admin/SKILL.md`, deliberately: an earlier draft kept it inside `dispatch-protocol.md`,
-which meant paying 3.9k tokens to read the file just to learn you should not have.
+avoids the clarifying-question branch — it does not by itself buy a fan-out.
 
-Override it when you want to own the cost: `admin nhanh <task>` locks the fast path,
-`admin sâu <task>` forces the dispatch path.
+`admin` and `workbench-admin` used to be near-duplicates costing 2.5k and 3.7k. Merging
+them by concatenation would have made *every* call — including a one-line question — cost
+5.8k. Splitting instead, with the heavy machinery in an on-demand reference, made the
+cheap path 25% cheaper than the old `admin` while keeping the better dispatch procedure.
 
 ### Research & Academic (15)
 
@@ -176,11 +200,17 @@ Override it when you want to own the cost: `admin nhanh <task>` locks the fast p
 
 ## Recent Changes
 
-**2026-08 — orchestrators renamed to admins, and the entry point made cheap.**
+**2026-08 — orchestrators renamed to admins, and the entry point made cheap.** The rename
+was the easy half; the audit under it found a skill that could never be invoked, a binding
+rule file naming three dead skills, and a validator that was wrong in both directions.
+
+<details>
+<summary><b>Full 2026-08 audit</b> — what broke, what the validator missed, and the numbers</summary>
+<br>
 
 - **Rename:** `gobal-orchestrator` → **`admin`**; the domain orchestrators → `research-admin`, `code-admin`, `web-admin`, `deploy-admin`. Directories, frontmatter, every routing table and cross-reference moved together.
 - **Real bug found and fixed:** `paper-triage` declared `name: reading-triage`, so it did not match its own directory — every routing table calling `paper-triage` would have missed. The suite's own validator never caught it because it checked kebab-case but not `name` vs. directory. Both checks (`name == dir`, `description ≤ 1024 chars`) are now in `test_skills.py`, and they fail hard rather than warn.
-- **Merge without inflating the entry point:** `admin` and `workbench-admin` shared 87 of 174 identical lines. Rather than concatenating them, the heavy dispatch machinery (worker registry, Phase 0–6, corpus pipeline, context specs) moved to `admin/references/dispatch-protocol.md`, read only on a real fan-out. Cheap `admin` calls went 2.5k → 1.4k tokens; `workbench-admin` became a redirect stub.
+- **Merge without inflating the entry point:** `admin` and `workbench-admin` shared 87 of 174 identical lines. Rather than concatenating them, the heavy dispatch machinery (worker registry, Phase 0–6, corpus pipeline, context specs) moved to `admin/references/dispatch-protocol.md`, read only on a real fan-out. Cheap `admin` calls went 2.5k → 1.9k tokens; `workbench-admin` became a redirect stub.
 - **Stale claims corrected:** `web-admin` listed `build-admin-dashboard` and `scaffold-course-platform` as absorbed aliases — both are live, independent skills with their own `references/`. `.claude/skills/README.md` still advertised 11 skills and called deprecated names; it now points at this file instead of maintaining a second list.
 - **Housekeeping:** `PLAN.md` and the 77 KB `ecosystem-research.md` existed as byte-identical copies in two places — the root duplicates were removed, keeping the ones that actually ship to `~/.claude/skills/`. `ai-cv-forge` (the one skill failing validation) had its market-strategy section moved to `references/`, putting it back under the 500-line cap.
 
@@ -196,7 +226,13 @@ Override it when you want to own the cost: `admin nhanh <task>` locks the fast p
 
 Result: **0 failures, 0 warnings, 100% pass** — and the loosened checks were re-verified by fault injection (a mismatched `name`, a dangling reference, an oversized description each still fail).
 
-**Session baseline**, the descriptions loaded before you type anything: 7,897 → 8,240 tokens. The 24 new trigger lists cost ~900; moving `Source: ...` attribution out of 28 descriptions and into the body markers that already held it gave back ~570. Net +343 tokens for routing that no longer has to guess.
+**Session baseline**, the descriptions loaded before you type anything: 7,897 → 8,269 tokens. The 24 new trigger lists cost ~900; moving `Source: ...` attribution out of 28 descriptions and into the body markers that already held it gave back ~570. Net +372 tokens for routing that no longer has to guess.
+
+</details>
+
+<details>
+<summary><b>Earlier: the 2026-07 audit pass</b></summary>
+<br>
 
 A full audit pass (2026-07) verified every skill's actual file content against its own claims — not just a self-report — and fixed what didn't hold up:
 
@@ -207,6 +243,8 @@ A full audit pass (2026-07) verified every skill's actual file content against i
 - **New capability:** `code-senior` gained an Algorithm Justification Gate (complexity, provenance, correctness idea, edge cases) so an algorithm choice can't be "fabricated" the same way a fake benchmark number can.
 - **Verified, not just described:** `latex-tikz-generator`'s 4 diagram skeletons were previously prose-only; they're now real `tikzpicture` code, compile-tested with `pdflatex` before being committed.
 - **Consistency fixes:** duplicate numbering, a stale "5-criterion" reference after a 6th criterion was added, a self-contradictory devil's-advocate rule, and a copy-pasted threshold table between two deploy skills.
+
+</details>
 
 ---
 
@@ -244,18 +282,6 @@ Solution: Hierarchical admins
 
 ---
 
-## Quick Start
-
-```bash
-git clone https://github.com/VoDucNhatku/gobal-agent-skills.git
-# Copy .claude/skills/ and .claude/rules/ into your own ~/.claude/ (or a project's .claude/)
-claude
-```
-
-**Requirements:** Claude Code, Python 3.9+ (bundled scripts), Git. Some skills use `pdflatex`/MiKTeX (TikZ/PDF) or Modal (GPU deploy) — optional, only needed for those specific skills.
-**License:** MIT
-
----
 
 <br>
 
@@ -266,6 +292,17 @@ claude
 ## Giới thiệu
 
 GOBAL Agent Skills là **bộ công cụ "siêu trợ lý"** cho Claude Code — hình dung nó như 66 "chuyên gia" nhỏ, mỗi người giỏi đúng một việc, cộng thêm 6 file quy tắc gốc dùng chung. Bạn chỉ cần **nói tiếng Việt** — hệ thống tự hiểu, tự gọi đúng chuyên gia và trả kết quả bằng tiếng Việt.
+
+Điểm khác biệt: bạn chỉ gọi **một** cửa duy nhất là `admin`, và nó **chỉ tiêu đúng số token việc đó đáng**:
+
+| Bạn gõ | Chạy gì | Tốn |
+|---|---|---|
+| `admin, RAG khác fine-tuning chỗ nào?` | Trả lời thẳng, không gọi ai | **1.9k tok** |
+| `admin, review cái diff này` | Gọi thẳng `code-reviewer` | + 1 skill |
+| `admin, dựng trang pricing` | `web-admin` lo cả chuỗi thiết kế → dựng → audit | + sub-admin |
+| `admin, đọc hết papers/ rồi so sánh` | 30 bài, chia shard chạy song song, cô lập | **5.8k tok** |
+
+Ép nhánh khi bạn muốn tự quyết: `admin nhanh <việc>` (khóa đường rẻ) · `admin sâu <việc>` (ép chạy song song).
 
 ## Cách hoạt động — cho người không rành code
 
@@ -290,6 +327,9 @@ Mỗi "phòng ban" có Trưởng phòng (`<domain>-admin`) và nhiều chuyên g
 Ví dụ khi bạn nói *"nghiên cứu các bài báo về AI, so sánh phương pháp, tìm khoảng trống"*: GOBAL phân loại là Research → route sang `research-admin` → chạy `paper-triage` 1 lần (chỉ đọc title + abstract, ra 5 bài liên quan nhất) → chia thành các batch đọc song song (mỗi batch chỉ trả về ≤2k ký tự tóm tắt + đường dẫn file, không trả nguyên PDF) → gom vào `notes/INDEX.md` + chạy `hallucination-guard`/`self-evaluator` → trả bạn kết quả cuối: 5 bài liên quan nhất, phương pháp chính, khoảng trống, và đường dẫn từng file.
 
 ### Sơ đồ cây skill
+
+*(Nhóm theo chức năng cho dễ hình dung — trên đĩa thì mọi skill nằm phẳng trong
+`.claude/skills/<tên-skill>/`, không có thư mục con theo nhóm.)*
 
 ```
 gobal-agent-skills/
