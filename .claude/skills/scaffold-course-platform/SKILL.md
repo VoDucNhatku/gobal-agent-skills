@@ -11,7 +11,7 @@ allowed-tools: Skill Agent Read Write Edit Glob Bash Grep
 
 ## Role
 
-This skill does not build the entire platform alone. It is the gatekeeper that `code-admin` and `web-admin` consult before writing any project file. The heavy design and content scaffolding is delegated via fan-out to `design-web`, `build-ui`, and `build-admin-dashboard`.
+This skill does not build the entire platform alone. It is the gatekeeper that `code-admin` and `build-ui` consult before writing any project file. The heavy design and content scaffolding is delegated via fan-out to `design-web`, `build-ui`, and `build-admin-dashboard`.
 
 ## Modes
 

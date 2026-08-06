@@ -1,77 +1,36 @@
 ---
 name: web-admin
-description: Web/UI domain admin for GOBAL AGENT — coordinates web development: design direction → build UI → audit → iterate. Routes to appropriate web skills based on task type. Modes — design (design-web only), build (design-web → build-ui), audit (review-frontend only), scaffold (fullstack-builder). It coordinates; it does NOT write UI code directly. Triggers — làm web nhiều bước, thiết kế rồi dựng UI, điều phối web, audit giao diện.
-argument-hint: <web task> [design|build|audit|scaffold]
-allowed-tools: Skill Agent Read Write Glob Bash
+description: DEPRECATED alias (2026-08-02) — điều phối web đã bỏ. Stub này chỉ redirect, không tự điều phối. Gọi thẳng design-web (quyết hướng thiết kế) hoặc build-ui (dựng theo hệ token đã có); chuỗi design → build → review nay nằm trong chính build-ui.
+argument-hint: (deprecated — gọi thẳng design-web hoặc build-ui)
+allowed-tools: Skill Read
 ---
 
-# Web Admin
+# web-admin — DEPRECATED alias
 
-Coordinate web/UI development. Route to the right skill.
+Ngừng phát triển 2026-08-02. File này chỉ tồn tại để tham chiếu cũ không gãy.
 
-## Pipeline
+## Gọi thẳng cái bạn cần
 
-```
-Web Request
-│
-▼
-design-web (if no design exists)
-│
-▼
-build-ui (implement from design-record)
-│
-▼
-review-frontend (audit UI for quality and slop)
-│
-▼
-Iterate if needed
-│
-▼
-Vietnamese report + artifacts
-```
+| Bạn muốn | Gọi |
+|---|---|
+| Quyết hướng thiết kế, chọn màu/chữ/bố cục | `design-web` |
+| Dựng component / page / admin / scaffold | `build-ui` |
+| Chấm anti-slop + a11y một site đã có | `review-frontend` |
+| Backend, API, auth thật | `backend-engineer` |
 
-## Routing Rules
+Chuỗi **design → build → review** nay được ghi trong mục *"When to run the whole chain"* của
+`build-ui`, cạnh chỗ thật sự dùng nó.
 
-### Alias map (tên cũ đã deprecate — giữ stub để không phá tham chiếu cũ)
+## Lý do bỏ
 
-| Alias cũ | Skill thực | Lý do đổi |
-|---|---|---|
-| design-ui-direction | design-web | đổi tên cho đúng phạm vi |
-| build-ui-component | build-ui (mode `component`) | gộp vào mode |
-| latex-math-renderer | latex-fix | repair là chức năng thật; mode render HTML đã bỏ |
+Thân skill này gần như chỉ là **một bảng tra**: *"Thiết kế giao diện X" → `design-web`*,
+*"Dựng UI" → `build-ui`*. Nhưng Claude Code **đã tự khớp yêu cầu với description của từng skill** —
+đó chính là thứ mà ~8k token description nạp mỗi phiên mua cho bạn. Đặt thêm một lớp tra cứu lên trên
+là **trả tiền hai lần cho cùng một việc**, và bắt mỗi lượt dispatch đi qua hai skill thay vì một.
 
-> **KHÔNG phải alias:** `build-admin-dashboard` và `scaffold-course-platform` là skill
-> sống, độc lập, có `references/` riêng — **không** bị gộp vào `build-ui`. (Bảng này
-> từng khai sai là đã gộp; sửa 2026-08-01.)
+Phần duy nhất có giá trị thật — **thứ tự** design → build → review, và cảnh báo rằng
+`build-admin-dashboard`/`scaffold-course-platform` là skill sống chứ không phải alias — đã được
+chuyển vào `build-ui` và `admin`. Không mất gì.
 
-### Routing Rules (tên thực)
-
-| Request Type | Primary Skill | Supporting Skills |
-| ------------- | -------------- | ------------------ |
-| "Thiết kế giao diện X" | `design-web` | — |
-| "Dựng UI component/page/admin/scaffold từ design-record" | `build-ui` | mode: `component`/`page`/`admin`/`scaffold` |
-| "Audit giao diện / slop / a11y" | `review-frontend` | build-ui |
-| "Render / sửa công thức toán (KaTeX + MathJax)" | `latex-fix` | — |
-| "Scaffold fullstack app" | `build-ui` (mode `scaffold`) + `backend-engineer` | design-web nếu chưa có design-record |
-| "Build backend API / auth / DB" | `backend-engineer` | code-senior, security-review |
-| "Fix UI bug" | `build-ui` / `code-senior` | review-frontend (audit sau fix) |
-
-## Mode: design
-Design direction only. No implementation. Output: design-record.
-
-## Mode: build
-Full build pipeline: design-web (if needed) → build-ui → review-frontend.
-
-## Mode: audit
-Audit existing UI. Output: findings + optional fixes.
-
-## Mode: scaffold
-Fullstack scaffold: detect stack → generate project structure → basic CRUD.
-
-## Integration
-- design-web → always first for new UI work
-- build-ui → reads locked design-record FIRST
-- review-frontend → checks production readiness and slop
-- latex-fix → math repair (KaTeX/MathJax intersection) for math-heavy pages; latex-math-renderer là alias đã deprecate
-- fullstack-builder → for new project scaffolding
-- backend-engineer → for API layer in fullstack
+> Bảng alias cũ ở đây từng khai sai rằng `build-admin-dashboard` và `scaffold-course-platform` đã bị
+> gộp vào `build-ui`. **Sai** — cả hai là skill độc lập, có `references/` riêng. Đã sửa 2026-08-01.

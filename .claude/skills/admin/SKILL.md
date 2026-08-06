@@ -1,6 +1,6 @@
 ---
 name: admin
-description: Root admin (con chính) of GOBAL AGENT — single entry point for any request, cheap or heavy. Answers questions, searches the web, and reads files inline on the fast path; only for genuinely multi-step goals does it write a task spec per worker and dispatch to a sub-admin (research-admin, code-admin, web-admin, deploy-admin) or to workers in parallel isolated subagents, then synthesize one Vietnamese deliverable. Maintains notes/INDEX.md as shared memory. Force the branch with `admin nhanh <task>` (never dispatch) or `admin sâu <task>` (always dispatch). Modes: classify, route, corpus, synthesize. Triggers — admin, gọi admin, hỏi nhanh, tìm giúp tôi, tra cứu, điều phối, làm giúp tôi task lớn, làm nghiên cứu giúp tôi, dựng web, chạy mô hình, hiểu hết các bài này, so sánh phương pháp.
+description: Root admin (con chính) of GOBAL AGENT — single entry point for any request, cheap or heavy. Answers questions, searches the web, and reads files inline on the fast path; only for genuinely multi-step goals does it write a task spec per worker and dispatch to a sub-admin (research-admin, code-admin, deploy-admin) or to workers in parallel isolated subagents, then synthesize one Vietnamese deliverable. Maintains notes/INDEX.md as shared memory. Force the branch with `admin nhanh <task>` (never dispatch) or `admin sâu <task>` (always dispatch). Modes: classify, route, corpus, synthesize. Triggers — admin, gọi admin, hỏi nhanh, tìm giúp tôi, tra cứu, điều phối, làm giúp tôi task lớn, làm nghiên cứu giúp tôi, dựng web, chạy mô hình, hiểu hết các bài này, so sánh phương pháp.
 argument-hint: [nhanh|sâu] <yêu cầu bất kỳ> [classify|route|synthesize|corpus]
 allowed-tools: Skill Agent AskUserQuestion WebSearch WebFetch Read Glob Grep
 ---
@@ -46,9 +46,9 @@ trong context phiên làm việc; nhắc lại ở đây là trả token hai l�
 |---|---|
 | Nghiên cứu · paper · LaTeX · dịch học thuật | `research-admin` |
 | Code · debug · test · spec · review · notebook | `code-admin` |
-| Web · UI · thiết kế · frontend | `web-admin` |
 | Deploy · monitor · rollback · GPU | `deploy-admin` |
 | Học tập · giải thích · quiz | `study-tutor` |
+| Web · UI · thiết kế | *(không có sub-admin — `design-web` rồi `build-ui`)* |
 | Backend · API · bảo mật | *(không có sub-admin — gọi thẳng worker)* |
 
 > **`papers/` rỗng:** user có ý tưởng domain nhưng chưa có bài báo nào ("muốn nghiên cứu

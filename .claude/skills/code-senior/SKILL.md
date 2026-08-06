@@ -77,11 +77,28 @@ read-before-edit staleness rule below).
   (blocker / should-fix / nit). Critical issues block "done".
 
 ### Phase 2 — Verification gate + anti-rationalization (binding)
-Before reporting done, pass the gate. **Do not rationalize past a red result.** Common
-rationalizations that mean STOP, not ship: "the test is probably flaky" (re-run / investigate),
-"this is unrelated" (then why did it change?), "I'll fix it later" (the task isn't done),
-"it works on my read of the code" (run it). If you cannot check the box honestly, the work is not
-done — say what's blocking instead of claiming success.
+
+Two hard laws, checked here on **every** entry path. They used to live only in `code-admin`, which
+meant calling this skill directly — the normal way anyone works — skipped them entirely. A gate you
+can walk around by picking a different door is not a gate.
+
+1. **No-Op Test.** The change must actually change behaviour versus the default. Prove it: a test
+   that fails before and passes after, or an observable difference you can point at. A diff that
+   compiles is not evidence that it does anything.
+2. **No Fabricated Numbers.** Every metric, benchmark or timing you report comes from a run that
+   actually happened, with a readable log or artifact path. An estimate is labelled
+   `ước tính — chưa chạy`. This binds the same as the Algorithm Justification gate below: a made-up
+   benchmark and a made-up method are the same offence.
+
+Then pass the verification gate. **Do not rationalize past a red result.** Common rationalizations
+that mean STOP, not ship: "the test is probably flaky" (re-run / investigate), "this is unrelated"
+(then why did it change?), "I'll fix it later" (the task isn't done), "it works on my read of the
+code" (run it). If you cannot check the box honestly, the work is not done — say what is blocking
+instead of claiming success.
+
+**For anything with a visual surface, the gate includes seeing it.** Compiling is not rendering.
+Serve it, screenshot it, and look at the image before reporting — `→ build-ui` Phase 2 carries the
+full loop.
 
 ### Phase 3 — Report (§3)
 Print a **6-9 line** Vietnamese report: what changed (files + one-line each), the verification

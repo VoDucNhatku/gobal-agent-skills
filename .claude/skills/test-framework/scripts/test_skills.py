@@ -144,11 +144,15 @@ def get_body(content):
 
 
 def collect_mode_vocabulary(skill_files):
-    """Every mode token any skill declares in its `argument-hint`.
+    """Every mode / profile / variant token any skill declares about itself.
 
-    Bodies write modes in backticks exactly like skill names (`implement`,
-    `corpus`, `scaffold`), so without this the reference check flags every mode
-    in the suite as a broken skill.
+    Bodies write these in backticks exactly like skill names (`implement`,
+    `corpus`, `scaffold`, `mixed`), so without this the reference check flags
+    every mode in the suite as a broken skill.
+
+    Harvested from three places, because skills declare their vocabulary in all
+    three: the `argument-hint`, a `Modes — a (…), b (…)` clause, and any
+    pipe-enumeration such as `(research | web | agent | mixed)`.
     """
     modes = set()
     for f in skill_files:
@@ -156,8 +160,20 @@ def collect_mode_vocabulary(skill_files):
             fm = parse_frontmatter(f.read_text(encoding="utf-8"))
         except OSError:
             continue
-        hint = (fm or {}).get("argument-hint", "")
+        if not fm:
+            continue
+
+        hint = fm.get("argument-hint", "")
         modes.update(re.findall(r'[a-z][a-z0-9-]{2,}', hint.lower()))
+
+        desc = fm.get("description", "")
+        # "Modes — plan (…), apply (…), publish (…)" → the words before each "("
+        for clause in re.findall(r'Modes?\s*[—:-]\s*(.+?)(?:\.\s|$)', desc):
+            modes.update(re.findall(r'\b([a-z][a-z0-9-]{2,})\s*\(', clause.lower()))
+            modes.update(re.findall(r'[a-z][a-z0-9-]{2,}', clause.lower()))
+        # "(research | web | agent | mixed)" anywhere in the description
+        for group in re.findall(r'\(([^()]*\|[^()]*)\)', desc):
+            modes.update(re.findall(r'[a-z][a-z0-9-]{2,}', group.lower()))
     return modes
 
 

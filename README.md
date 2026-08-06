@@ -6,12 +6,12 @@ language: en / vi
 
 # GOBAL Agent Skills
 
-**66 specialist skills for [Claude Code](https://claude.ai/claude-code) behind one entry point —
+**69 specialist skills for [Claude Code](https://claude.ai/claude-code) behind one entry point —
 which spends only what your request is actually worth.**
 
-![skills](https://img.shields.io/badge/skills-66-2a78d6?style=flat-square)
+![skills](https://img.shields.io/badge/skills-69-2a78d6?style=flat-square)
 ![validator](https://img.shields.io/badge/validator-0%20failures%20·%200%20warnings-17915f?style=flat-square)
-![baseline](https://img.shields.io/badge/session%20baseline-8.3k%20tok-4a3aa7?style=flat-square)
+![baseline](https://img.shields.io/badge/session%20baseline-9.0k%20tok-4a3aa7?style=flat-square)
 ![license](https://img.shields.io/badge/license-MIT-52514e?style=flat-square)
 
 [Quick Start](#quick-start) · [Skills](#skills) · [Architecture](#architecture-decisions) · [Tiếng Việt](#tiếng-việt)
@@ -114,11 +114,12 @@ cheap path 25% cheaper than the old `admin` while keeping the better dispatch pr
 | `style-humanizer` | Reduces AI-writing signatures via a heuristic checklist under a meaning-preservation invariant; includes a PDF pagination-budget check |
 | `ieee-q1-devil-advocate` | Simulates a harsh IEEE Q1 reviewer — novelty tier, ablation rigor, rejection-pattern analysis (no fabricated percentages) |
 
-### Code & Software Engineering (16)
+### Code & Software Engineering (17)
 
 | Skill | Description |
 |-------|-------------|
 | `code-admin` | Coordinates understand → plan → implement → review → verify for code tasks |
+| `scaffold-project` | Designs folder structure + team git workflow scaled to team size; `plan` (default), `apply`, `publish` (secret-scan gated), `audit`, `onboard` |
 | `code-senior` | Implements/debugs/reviews with an anti-runaway-edit contract + verification gate; gated **Algorithm Justification** step for non-trivial algorithms (complexity, provenance, correctness, edge cases) |
 | `understand-codebase` | Maps an unfamiliar repo into a token-bounded structural summary |
 | `code-reviewer` | 6-axis severity-coded review — tests reviewed first, then implementation |
@@ -156,13 +157,15 @@ cheap path 25% cheaper than the old `admin` while keeping the better dispatch pr
 | `backend-engineer` | Contract-first API/service design + implementation; security-boundary hardening pass |
 | `security-review` | STRIDE threat model + OWASP-style severity-coded review |
 
-### Study & Learning (3)
+### Study & Learning (5)
 
 | Skill | Description |
 |-------|-------------|
 | `study-tutor` | Adaptive tutor — assesses level, then `explain` / `practice` / `quiz` / `summarize`; reuses existing `notes/` distillates before re-reading sources |
 | `concept-explainer` | Explains one concept at the right depth: `eli5` / `deep-dive` / `analogy` |
 | `knowledge-quiz` | Generates and administers rigorous quizzes with anti-slop distractor rules |
+| `study-forge` | Print-quality study handbook from slides/PDF/code — fixed 10-cell cards, real pgfplots graphs, TikZ flowcharts; PDF/Markdown/HTML |
+| `claim-forge` | Print-quality critical-reading handbook for argument-bearing documents (economics, social science, policy, law) — one falsifiable claim per card, evidence tier, load-bearing assumptions, strongest counter-reading |
 
 ### Deploy & Ops (5)
 
@@ -228,6 +231,17 @@ Result: **0 failures, 0 warnings, 100% pass** — and the loosened checks were r
 
 **Session baseline**, the descriptions loaded before you type anything: 7,897 → 8,269 tokens. The 24 new trigger lists cost ~900; moving `Source: ...` attribution out of 28 descriptions and into the body markers that already held it gave back ~570. Net +372 tokens for routing that no longer has to guess.
 
+**2026-08-06 update — three skills added, baseline re-measured in tokens, not characters.** `claim-forge`,
+`study-forge`, and `scaffold-project` joined the suite, bringing it to 69. Re-auditing surfaced a real bug in
+the length gate itself: `description_length` capped at 1024 **characters**, but the router pays in **tokens**,
+and Vietnamese-heavy prose tokenizes far worse than English (2.6 chars/token vs. 4.0 for the English-prose
+skills). `claim-forge` at 919 characters — comfortably under the character cap — was costing 413 tokens, the
+single most expensive description in the suite. Rewrote both new Vietnamese-prose skills to the pattern the
+other 62 already use — English prose, Vietnamese trigger list — without touching a single trigger keyword:
+`claim-forge` 413 → 256 tok, `study-forge` 373 → 249 tok. New baseline: **9,042 tokens** for 69 skills
+(9,323 before the rewrite). The character-based gate is still a known gap; token-based measurement was done
+by hand this pass, not wired into `test_skills.py` yet.
+
 </details>
 
 <details>
@@ -291,7 +305,7 @@ Solution: Hierarchical admins
 
 ## Giới thiệu
 
-GOBAL Agent Skills là **bộ công cụ "siêu trợ lý"** cho Claude Code — hình dung nó như 66 "chuyên gia" nhỏ, mỗi người giỏi đúng một việc, cộng thêm 6 file quy tắc gốc dùng chung. Bạn chỉ cần **nói tiếng Việt** — hệ thống tự hiểu, tự gọi đúng chuyên gia và trả kết quả bằng tiếng Việt.
+GOBAL Agent Skills là **bộ công cụ "siêu trợ lý"** cho Claude Code — hình dung nó như 69 "chuyên gia" nhỏ, mỗi người giỏi đúng một việc, cộng thêm 6 file quy tắc gốc dùng chung. Bạn chỉ cần **nói tiếng Việt** — hệ thống tự hiểu, tự gọi đúng chuyên gia và trả kết quả bằng tiếng Việt.
 
 Điểm khác biệt: bạn chỉ gọi **một** cửa duy nhất là `admin`, và nó **chỉ tiêu đúng số token việc đó đáng**:
 

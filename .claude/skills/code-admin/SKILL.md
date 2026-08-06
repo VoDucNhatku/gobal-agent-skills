@@ -9,11 +9,23 @@ allowed-tools: Skill Agent Read Write Glob Bash
 
 Coordinate code development workflow. Route to the right skill. Do not write code directly.
 
-## THE IRON LAWS OF CODE (Mandatory Gates)
-1. **No-Op Test:** Every change must actually change behavior versus the default.
-2. **The TDD Law:** NEVER write production code before a failing test. If you are modifying logic, write the test first, see it fail (RED), write the code (GREEN), then REFACTOR.
-3. **No Red-Capable Command, No Phase 2:** If you are debugging, you MUST have a command that reliably reproduces the error. If you catch yourself reading code to build a theory before this command exists, STOP.
-4. **No Fabricated Numbers:** Every reported metric/benchmark/result must come from an actually executed run with a readable log or artifact path. Unexecuted estimates are labeled "ước tính — chưa chạy". An experiment plan feeding a research proposal must pass the feasibility gate of `~/.claude/rules/research-proposal-integrity.md` §5 (data · compute · baseline · dependencies) before being presented as runnable.
+## The four gates — enforced by the WORKERS, not here
+
+These used to be written out in this file. That was a real hole: they only loaded if you came through
+this router, and calling `code-senior` directly — the normal way anyone works — skipped every one of
+them. **A gate you can walk around by picking another door is not a gate.** They now live inside the
+skill that does the work, so the entry path no longer matters:
+
+| Gate | Enforced in |
+|---|---|
+| **No-Op Test** — the change must actually change behaviour | `code-senior` Phase 2 |
+| **No Fabricated Numbers** — every metric comes from a real run with a log path | `code-senior` Phase 2 |
+| **TDD Law** — no production code before a failing test | `tdd-enforcer` (its own Iron Law) |
+| **No red-capable command, no Phase 2** — reproduce before theorising | `debug-investigator` (its own Iron Law) |
+
+An experiment plan feeding a research proposal must also clear the feasibility gate in
+`~/.claude/rules/research-proposal-integrity.md` §5 (data · compute · baseline · dependencies) before
+being called runnable.
 
 ## Pipeline Workflow
 

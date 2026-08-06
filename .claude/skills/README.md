@@ -2,13 +2,13 @@
 
 Thư mục này là thứ được copy vào `~/.claude/skills/`.
 
-**Tài liệu đầy đủ (66 skill, kiến trúc, token economy) nằm ở README gốc của repo.**
+**Tài liệu đầy đủ (69 skill, kiến trúc, token economy) nằm ở README gốc của repo.**
 
 ## Có gì trong đây
 
 | Đường dẫn | Là gì |
 |---|---|
-| `<tên-skill>/SKILL.md` | 66 skill, mỗi thư mục một skill |
+| `<tên-skill>/SKILL.md` | 69 skill, mỗi thư mục một skill |
 | `admin/references/dispatch-protocol.md` | Quy trình điều phối nặng — `admin` chỉ đọc khi thật sự fan-out |
 | `references/ecosystem-research.md` | Ghi chép nghiên cứu 8 repo skill khác (đọc on-demand) |
 | `PLAN.md` | Nhật ký kế hoạch/tiến độ của bộ skill |
