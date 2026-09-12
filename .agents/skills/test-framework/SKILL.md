@@ -1,0 +1,35 @@
+---
+name: test-framework
+description: Automated structural validation for all skills in gobal-skills/. Verifies frontmatter, line limits, cross-references, and anti-slop rules.
+---
+
+# Test Framework
+
+> **Purpose:** Automated structural validation for GOBAL AGENT skills.
+
+## Usage
+
+```bash
+# Run all checks (human-readable report)
+python scripts/test_skills.py
+
+# JSON output (for CI / tooling)
+python scripts/test_skills.py --json
+
+# Test single skill
+python scripts/test_skills.py --skill <skill-name>
+```
+
+## Checks Performed
+- `frontmatter`: YAML frontmatter has the Codex-required `name` and `description` keys.
+- `body_lines`: SKILL.md body < 500 lines (token budget).
+- `provenance`: Contains `> **Source:**` marker.
+- `cross_refs`: Referenced skill names exist.
+- `duplicate_sections`: No repeated headings.
+- `anti_slop`: Design skills follow aesthetics rules.
+- `description_format`: Correct trigger format.
+- `announce_line`: Contains announce pattern.
+- `algorithm_justification`: Implement-mode skills (argument-hint contains `implement`)
+  carry method-justification vocabulary (complexity / Big-O / invariant / convergence /
+  provenance) — guards fabricated METHOD, not just fabricated results. N/A for
+  non-implementation skills.

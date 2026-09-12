@@ -1,0 +1,110 @@
+{
+  "_comment": "Canonical layout profiles for scaffold-project. Single source of truth: the script creates from here; references/layout-profiles.md only explains the rationale. Each dir entry: path, git (track|ignore), owner_hint, origin (human|machine).",
+  "common_ignore": [
+    ".env",
+    ".env.*",
+    "!.env.example",
+    "node_modules/",
+    "__pycache__/",
+    "*.py[cod]",
+    ".venv/",
+    "venv/",
+    ".ipynb_checkpoints/",
+    ".DS_Store",
+    "Thumbs.db",
+    "*.log",
+    ".runs/",
+    "dist/",
+    "build/",
+    ".next/",
+    "coverage/",
+    "*.ckpt",
+    "*.pt",
+    "*.pth",
+    "*.safetensors",
+    "*.onnx"
+  ],
+  "profiles": {
+    "research": {
+      "label": "Nghiên cứu / paper (khớp workbench hiện có)",
+      "dirs": [
+        {"path": "papers", "git": "ignore", "origin": "human", "note": "PDF gốc — nhị phân, không merge được"},
+        {"path": "notes", "git": "track", "origin": "machine", "note": "artifact distill; 1 file/paper để tránh đụng nhau"},
+        {"path": "notebooks", "git": "track", "origin": "human", "note": "strip output trước khi commit"},
+        {"path": "src", "git": "track", "origin": "human", "note": "code tái dùng, không để logic trong notebook"},
+        {"path": "data/raw", "git": "ignore", "origin": "human"},
+        {"path": "data/interim", "git": "ignore", "origin": "machine"},
+        {"path": "data/processed", "git": "ignore", "origin": "machine"},
+        {"path": "experiments/configs", "git": "track", "origin": "human", "note": "config chạy được commit; log thì không"},
+        {"path": "paper/figures", "git": "track", "origin": "human"},
+        {"path": "paper/reports", "git": "track", "origin": "machine"},
+        {"path": "evals/tests", "git": "track", "origin": "human"},
+        {"path": "evals/scorecards", "git": "track", "origin": "human"},
+        {"path": ".runs", "git": "ignore", "origin": "machine", "note": "trace/log agent — phình vô hạn"}
+      ],
+      "ignore": ["papers/*", "!papers/manifest.md", "data/raw/*", "!data/raw/manifest.md", "data/interim/", "data/processed/", "experiments/runs/", "paper/**/*.aux", "paper/**/*.out", "paper/**/*.synctex.gz"]
+    },
+    "web": {
+      "label": "Sản phẩm web (monorepo)",
+      "dirs": [
+        {"path": "apps/web", "git": "track", "origin": "human"},
+        {"path": "apps/api", "git": "track", "origin": "human"},
+        {"path": "packages/ui", "git": "track", "origin": "human", "note": "component dùng chung — build-ui viết vào đây"},
+        {"path": "packages/config", "git": "track", "origin": "human"},
+        {"path": "design", "git": "track", "origin": "machine", "note": "design-record đã khóa từ design-web"},
+        {"path": "docs", "git": "track", "origin": "human"},
+        {"path": "e2e", "git": "track", "origin": "human"},
+        {"path": "scripts", "git": "track", "origin": "human"},
+        {"path": ".runs", "git": "ignore", "origin": "machine"}
+      ],
+      "ignore": [".turbo/", ".vercel/", "playwright-report/", "test-results/"]
+    },
+    "agent": {
+      "label": "Sản phẩm AI agent / RAG",
+      "dirs": [
+        {"path": "prompts/system", "git": "track", "origin": "human", "note": "chỉ prompt gọi tay/qua API"},
+        {"path": "prompts/tasks", "git": "track", "origin": "human"},
+        {"path": "agents/skills", "git": "track", "origin": "human", "note": "CHỦ SỞ HỮU DUY NHẤT của system prompt đóng gói"},
+        {"path": "agents/tools", "git": "track", "origin": "human"},
+        {"path": "data/raw", "git": "ignore", "origin": "human"},
+        {"path": "data/interim", "git": "ignore", "origin": "machine"},
+        {"path": "data/processed", "git": "ignore", "origin": "machine"},
+        {"path": "evals/tests/auto", "git": "track", "origin": "human", "note": "script chấm được"},
+        {"path": "evals/tests/judge", "git": "track", "origin": "human", "note": "cần LLM-judge"},
+        {"path": "evals/scorecards", "git": "track", "origin": "human"},
+        {"path": "outputs", "git": "ignore", "origin": "machine", "note": "sản phẩm AI sinh — KHÔNG trộn vào data/"},
+        {"path": "config", "git": "track", "origin": "human", "note": "không chứa khóa; khóa nằm ở .env"},
+        {"path": ".runs", "git": "ignore", "origin": "machine", "note": "traces"}
+      ],
+      "ignore": ["data/raw/*", "!data/raw/manifest.md", "data/interim/", "data/processed/", "outputs/", "index/", "*.faiss", "*.sqlite3"]
+    },
+    "mixed": {
+      "label": "Hỗn hợp: nghiên cứu + web + agent (mặc định cho nhóm ≥4)",
+      "dirs": [
+        {"path": "apps/web", "git": "track", "origin": "human"},
+        {"path": "apps/api", "git": "track", "origin": "human"},
+        {"path": "packages/ui", "git": "track", "origin": "human"},
+        {"path": "packages/core", "git": "track", "origin": "human"},
+        {"path": "design", "git": "track", "origin": "machine"},
+        {"path": "research/papers", "git": "ignore", "origin": "human"},
+        {"path": "research/notes", "git": "track", "origin": "machine"},
+        {"path": "research/notebooks", "git": "track", "origin": "human"},
+        {"path": "agents/skills", "git": "track", "origin": "human"},
+        {"path": "agents/tools", "git": "track", "origin": "human"},
+        {"path": "prompts/tasks", "git": "track", "origin": "human"},
+        {"path": "data/raw", "git": "ignore", "origin": "human"},
+        {"path": "data/interim", "git": "ignore", "origin": "machine"},
+        {"path": "data/processed", "git": "ignore", "origin": "machine"},
+        {"path": "evals/tests/auto", "git": "track", "origin": "human"},
+        {"path": "evals/tests/judge", "git": "track", "origin": "human"},
+        {"path": "evals/scorecards", "git": "track", "origin": "human"},
+        {"path": "outputs", "git": "ignore", "origin": "machine"},
+        {"path": "config", "git": "track", "origin": "human"},
+        {"path": "docs", "git": "track", "origin": "human"},
+        {"path": "infra", "git": "track", "origin": "human"},
+        {"path": ".runs", "git": "ignore", "origin": "machine"}
+      ],
+      "ignore": ["research/papers/*", "!research/papers/manifest.md", "data/raw/*", "!data/raw/manifest.md", "data/interim/", "data/processed/", "outputs/", ".turbo/", ".vercel/", "*.faiss"]
+    }
+  }
+}
