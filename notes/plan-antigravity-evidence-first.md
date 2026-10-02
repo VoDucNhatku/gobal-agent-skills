@@ -2,21 +2,23 @@
 
 > **Goal:** Build, verify, pilot, and roll out a native Antigravity distribution of all GOBAL skills with an evidence-grounded `/admin` workflow.
 > **Architecture:** Keep `.claude/skills` as the canonical source, normalize and strictly validate it, then deterministically generate an Antigravity plugin containing portable manifests, translated paths, packaged rules, and companion resources. Gate the full local rollout behind an isolated `/admin-evidence-pilot` test that proves real Antigravity discovery and skill-body activation.
-> **Tech Stack:** Python 3.11, PyYAML 6.x, `unittest`, PowerShell 5.1+, Git, Antigravity IDE 2.0.3, Markdown/YAML/JSON.
+> **Tech Stack:** Python 3.11, pinned PyYAML 6.0.3, `unittest`, PowerShell 5.1, Git, Antigravity IDE 2.0.3, Markdown/YAML/JSON.
 
 ## Global Constraints
 
 - Follow RED → GREEN → REFACTOR for executable behaviour.
 - Use `apply_patch` for authored source edits; generators may write mechanical output.
 - No external runtime dependency is required for users installing committed plugin output.
-- Developer validation may depend on `PyYAML>=6.0.2,<7`.
+- Developer validation uses `PyYAML==6.0.3` so serialization cannot drift between patch releases.
 - Antigravity skill manifests contain only `name` and `description`.
-- Generated output must contain exactly 69 canonical skills plus one separately generated pilot skill that is excluded from the production plugin.
+- Generated output must match a committed exact-name inventory of 69 canonical skills, not merely a count, plus one separately generated pilot skill and rule excluded from the production plugin.
 - Generated output must contain no unresolved `~/.claude` path and no Claude-only manifest field.
 - Never overwrite unrelated global skills, rules, plugins, or MCP configuration.
 - Preserve `cv-maker` during local rollout.
 - A clean static check is not proof of slash-menu discovery or invocation.
 - The full local rollout is forbidden until the isolated pilot passes all UI acceptance checks.
+- Generated text uses repository-governed LF endings on every platform; binary assets are copied byte-for-byte.
+- The PowerShell installer supports only the tested Direct/Global topology. Plugin installation uses Antigravity's native `/plugin install <local-path>` flow and has a separate documented product check.
 
 ---
 
@@ -24,6 +26,7 @@
 
 **Files:**
 - Create: `.gitignore`
+- Create: `.gitattributes`
 - Create: `requirements-dev.txt`
 - Create: `scripts/__init__.py`
 - Create: `scripts/skill_manifest.py`
@@ -97,7 +100,19 @@ __pycache__/
 `requirements-dev.txt`:
 
 ```text
-PyYAML>=6.0.2,<7
+PyYAML==6.0.3
+```
+
+`.gitattributes`:
+
+```gitattributes
+* text=auto
+*.md text eol=lf
+*.py text eol=lf
+*.ps1 text eol=lf
+*.json text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
 ```
 
 Implementation requirements:
@@ -191,7 +206,7 @@ Expected: all manifest unit tests pass.
 - [ ] **Step 5: Commit**
 
 ```powershell
-git add .gitignore requirements-dev.txt scripts tests
+git add .gitignore .gitattributes requirements-dev.txt scripts tests
 git commit -m "test: add strict skill manifest parser"
 ```
 
@@ -243,7 +258,9 @@ Expected: failures because the current parser hand-splits strings, excludes
 - Replace the hand-written frontmatter parser with `load_frontmatter`.
 - Add `--skills-root` and resolve the repository helper import from the repo root.
 - Include every directory containing `SKILL.md`, including `test-framework`.
-- Validate local backticked `references/*.md`, `scripts/*.py`, and `assets/*` paths.
+- Validate unambiguous local and peer-skill resource paths in Markdown links and backticks,
+  including `scripts/`, `references/`, `assets/`, `templates/`, and `resources/` with
+  any extension. Do not treat generic prose tokens as paths.
 - Treat invalid YAML, wrong types, missing resources, and name mismatch as hard failures.
 - Keep description/cross-reference/style warnings distinct from failures.
 - Update the skill and README so documented checks match actual checks.
@@ -294,6 +311,8 @@ Test that `normalize_text`:
 - converts list-shaped `argument-hint` syntax back to its original string notation;
 - preserves booleans such as `user_invocable: true`;
 - is idempotent on the second run;
+- preserves one-line long descriptions, quotes, backslashes, and Unicode;
+- makes the complete 69-skill normalize → parse → normalize cycle byte-idempotent;
 - never contains a hard-coded machine path.
 
 - [ ] **Step 2: Verify RED**
@@ -357,14 +376,20 @@ git commit -m "fix: normalize canonical skill manifests"
 
 **Files:**
 - Create: `plugin.json`
+- Create: `config/antigravity-skills.txt`
+- Create: `config/antigravity-compatibility.yml`
 - Create: `scripts/build_antigravity.py`
 - Create: `tests/test_build_antigravity.py`
 - Generate: `skills/`
 - Generate: `rules/`
+- Generate: `pilot/skills/admin-evidence-pilot/SKILL.md`
+- Generate: `pilot/rules/admin-evidence-pilot.md`
+- Generate: `pilot/manifest.json`
 
 **Interfaces:**
 - Consumes: strict canonical skills and `.claude/rules`.
-- Produces: complete Antigravity plugin tree and `--check` drift gate.
+- Produces: complete Antigravity plugin tree, a production-shaped namespaced pilot,
+  exact file inventories, and a `--check` drift gate.
 
 - [ ] **Step 1: Add failing generator tests**
 
@@ -373,10 +398,16 @@ Tests assert that a fixture build:
 - emits only `name` and `description` in generated frontmatter;
 - recursively copies companion files;
 - maps rule and peer-skill paths relative to each generated text file;
-- rejects unresolved `~/.claude`, missing resources, and unknown Claude tool identifiers;
+- rewrites runtime/path tokens only through the committed compatibility table and rejects
+  unresolved `~/.claude`, missing resources, and unsupported Claude-only tool identifiers;
+- vendors the manifest parser beside the installed `test-framework` script and proves that
+  script starts outside the repository;
 - produces byte-identical output twice;
+- normalizes every generated text file to LF while preserving binary bytes;
+- rejects stale/orphan generated files after an add, remove, or rename;
 - excludes `references/` and `test-reports/` as top-level skills;
-- produces 69 skills for the real repository.
+- matches the exact 69-name inventory for the real repository;
+- emits a pilot skill, a namespaced `model_decision` pilot rule, and a manifest of their hashes.
 
 - [ ] **Step 2: Verify RED**
 
@@ -409,8 +440,10 @@ python scripts/build_antigravity.py --check
 
 Use explicit mappings for canonical rules and peer resources. Generated rules receive
 valid Antigravity frontmatter; `evidence-first` is `always_on`, while detailed domain
-rules are `model_decision` with descriptions. Fail instead of guessing an unknown path or
-tool ABI.
+rules are `model_decision` with descriptions. The pilot rule is production-shaped but
+namespaced and can fire only for `/admin-evidence-pilot`; it is not part of the production
+plugin. Fail instead of guessing an unknown path or tool ABI. Compare the complete expected
+file set, so `--check` fails on both missing output and orphan output.
 
 - [ ] **Step 4: Generate and verify GREEN**
 
@@ -422,12 +455,14 @@ Run:
 .\.venv\Scripts\python.exe scripts/build_antigravity.py --check
 ```
 
-Expected: 69 generated skills; deterministic check exits `0`; no generated `~/.claude`.
+Expected: the exact 69 generated skill names plus the isolated pilot artifact; deterministic
+check exits `0`; no generated `~/.claude`; installed `test-framework` smoke starts without
+repository-root imports.
 
 - [ ] **Step 5: Commit**
 
 ```powershell
-git add plugin.json scripts/build_antigravity.py tests/test_build_antigravity.py skills rules
+git add plugin.json config scripts/build_antigravity.py tests/test_build_antigravity.py skills rules pilot
 git commit -m "feat: add native Antigravity plugin distribution"
 ```
 
@@ -582,21 +617,27 @@ git commit -m "feat: validate claim evidence ledgers"
 
 **Interfaces:**
 - Consumes: generated plugin root.
-- Produces: managed plugin or direct IDE installation, ownership manifest, backups, and
-  pilot-only installation.
+- Produces: transactional Direct/Global IDE installation, content-hash ownership manifest,
+  recoverable backups, and pilot-only installation. Plugin installation remains the native
+  Antigravity `/plugin install <local-path>` workflow documented in Task 8.
 
 - [ ] **Step 1: Add failing installer integration tests**
 
 From Python, invoke PowerShell against a temporary `-ProfileRoot` and assert:
 
 - `-Pilot` installs only `admin-evidence-pilot` and no always-on global rule;
-- direct full mode installs 69 skills and evidence rule;
+- pilot mode installs the namespaced pilot rule and verifies the pilot manifest hashes;
+- full mode installs the exact 69-skill inventory and evidence rule;
 - unrelated `cv-maker` survives update and uninstall;
 - unmanaged collision fails without `-Force`;
 - forced collision is copied to a timestamped backup;
-- uninstall removes only manifest-owned paths;
+- update/uninstall refuses to delete a managed file whose content drifted since install,
+  unless `-Force` first backs it up;
 - invalid source aborts before destination mutation;
-- dry run performs no writes.
+- dry run performs no writes;
+- injected mid-install failure restores the complete pre-install tree;
+- corrupt ownership manifests and junction/reparse-point escapes fail closed;
+- paths containing spaces and Unicode work under Windows PowerShell Desktop 5.1.
 
 - [ ] **Step 2: Verify RED**
 
@@ -614,9 +655,6 @@ Supported parameters:
 
 ```powershell
 param(
-  [ValidateSet('Direct','Plugin')] [string]$Mode = 'Direct',
-  [ValidateSet('Global','Workspace')] [string]$Scope = 'Global',
-  [string]$WorkspacePath,
   [string]$SourcePath = (Split-Path -Parent $PSScriptRoot),
   [string]$ProfileRoot = $env:USERPROFILE,
   [switch]$Pilot,
@@ -626,8 +664,10 @@ param(
 )
 ```
 
-Use `-LiteralPath`, resolved target containment checks, per-file ownership manifests, and
-recoverable backups. Never touch `mcp_config.json`.
+Use `-LiteralPath`, resolved target containment checks, and reparse-point rejection. Build a
+same-volume staging tree, validate its exact file set and hashes, then swap managed paths with
+automatic rollback on any failure. Record per-file installed hashes; updates and uninstall are
+drift-aware. Never touch `mcp_config.json`.
 
 - [ ] **Step 4: Verify GREEN**
 
@@ -688,11 +728,16 @@ Include:
 - new-chat `/` and `/admin` checks;
 - distinction between static validity, discovery, and invocation;
 - rollback location and preservation of unrelated skills.
+- an explicit statement that the installer supports Direct/Global only; Workspace and native
+  Plugin installs use Antigravity's documented paths/commands rather than untested script modes.
 
 - [ ] **Step 3: Add CI**
 
-Workflow installs `requirements-dev.txt`, runs `python -m unittest discover -s tests -v`,
-the canonical skill validator, generator `--check`, and evidence example validation.
+Use both Ubuntu and `windows-latest`. The Windows job explicitly asserts Windows PowerShell
+Desktop 5.1 and executes the Unicode/space-path installer cases with `powershell.exe`. Both jobs
+install the pinned `requirements-dev.txt`, run `python -m unittest discover -s tests -v`, the
+canonical skill validator, generator `--check`, exact-inventory/orphan checks, and evidence
+example validation.
 
 - [ ] **Step 4: Run documentation and CI-equivalent checks**
 
@@ -769,23 +814,26 @@ git commit -m "test: verify Antigravity evidence distribution"
 - [ ] **Step 1: Install pilot only**
 
 ```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts\install-antigravity.ps1 -Mode Direct -Scope Global -Pilot
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts\install-antigravity.ps1 -Pilot
 ```
 
-Expected: one new pilot skill; production `/admin`, all 69 current skills, `cv-maker`,
-rules, and MCP files remain unchanged.
+Expected: one new pilot skill plus its namespaced `model_decision` rule; production `/admin`,
+all 69 current skills, `cv-maker`, production rules, and MCP files remain unchanged.
 
 - [ ] **Step 2: Run static pilot gate**
 
-Strictly parse the installed pilot with Antigravity's bundled `js-yaml`, verify folder/name
-equality, hash equality with source, and installed skill baseline increase by one.
+Strictly parse the installed pilot and rule with the repository-pinned parser, verify
+folder/name equality, exact manifest/hash equality with the generated pilot, and installed
+skill baseline increase by one. The IDE discovery result—not an undocumented bundled parser—is
+the product-authority check.
 
 - [ ] **Step 3: Run the product gate in a new Antigravity chat**
 
-The human user opens a new Antigravity chat, confirms the pilot in `/`, invokes the case
-from Task 8, and returns the complete output or screenshot. This step cannot be replaced
-by the editor CLI because Antigravity IDE 2.0.3 exposes no supported slash-skill invoke
-command.
+The human user opens a new Antigravity chat, records the exact app version, confirms the pilot
+in `/`, invokes the case from Task 8, and returns the complete output plus activity/tool trace.
+This step cannot be replaced by the editor CLI because Antigravity IDE 2.0.3 exposes no
+supported slash-skill invoke command. A final-answer screenshot alone cannot prove the operation
+budget.
 
 - [ ] **Step 4: Score all eight pilot conditions**
 
@@ -810,6 +858,8 @@ Use installer uninstall/pilot rollback so installed skill count returns to its b
 **Interfaces:**
 - Consumes: a passing pilot verdict.
 - Produces: full local Evidence-First GOBAL skill set.
+- Rollback: if static or new-chat product verification fails, restore the pre-install snapshot
+  transactionally and preserve the failed install evidence for diagnosis.
 
 - [ ] **Step 1: Capture baseline hashes and counts**
 
@@ -819,7 +869,7 @@ MCP hashes before mutation.
 - [ ] **Step 2: Run full managed install with backup**
 
 ```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts\install-antigravity.ps1 -Mode Direct -Scope Global -Force
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts\install-antigravity.ps1 -Force
 ```
 
 - [ ] **Step 3: Run static post-install verification**
@@ -832,7 +882,8 @@ is unchanged; confirm backup and ownership manifest exist.
 
 Confirm `/admin` appears and invoke one short official-source fact check. If product-level
 verification cannot be observed, report static installation separately and do not call
-activation verified.
+activation verified. If discovery or invocation fails, execute rollback before any completion
+claim.
 
 ---
 

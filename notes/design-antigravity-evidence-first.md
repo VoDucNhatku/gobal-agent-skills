@@ -75,6 +75,9 @@ This approach borrows mechanisms rather than framework dependencies:
 ```text
 gobal-agent-skills/
 ├── plugin.json                         # Antigravity plugin marker
+├── config/
+│   ├── antigravity-skills.txt          # exact canonical name inventory
+│   └── antigravity-compatibility.yml   # explicit host path/tool mappings
 ├── skills/                             # generated Antigravity-native skill tree
 ├── rules/
 │   └── evidence-first.md               # short always_on invariant
@@ -82,6 +85,10 @@ gobal-agent-skills/
 │   ├── build_antigravity.py            # deterministic generator/checker
 │   ├── install-antigravity.ps1          # safe Windows install/update helper
 │   └── validate_evidence.py             # ledger structural validator
+├── pilot/                              # generated, namespaced, non-production canary
+│   ├── skills/admin-evidence-pilot/
+│   ├── rules/admin-evidence-pilot.md
+│   └── manifest.json                   # exact file hashes
 ├── docs/
 │   └── ANTIGRAVITY.md                  # install, update, verify, troubleshoot
 ├── evals/
@@ -117,7 +124,10 @@ gobal-agent-skills/
 5. copying scripts, references, resources, and examples;
 6. translating known host-specific paths only through explicit mappings;
 7. rejecting unresolved `~/.claude/` runtime dependencies in generated output;
-8. comparing generated output with the committed tree in `--check` mode.
+8. vendoring any runtime helper needed by an installed skill;
+9. normalizing generated text to LF while preserving binary bytes;
+10. matching an exact committed skill/file inventory and rejecting orphan output;
+11. comparing generated output with the committed tree in `--check` mode.
 
 Unknown host-specific references fail the build. They are never replaced by a blind
 global string substitution.
@@ -419,22 +429,29 @@ re-plan once; then report the unresolved gap instead of manufacturing closure.
 
 ## 10. Installer and update behaviour
 
-`install-antigravity.ps1` must:
+`install-antigravity.ps1` is deliberately limited to the Direct/Global topology used for
+the local rollout. Native plugin installation remains Antigravity's own
+`/plugin install <local-path>` workflow. The script must:
 
 - resolve paths from its own location or explicit parameters;
-- support a safe global install and an explicit workspace install;
+- support a safe global direct install and a separately namespaced pilot install;
 - validate the source plugin before copying or cloning;
 - preserve unrelated user skills, plugins, rules, and MCP configuration;
 - refuse unmanaged collisions unless `-Force` is explicitly passed;
 - back up overwritten managed files when forced;
-- record a manifest of files owned by this plugin;
+- stage and hash-validate the complete update before swapping managed paths;
+- automatically restore the previous tree after any mid-update failure;
+- record installed content hashes in the ownership manifest;
+- refuse to overwrite or delete user-modified managed files unless `-Force` first backs
+  them up;
+- reject reparse-point/junction escapes from the resolved profile root;
 - never delete the entire `skills`, `plugins`, or `rules` directory;
 - print the installed path, component counts, reload step, and smoke-test commands;
 - return a non-zero exit code on validation or copy failure.
 
-Update uses fast-forward Git pull for a managed clone or a manifest-aware file update. It
-does not reset local changes. Uninstall removes only paths recorded in the ownership
-manifest.
+Update is a transactional, manifest-aware file operation. It does not reset local changes.
+Uninstall removes only paths recorded in the ownership manifest whose current hash still
+matches the installed hash; drifted files are preserved unless explicitly forced and backed up.
 
 ## 11. Validation and testing
 
@@ -443,10 +460,11 @@ manifest.
 - Strictly parse every canonical and generated `SKILL.md` frontmatter.
 - Confirm directory name and `name` match and descriptions meet Antigravity limits.
 - Parse `plugin.json` and every Antigravity rule frontmatter.
-- Confirm canonical/generated skill count parity.
+- Confirm canonical/generated exact-name and exact-file inventory parity.
 - Confirm all referenced bundled resources and scripts exist.
 - Reject unresolved host-specific paths in the generated tree.
-- Run the generator twice and require byte-identical output.
+- Run the generator twice and require byte-identical output with no stale/orphan files.
+- Run clean-checkout gates on Windows and Linux under the repository EOL policy.
 - Run `build_antigravity.py --check` in CI to detect drift.
 
 ### 11.2 Evidence validator
@@ -498,15 +516,17 @@ golden subset.
 
 ### 11.4 Product smoke test
 
-After a clean sandbox install:
+After a clean sandbox install, first use the generated namespaced pilot skill and
+`model_decision` pilot rule in the same Direct/Global layout used by the rollout:
 
-1. verify `plugin.json`, rule, and generated skill paths on disk;
-2. open Antigravity Customizations and confirm the plugin, rule, and skills are indexed;
-3. start a new conversation;
-4. confirm `/admin` appears in the slash menu;
-5. invoke `/admin` on an evidence regression prompt;
-6. confirm the answer distinguishes observed, inferred, and unknown information;
-7. confirm uninstall removes only owned files.
+1. verify pilot hashes and generated paths on disk with the pinned repository parser;
+2. record the exact Antigravity version and full activity/tool trace;
+3. start a new conversation and confirm `/admin-evidence-pilot` appears in `/`;
+4. invoke the false-premise evidence regression prompt and score all acceptance criteria;
+5. remove the pilot and confirm only pilot-owned files disappeared;
+6. after a passing pilot, install the exact 69-skill inventory transactionally;
+7. start another new conversation, confirm `/admin`, and run a short production smoke;
+8. on discovery/invocation failure, restore the pre-install snapshot.
 
 Static checks alone cannot satisfy this gate.
 
