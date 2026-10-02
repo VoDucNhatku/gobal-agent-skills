@@ -4,23 +4,26 @@ GOBAL AGENT Skill Test Framework
 Automated structural validation for all skills in gobal-skills/.
 
 Checks (FAIL = the skill is broken; WARN = it is degraded):
-1.  YAML frontmatter validity (name, description, argument-hint, allowed-tools)
+1.  Strict YAML frontmatter validity (unique keys and canonical field types)
 1b. FAIL — `name:` matches its directory, or Claude Code cannot resolve the skill
 1c. FAIL — `description:` within the 1024-char cap, past which it is truncated
 2.  FAIL — SKILL.md body line count (< 500)
-3.  Cross-reference integrity, read only from wiki links, "→ `skill`" handoffs,
+3.  Local/peer resource paths in backticks or Markdown links exist
+4.  Cross-reference integrity, read only from wiki links, "→ `skill`" handoffs,
     and Cross-References/Integration sections — a bare backtick is not a reference
-4.  Provenance, required only where the skill claims an upstream source
-5.  Duplicate section detection
-6.  Anti-slop patterns (design skills only)
-7.  Description format: third-person, and says when to fire ("Use when ..." or
+5.  Provenance, required only where the skill claims an upstream source
+6.  Duplicate section detection
+7.  Anti-slop patterns (design skills only)
+8.  Description format: third-person, and says when to fire ("Use when ..." or
     this suite's "Triggers — ..."); DEPRECATED stubs exempt
-8.  Algorithm-justification vocabulary (implement-mode skills only)
+9.  Algorithm-justification vocabulary (implement-mode skills only)
 
 Usage:
     python test_skills.py                    # Run all checks, print report
+    python test_skills.py --skills-root PATH # Validate another skills root
     python test_skills.py --json             # Output as JSON
     python test_skills.py --skill <name>     # Test single skill
+    python test_skills.py --skills-root PATH # Validate another skill root
     python test_skills.py --report <path>    # Write report to file
 """
 
@@ -28,14 +31,22 @@ import re
 import sys
 import json
 import argparse
-from pathlib import Path
+from pathlib import Path, PurePosixPath
+
+# The validator lives five levels below the repository root. Add that root to
+# sys.path so the shared strict manifest parser is available even when this
+# script is launched from another working directory.
+REPO_ROOT = Path(__file__).resolve().parents[4]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+from scripts.skill_manifest import ManifestError, load_frontmatter, split_frontmatter
 
 # ─── Configuration ───────────────────────────────────────────────────────────
 
-SKILLS_DIR = Path(__file__).resolve().parent.parent.parent
+DEFAULT_SKILLS_DIR = Path(__file__).resolve().parents[2]
 MAX_BODY_LINES = 500
 MAX_DESC_CHARS = 1024
-REPORT_DIR = SKILLS_DIR / "test-reports"
 
 # Required frontmatter keys
 REQUIRED_FM_KEYS = {"name", "description", "argument-hint", "allowed-tools"}
@@ -97,6 +108,21 @@ NON_SKILL_VOCAB = {
 # Duplicate section detector (look for repeated ## headings)
 SECTION_HEADING = re.compile(r'^##\s+(.+)$', re.M)
 
+# Only literal paths in backticks or Markdown links are resource claims. This
+# deliberately excludes prose, output paths, absolute paths, URLs, and
+# glob/template examples. Peer references may use ../<skill>/... or the
+# suite-level <skill>/... notation used by redirect skills.
+RESOURCE_ROOTS = ("scripts", "references", "assets", "templates", "resources")
+RESOURCE_ROOT_PATTERN = "|".join(RESOURCE_ROOTS)
+SKILL_PATH_SEGMENT = r"[a-zA-Z0-9][a-zA-Z0-9._-]*"
+RESOURCE_PATH_PATTERN = (
+    rf"(?:\.\./{SKILL_PATH_SEGMENT}/|{SKILL_PATH_SEGMENT}/)?"
+    rf"(?:{RESOURCE_ROOT_PATTERN})/[^`\r\n)]+"
+)
+BACKTICK_RESOURCE_REF = re.compile(rf"`({RESOURCE_PATH_PATTERN})`")
+MARKDOWN_RESOURCE_REF = re.compile(rf"\[[^\]\r\n]*\]\(({RESOURCE_PATH_PATTERN})\)")
+NON_LITERAL_PATH_CHARS = re.compile(r'[*?\[\]{}<>]')
+
 # Algorithm-justification check (implement-mode skills): the skill body must carry
 # method-justification vocabulary so fabricated-METHOD is guarded, not just results.
 IMPLEMENT_MODE_HINT = re.compile(r'\bimplement\b', re.I)
@@ -106,41 +132,12 @@ ALGO_JUSTIFY_KEYWORDS = re.compile(
 
 # ─── Helpers ─────────────────────────────────────────────────────────────────
 
-def find_skill_dirs():
-    """Return all skill directories (excluding special dirs)."""
-    exclude = {"provenance", "references", "test-framework", "test-reports", "__pycache__"}
-    dirs = []
-    for d in sorted(SKILLS_DIR.iterdir()):
-        if d.is_dir() and d.name not in exclude and (d / "SKILL.md").exists():
-            dirs.append(d)
-    return dirs
-
-
-def parse_frontmatter(content):
-    """Extract YAML frontmatter between first pair of --- markers."""
-    if not content.startswith("---"):
-        return None
-    end = content.find("---", 3)
-    if end == -1:
-        return None
-    fm = content[3:end].strip()
-    result = {}
-    for line in fm.split("\n"):
-        line = line.strip()
-        if ":" in line:
-            k, v = line.split(":", 1)
-            result[k.strip()] = v.strip()
-    return result
-
-
-def get_body(content):
-    """Return SKILL.md body (everything after frontmatter)."""
-    if not content.startswith("---"):
-        return content
-    end = content.find("---", 3)
-    if end == -1:
-        return content
-    return content[end + 3:].strip()
+def find_skill_dirs(skills_root):
+    """Return every directory below skills_root that contains SKILL.md."""
+    return sorted(
+        {skill_file.parent for skill_file in skills_root.rglob("SKILL.md")},
+        key=lambda path: path.as_posix(),
+    )
 
 
 def collect_mode_vocabulary(skill_files):
@@ -157,10 +154,8 @@ def collect_mode_vocabulary(skill_files):
     modes = set()
     for f in skill_files:
         try:
-            fm = parse_frontmatter(f.read_text(encoding="utf-8"))
-        except OSError:
-            continue
-        if not fm:
+            fm, _ = load_frontmatter(f, canonical=True)
+        except (ManifestError, OSError, UnicodeError):
             continue
 
         hint = fm.get("argument-hint", "")
@@ -175,6 +170,42 @@ def collect_mode_vocabulary(skill_files):
         for group in re.findall(r'\(([^()]*\|[^()]*)\)', desc):
             modes.update(re.findall(r'[a-z][a-z0-9-]{2,}', group.lower()))
     return modes
+
+
+def find_local_resource_references(body):
+    """Return literal local or explicit peer-skill resource paths from body."""
+    return {
+        match.group(1)
+        for pattern in (BACKTICK_RESOURCE_REF, MARKDOWN_RESOURCE_REF)
+        for match in pattern.finditer(body)
+        if not NON_LITERAL_PATH_CHARS.search(match.group(1))
+    }
+
+
+def check_local_resources(body, skill_dir, skills_root):
+    """Return referenced skill resources that do not exist.
+
+    Paths are interpreted exactly as the skill documents them: relative to the
+    directory containing that skill's SKILL.md. Existing files and directories
+    are both valid companion resources.
+    """
+    missing = []
+    resolved_root = skills_root.resolve()
+    for reference in sorted(find_local_resource_references(body)):
+        parts = PurePosixPath(reference).parts
+        if parts[0] == ".." or parts[0] in RESOURCE_ROOTS:
+            target = skill_dir.joinpath(*parts)
+        else:
+            target = skills_root.joinpath(*parts)
+        resolved_target = target.resolve()
+        try:
+            resolved_target.relative_to(resolved_root)
+        except ValueError:
+            missing.append(f"{reference} (escapes skills root)")
+            continue
+        if not resolved_target.exists():
+            missing.append(reference)
+    return missing
 
 
 def collect_rule_names(rules_dir):
@@ -363,17 +394,18 @@ def check_algorithm_justification(fm, body):
 
 # ─── Main Test Runner ────────────────────────────────────────────────────────
 
-def run_tests(skill_filter=None, json_output=False, report_path=None):
-    skill_dirs = find_skill_dirs()
-    # Every directory holding a SKILL.md is a resolvable skill, including the
-    # ones find_skill_dirs() declines to TEST. Building this from the tested set
-    # alone made a reference to `test-framework` read as broken.
-    all_skill_names = {
-        d.name for d in SKILLS_DIR.iterdir()
-        if d.is_dir() and (d / "SKILL.md").exists()
-    }
+def run_tests(skills_root=DEFAULT_SKILLS_DIR, skill_filter=None,
+              json_output=False, report_path=None):
+    skills_root = Path(skills_root).resolve()
+    all_skill_dirs = find_skill_dirs(skills_root)
+    all_skill_names = {skill_dir.name for skill_dir in all_skill_dirs}
+    skill_dirs = [
+        skill_dir for skill_dir in all_skill_dirs
+        if not skill_filter or skill_dir.name == skill_filter
+    ]
 
     results = []
+    validated = 0
     total_pass = 0
     total_fail = 0
     total_warn = 0
@@ -381,34 +413,40 @@ def run_tests(skill_filter=None, json_output=False, report_path=None):
     # Vocabulary that is backticked like a skill name but never is one: every
     # mode any skill declares, every rule basename, plus generic tokens.
     known_non_skills = (
-        collect_mode_vocabulary(d / "SKILL.md" for d in skill_dirs)
-        | collect_rule_names(SKILLS_DIR.parent / "rules")
+        collect_mode_vocabulary(d / "SKILL.md" for d in all_skill_dirs)
+        | collect_rule_names(skills_root.parent / "rules")
         | NON_SKILL_VOCAB
     )
 
     for skill_dir in skill_dirs:
         skill_name = skill_dir.name
-        if skill_filter and skill_name != skill_filter:
-            continue
-
         skill_file = skill_dir / "SKILL.md"
-        content = skill_file.read_text(encoding="utf-8")
-        fm = parse_frontmatter(content)
-        body = get_body(content) if fm else content
+        content = skill_file.read_text(encoding="utf-8-sig")
+        fm = None
+        manifest_error = None
+        try:
+            fm, body = load_frontmatter(skill_file, canonical=True)
+            validated += 1
+        except ManifestError as exc:
+            manifest_error = str(exc)
+            try:
+                _, body = split_frontmatter(content)
+            except ManifestError:
+                body = content
         body_lines = body.split("\n")
 
         finding = {
             "skill": skill_name,
-            "path": str(skill_file.relative_to(SKILLS_DIR)),
+            "path": skill_file.relative_to(skills_root).as_posix(),
             "checks": {},
             "issues": [],
             "warnings": [],
         }
 
-        # Check 1: Frontmatter
-        if fm is None:
+        # Check 1: strict canonical frontmatter
+        if manifest_error:
             finding["checks"]["frontmatter"] = "FAIL"
-            finding["issues"].append("No YAML frontmatter found")
+            finding["issues"].append(manifest_error)
         else:
             fm_issues = check_frontmatter(fm)
             if fm_issues:
@@ -418,8 +456,10 @@ def run_tests(skill_filter=None, json_output=False, report_path=None):
                 finding["checks"]["frontmatter"] = "PASS"
 
         # Check 1b: name must match its directory (hard failure — breaks routing)
-        name_issue = check_name_matches_dir(fm, skill_file.parent.name)
-        if name_issue:
+        name_issue = check_name_matches_dir(fm, skill_dir.name)
+        if manifest_error:
+            finding["checks"]["name_matches_dir"] = "SKIP"
+        elif name_issue:
             finding["checks"]["name_matches_dir"] = "FAIL"
             finding["issues"].append(name_issue)
         else:
@@ -427,7 +467,9 @@ def run_tests(skill_filter=None, json_output=False, report_path=None):
 
         # Check 1c: description length cap
         desc_issue = check_description_length(fm)
-        if desc_issue:
+        if manifest_error:
+            finding["checks"]["description_length"] = "SKIP"
+        elif desc_issue:
             finding["checks"]["description_length"] = "FAIL"
             finding["issues"].append(desc_issue)
         else:
@@ -442,7 +484,7 @@ def run_tests(skill_filter=None, json_output=False, report_path=None):
             finding["checks"]["body_lines"] = "PASS"
 
         # Check 3: Provenance
-        has_prov = check_provenance(content, (fm or {}).get("description", "")) > 0
+        has_prov = check_provenance(body, (fm or {}).get("description", "")) > 0
         if not has_prov:
             finding["checks"]["provenance"] = "WARN"
             finding["warnings"].append("No provenance marker (> **Source:**) found")
@@ -458,7 +500,18 @@ def run_tests(skill_filter=None, json_output=False, report_path=None):
         else:
             finding["checks"]["cross_refs"] = "PASS"
 
-        # Check 5: Duplicate sections
+        # Check 5: local companion resources
+        missing_resources = check_local_resources(body, skill_dir, skills_root)
+        if missing_resources:
+            finding["checks"]["local_resources"] = "FAIL"
+            finding["issues"].extend(
+                f"Missing local resource: {reference} (referenced by {finding['path']})"
+                for reference in missing_resources
+            )
+        else:
+            finding["checks"]["local_resources"] = "PASS"
+
+        # Check 6: Duplicate sections
         dupes = find_duplicate_sections(body)
         if dupes:
             finding["checks"]["duplicate_sections"] = "FAIL"
@@ -466,7 +519,7 @@ def run_tests(skill_filter=None, json_output=False, report_path=None):
         else:
             finding["checks"]["duplicate_sections"] = "PASS"
 
-        # Check 6: Anti-slop (design skills only)
+        # Check 7: Anti-slop (design skills only)
         slop = check_slop(body, skill_name)
         if slop:
             finding["checks"]["anti_slop"] = "WARN"
@@ -474,7 +527,7 @@ def run_tests(skill_filter=None, json_output=False, report_path=None):
         else:
             finding["checks"]["anti_slop"] = "PASS"
 
-        # Check 7: Description format
+        # Check 8: Description format
         if fm and "description" in fm:
             desc_issues = validate_description(fm["description"], skill_name)
             if desc_issues:
@@ -483,7 +536,7 @@ def run_tests(skill_filter=None, json_output=False, report_path=None):
             else:
                 finding["checks"]["description_format"] = "PASS"
 
-        # Check 8 (removed 2026-08-01): announce line.
+        # Check 9 (removed 2026-08-01): announce line.
         #
         # This matched the literal English string "I'm using the ..." — a
         # convention from obra/superpowers that arrived with the six skills
@@ -493,7 +546,7 @@ def run_tests(skill_filter=None, json_output=False, report_path=None):
         # skill fired. Adopt it deliberately or drop it; silently warning 58
         # times taught nobody anything.
 
-        # Check 9: Algorithm justification (implement-mode skills only)
+        # Check 10: Algorithm justification (implement-mode skills only)
         algo_issues = check_algorithm_justification(fm, body)
         if algo_issues is not None:
             if algo_issues:
@@ -518,6 +571,8 @@ def run_tests(skill_filter=None, json_output=False, report_path=None):
     if json_output:
         report = {
             "summary": {
+                "discovered": len(skill_dirs),
+                "validated": validated,
                 "total_skills": len(results),
                 "total_checks": total_pass + total_fail + total_warn,
                 "pass": total_pass,
@@ -534,7 +589,8 @@ def run_tests(skill_filter=None, json_output=False, report_path=None):
         lines.append("GOBAL AGENT — Skill Test Report")
         lines.append("=" * 70)
         lines.append("")
-        lines.append(f"Skills tested: {len(results)}")
+        lines.append(f"Skills discovered: {len(skill_dirs)}")
+        lines.append(f"Strict manifests validated: {validated}")
         lines.append(f"Total checks:  {total_pass + total_fail + total_warn}")
         lines.append(f"  ✅ PASS: {total_pass}")
         lines.append(f"  ❌ FAIL: {total_fail}")
@@ -586,7 +642,8 @@ def run_tests(skill_filter=None, json_output=False, report_path=None):
     # Write report
     if report_path:
         Path(report_path).write_text(output, encoding="utf-8")
-        print(f"Report written to {report_path}")
+        if not json_output:
+            print(f"Report written to {report_path}")
     elif not json_output:
         print(output)
 
@@ -604,12 +661,19 @@ if __name__ == "__main__":
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     parser = argparse.ArgumentParser(description="GOBAL Skill Test Framework")
+    parser.add_argument(
+        "--skills-root",
+        type=Path,
+        default=DEFAULT_SKILLS_DIR,
+        help="Root containing skill directories (default: canonical .claude/skills)",
+    )
     parser.add_argument("--json", action="store_true", help="Output as JSON")
     parser.add_argument("--skill", help="Test single skill by name")
     parser.add_argument("--report", help="Write report to file path")
     args = parser.parse_args()
 
     results = run_tests(
+        skills_root=args.skills_root,
         skill_filter=args.skill,
         json_output=args.json,
         report_path=args.report,
