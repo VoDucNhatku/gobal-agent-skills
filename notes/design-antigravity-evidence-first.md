@@ -222,6 +222,34 @@ parallel, but synthesis waits for all evidence manifests. Persist the full ledge
 run the complete audit. Medical, legal, financial, and safety conclusions require
 strong sources, explicit limitations, and a human-review recommendation.
 
+### 6.4 Runtime cost and latency policy
+
+Regression suites, build validation, and product smoke tests are release-time gates. They
+do not run on every `/admin` request. Runtime work is bounded by evidence lane:
+
+| Lane | Default search budget | Parallelism | Ledger persistence | Runtime audit |
+|---|---|---:|---|---|
+| Fast non-research | no web search | none | none | completion invariants only |
+| Quick evidence | one batched search; open one or two strongest sources | none | in-context mini-ledger | direct support check |
+| Standard evidence | up to two search rounds; open only sources needed for material claims | none by default | compact ledger; save only when reuse is valuable | support, quality, and targeted counter-evidence |
+| Deep evidence | up to three research rounds | at most three independent workers | persisted full ledger | all verification gates |
+
+These are operation ceilings, not wall-clock promises. Network, source accessibility, and
+model latency are variable. `/admin` minimizes cost by:
+
+- batching searches and source opens;
+- auditing only material factual claims, not connective prose;
+- accepting one authoritative primary source for an exact low-risk specification;
+- requiring independent corroboration only when claim risk, volatility, or dispute
+  justifies it;
+- reusing fresh source cards and project artifacts;
+- passing compact evidence manifests rather than raw pages to the coordinator;
+- stopping as soon as the acceptance criteria and evidence gates pass.
+
+`/admin nhanh` never dispatches subagents. A high-risk request that cannot be responsibly
+resolved inside the quick budget returns a provisional answer with explicit limitations
+or asks the user to allow the deeper lane; it does not manufacture certainty.
+
 ## 7. Research flow
 
 ### 7.1 Fact ledger
@@ -504,7 +532,11 @@ Static checks alone cannot satisfy this gate.
 - add behavioural fixtures and rubric;
 - run current structural tests;
 - run install/update/uninstall in a temporary profile;
-- perform Antigravity product smoke test;
+- install only the pilot `/admin` skill and evidence rule into an isolated Antigravity
+  test location;
+- run one representative false-premise/source-support case with explicit pass/fail;
+- perform Antigravity product discovery and invocation smoke tests;
+- proceed to the full local skill rollout only after the pilot passes;
 - review changes, merge, and push only after all available gates pass.
 
 An optional PaperQA2 or external deep-research MCP backend can be designed later against
@@ -526,6 +558,9 @@ the same ledger interface. It is not required for this release.
 - Install/update/uninstall preserve unrelated user configuration.
 - Static validation, regression fixtures, and all available product checks have fresh
   recorded results before a completion claim.
+- Release-time regression tests never run on ordinary `/admin` requests.
+- A single-skill pilot passes before the installer updates the complete local
+  Antigravity skill set.
 
 ## 14. Primary references
 
@@ -540,4 +575,3 @@ the same ledger interface. It is not required for this release.
 - Microsoft Agent Framework: https://github.com/microsoft/agent-framework
 - DeepResearch Bench: https://github.com/Ayanami0730/deep_research_bench
 - W3C PROV: https://www.w3.org/TR/prov-overview/
-
