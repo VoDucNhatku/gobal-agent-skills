@@ -23,7 +23,7 @@ Desktop 5.1.26100.9444, không phải shell PowerShell Core 7.6.5 của terminal
 Executable IDE có ProductVersion 2.0.3; đây không phải bằng chứng đã invoke skill.
 
 Full suite cuối chạy khoảng 13:07–13:10 UTC (20:07–20:10 giờ Việt Nam), sau sửa clone
-line-ending. Static commands được kiểm lại riêng; tất cả chạy từ repo local.
+line-ending. Static commands kiểm lại đến 13:12:16 UTC; tất cả chạy từ repo local.
 
 | Check | Command | Exit / kết quả |
 |---|---|---|
@@ -83,6 +83,12 @@ giữ khả năng khôi phục script cũ. Không thực hiện stash/reset hay 
 - `git ls-remote origin refs/heads/main refs/heads/feat/antigravity-evidence-first`
   trả main `20de9e14af6412cc9a1a6ecae7a59507b795a1f6`, chưa trả feature branch.
   Không merge/push trong checkpoint này; local commit không có nghĩa GitHub đã cập nhật.
+- Implementation checkpoint local: `0ef12b573360db3fa1264bb5aed57cde5686d798`.
+  Sau commit, 13:14:51 UTC kiểm **clone thật toàn repo local** bằng Git với
+  `core.autocrlf=true`/`--no-hardlinks` vào temp; chạy absolute cloned entrypoint
+  `scripts/build_antigravity.py --check`: exit 0, 69 skills + 7 rules, clone SHA đúng
+  checkpoint. Đây không phải clone GitHub main đã có bản mới; remote được kiểm lại
+  vẫn SHA cũ bên trên. Follow-up docs commit chỉ ghi kết quả này, không đổi bundle.
 
 ## Còn phải làm
 
