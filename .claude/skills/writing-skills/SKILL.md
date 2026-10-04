@@ -1,8 +1,8 @@
 ---
-name: writing-skills
-description: Writing skills for GOBAL AGENT — meta skill for creating new GOBAL skills following progressive disclosure, token economy, and provenance rules. Use when creating a new skill for the GOBAL ecosystem.
-argument-hint: <skill-name> <source-repo>
-allowed-tools: Read Write Bash Glob WebSearch WebFetch
+name: "writing-skills"
+description: "Writing skills for GOBAL AGENT — meta skill for creating new GOBAL skills following progressive disclosure, token economy, and provenance rules. Use when creating a new skill for the GOBAL ecosystem."
+allowed-tools: "Read Write Bash Glob WebSearch WebFetch"
+argument-hint: "<skill-name> <source-repo>"
 ---
 
 # Writing Skills
@@ -29,18 +29,38 @@ gobal-skills/<skill-name>/
 
 ## SKILL.md Structure
 
+### Target host — select before authoring
+
+Canonical GOBAL sources use four string fields: `name`, `description`, `argument-hint`
+and `allowed-tools`. The example below is the Canonical schema, not a universal host ABI.
+Antigravity IDE manifests contain only `name` and `description`:
+
+```yaml
+---
+name: "skill-name-kebab-case"
+description: "Use when the specific task is requested."
+---
+```
+
+Do not add `allowed-tools` or `argument-hint` to an Antigravity manifest. Document inputs
+and required capabilities in the body; use only capabilities actually exposed by the host.
+When modifying this repository, edit the canonical source and regenerate the portable
+distribution rather than hand-edit generated files. For a standalone new skill, confirm
+the target host first; unknown host/schema requires a focused question, not guessing.
+This host split is GOBAL's portable distribution policy, not a claim from the original source.
+
 ### 1. Frontmatter (YAML, ~5 lines)
 
 ```yaml
 ---
-name: skill-name-kebab-case
-description: One-line trigger description. Use when [specific condition]. Source: <repo> (<section>). It [verb]; it does NOT [anti-verb].
-argument-hint: <required | [optional]>
-allowed-tools: Read Write Bash Glob [others as needed]
+name: "skill-name-kebab-case"
+description: "Use when the specific condition applies. It performs the scoped task."
+argument-hint: "<required | [optional]>"
+allowed-tools: "Read Write Bash Glob"
 ---
 ```
 
-**Frontmatter rules:**
+**Canonical frontmatter rules (portable host uses only the first two):**
 - `name`: kebab-case, matches directory name
 - `description`: Third person, trigger-focused, "Use when..." format. Never summarize the workflow.
 - `argument-hint`: Required args in `<>`, optional in `[]`. Multiple with `|`.
@@ -110,7 +130,7 @@ Every skill MUST cite its source:
 | Everything in SKILL.md | Move rare content to references/ |
 | No cross-references | Link to related skills |
 | Duplicate content | Reference the other skill |
-| No allowed-tools | Specify minimum needed |
+| Missing capability contract | Canonical: minimum allowed-tools; Antigravity: observed capabilities in body |
 | Verbose overview | 2-3 sentences max |
 | No announce line | Add "I'm using..." |
 
@@ -118,7 +138,7 @@ Every skill MUST cite its source:
 
 Before saving a new skill:
 
-- [ ] Frontmatter: name, description, argument-hint, allowed-tools
+- [ ] Target host selected; Canonical has four required string fields, Antigravity has only name/description
 - [ ] Description: third person, trigger-focused, "Use when..."
 - [ ] Source attribution in header block
 - [ ] Overview: 2-3 sentences + announce line

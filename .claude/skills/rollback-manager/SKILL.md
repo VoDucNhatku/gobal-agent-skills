@@ -1,8 +1,8 @@
 ---
-name: rollback-manager
-description: Rollback manager for GOBAL AGENT — handles emergency rollback of deployments. Modes: assess (evaluate situation), execute (perform rollback), verify (confirm recovery). It manages rollback; it does NOT investigate root cause (use debug-investigator). Triggers — rollback, hoàn tác deploy, quay lại bản cũ, sự cố production, revert release.
-argument-hint: <incident | deployment> [assess|execute|verify]
-allowed-tools: Read Write Bash Glob
+name: "rollback-manager"
+description: "Rollback manager for GOBAL AGENT — handles emergency rollback of deployments. Modes: assess (evaluate situation), execute (perform rollback), verify (confirm recovery). It manages rollback; it does NOT investigate root cause (use debug-investigator). Triggers — rollback, hoàn tác deploy, quay lại bản cũ, sự cố production, revert release."
+allowed-tools: "Read Write Bash Glob"
+argument-hint: "<incident | deployment> [assess|execute|verify]"
 ---
 
 # Rollback Manager

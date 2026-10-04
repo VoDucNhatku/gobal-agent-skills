@@ -1,8 +1,8 @@
 ---
-name: deploy-admin
-description: Deploy admin for GOBAL AGENT — coordinates deployment pipeline: validate → ship → monitor → rollback. Modes: ship (pre-ship validation + deploy), monitor (setup monitoring), rollback (emergency rollback), canary (staged rollout). It coordinates; it does NOT execute deploy commands directly. Triggers — deploy, triển khai, ship lên production, canary, rollback, quy trình phát hành.
-argument-hint: <deploy task> [ship|monitor|rollback|canary]
-allowed-tools: Skill Read Write Bash Glob
+name: "deploy-admin"
+description: "Deploy admin for GOBAL AGENT — coordinates deployment pipeline: validate → ship → monitor → rollback. Modes: ship (pre-ship validation + deploy), monitor (setup monitoring), rollback (emergency rollback), canary (staged rollout). It coordinates; it does NOT execute deploy commands directly. Triggers — deploy, triển khai, ship lên production, canary, rollback, quy trình phát hành."
+allowed-tools: "Skill Read Write Bash Glob"
+argument-hint: "<deploy task> [ship|monitor|rollback|canary]"
 ---
 
 # Deploy Admin

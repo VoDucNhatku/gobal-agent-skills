@@ -5,7 +5,7 @@ Automated structural validation for all skills in gobal-skills/.
 
 Checks (FAIL = the skill is broken; WARN = it is degraded):
 1.  Strict YAML frontmatter validity (unique keys and canonical field types)
-1b. FAIL — `name:` matches its directory, or Claude Code cannot resolve the skill
+1b. FAIL — `name:` matches its directory
 1c. FAIL — `description:` within the 1024-char cap, past which it is truncated
 2.  FAIL — SKILL.md body line count (< 500)
 3.  Local/peer resource paths in backticks or Markdown links exist
@@ -33,14 +33,7 @@ import json
 import argparse
 from pathlib import Path, PurePosixPath
 
-# The validator lives five levels below the repository root. Add that root to
-# sys.path so the shared strict manifest parser is available even when this
-# script is launched from another working directory.
-REPO_ROOT = Path(__file__).resolve().parents[4]
-if str(REPO_ROOT) not in sys.path:
-    sys.path.insert(0, str(REPO_ROOT))
-
-from scripts.skill_manifest import ManifestError, load_frontmatter, split_frontmatter
+from skill_manifest import ManifestError, load_frontmatter, split_frontmatter
 
 # ─── Configuration ───────────────────────────────────────────────────────────
 
@@ -122,6 +115,10 @@ RESOURCE_PATH_PATTERN = (
 BACKTICK_RESOURCE_REF = re.compile(rf"`({RESOURCE_PATH_PATTERN})`")
 MARKDOWN_RESOURCE_REF = re.compile(rf"\[[^\]\r\n]*\]\(({RESOURCE_PATH_PATTERN})\)")
 NON_LITERAL_PATH_CHARS = re.compile(r'[*?\[\]{}<>]')
+FENCED_CODE = re.compile(r"^\s*(?:`{3,}|~{3,})[^\n]*\n(.*?)^\s*(?:`{3,}|~{3,})\s*$", re.M | re.S)
+SKILLS_ROOT_RESOURCE_REF = re.compile(
+    rf"<skills>/({SKILL_PATH_SEGMENT}/(?:{RESOURCE_ROOT_PATTERN})/[^\s'\"`;)]+)"
+)
 
 # Algorithm-justification check (implement-mode skills): the skill body must carry
 # method-justification vocabulary so fabricated-METHOD is guarded, not just results.
@@ -133,14 +130,15 @@ ALGO_JUSTIFY_KEYWORDS = re.compile(
 # ─── Helpers ─────────────────────────────────────────────────────────────────
 
 def find_skill_dirs(skills_root):
-    """Return every directory below skills_root that contains SKILL.md."""
+    """Return immediate skill directories; nested fixtures are not registrations."""
     return sorted(
-        {skill_file.parent for skill_file in skills_root.rglob("SKILL.md")},
+        (directory for directory in skills_root.iterdir()
+         if directory.is_dir() and (directory / "SKILL.md").is_file()),
         key=lambda path: path.as_posix(),
     )
 
 
-def collect_mode_vocabulary(skill_files):
+def collect_mode_vocabulary(skill_files, host="canonical"):
     """Every mode / profile / variant token any skill declares about itself.
 
     Bodies write these in backticks exactly like skill names (`implement`,
@@ -154,7 +152,7 @@ def collect_mode_vocabulary(skill_files):
     modes = set()
     for f in skill_files:
         try:
-            fm, _ = load_frontmatter(f, canonical=True)
+            fm, _ = load_frontmatter(f, host=host)
         except (ManifestError, OSError, UnicodeError):
             continue
 
@@ -174,12 +172,21 @@ def collect_mode_vocabulary(skill_files):
 
 def find_local_resource_references(body):
     """Return literal local or explicit peer-skill resource paths from body."""
-    return {
+    references = {
         match.group(1)
         for pattern in (BACKTICK_RESOURCE_REF, MARKDOWN_RESOURCE_REF)
         for match in pattern.finditer(body)
         if not NON_LITERAL_PATH_CHARS.search(match.group(1))
     }
+    # <skills> is a documented root marker; the skill and resource suffix must
+    # still be concrete. Other placeholders and globs are examples, not claims.
+    references.update(
+        match.group(1)
+        for block in FENCED_CODE.finditer(body)
+        for match in SKILLS_ROOT_RESOURCE_REF.finditer(block.group(1))
+        if not NON_LITERAL_PATH_CHARS.search(match.group(1))
+    )
+    return references
 
 
 def check_local_resources(body, skill_dir, skills_root):
@@ -209,7 +216,7 @@ def check_local_resources(body, skill_dir, skills_root):
 
 
 def collect_rule_names(rules_dir):
-    """Basenames of `~/.claude/rules/*.md`, which bodies cite in backticks."""
+    """Basenames of shared rule references, which bodies cite in backticks."""
     if not rules_dir.is_dir():
         return set()
     return {p.stem for p in rules_dir.glob("*.md")}
@@ -310,9 +317,10 @@ def validate_description(desc, skill_name=""):
 
 # ─── Checks ──────────────────────────────────────────────────────────────────
 
-def check_frontmatter(fm):
+def check_frontmatter(fm, host="canonical"):
     issues = []
-    missing = REQUIRED_FM_KEYS - set(fm.keys())
+    required = REQUIRED_FM_KEYS if host == "canonical" else {"name", "description"}
+    missing = required - set(fm.keys())
     if missing:
         issues.append(f"missing keys: {', '.join(sorted(missing))}")
     if "name" in fm:
@@ -326,15 +334,14 @@ def check_frontmatter(fm):
 def check_name_matches_dir(fm, dir_name):
     """`name:` must equal the containing directory.
 
-    Claude Code registers a skill under its directory name; a mismatched `name:`
-    makes every routing table that calls the skill by directory silently miss.
-    This is a hard failure, not a style warning.
+    This checks manifest/directory consistency. Host discovery and invocation
+    still require a separate product check.
     """
     declared = (fm or {}).get("name")
     if declared is None:
         return None
     if declared != dir_name:
-        return f"name: '{declared}' does not match directory '{dir_name}' — skill will not resolve"
+        return f"name: '{declared}' does not match directory '{dir_name}'"
     return None
 
 
@@ -394,11 +401,35 @@ def check_algorithm_justification(fm, body):
 
 # ─── Main Test Runner ────────────────────────────────────────────────────────
 
+class ValidationInputError(ValueError):
+    def __init__(self, code, message):
+        super().__init__(message)
+        self.code = code
+
+
+def report_input_error(exc, json_output=False, report_path=None):
+    report = {
+        "summary": {"discovered": 0, "validated": 0, "total_skills": 0, "fail": 1},
+        "errors": [{"code": exc.code, "message": str(exc)}],
+        "skills": [],
+    }
+    output = json.dumps(report, indent=2, ensure_ascii=False) if json_output else f"ERROR [{exc.code}]: {exc}"
+    if report_path:
+        Path(report_path).write_text(output, encoding="utf-8")
+    print(output)
+
+
 def run_tests(skills_root=DEFAULT_SKILLS_DIR, skill_filter=None,
-              json_output=False, report_path=None):
+              json_output=False, report_path=None, host="canonical"):
     skills_root = Path(skills_root).resolve()
+    if not skills_root.is_dir():
+        raise ValidationInputError("invalid_skills_root", f"Skills root is not a directory: {skills_root}")
     all_skill_dirs = find_skill_dirs(skills_root)
+    if not all_skill_dirs:
+        raise ValidationInputError("empty_skills_root", f"No skill manifests found in: {skills_root}")
     all_skill_names = {skill_dir.name for skill_dir in all_skill_dirs}
+    if skill_filter is not None and skill_filter not in all_skill_names:
+        raise ValidationInputError("unknown_skill", f"Unknown skill: {skill_filter}")
     skill_dirs = [
         skill_dir for skill_dir in all_skill_dirs
         if not skill_filter or skill_dir.name == skill_filter
@@ -413,7 +444,7 @@ def run_tests(skills_root=DEFAULT_SKILLS_DIR, skill_filter=None,
     # Vocabulary that is backticked like a skill name but never is one: every
     # mode any skill declares, every rule basename, plus generic tokens.
     known_non_skills = (
-        collect_mode_vocabulary(d / "SKILL.md" for d in all_skill_dirs)
+        collect_mode_vocabulary((d / "SKILL.md" for d in all_skill_dirs), host)
         | collect_rule_names(skills_root.parent / "rules")
         | NON_SKILL_VOCAB
     )
@@ -421,14 +452,15 @@ def run_tests(skills_root=DEFAULT_SKILLS_DIR, skill_filter=None,
     for skill_dir in skill_dirs:
         skill_name = skill_dir.name
         skill_file = skill_dir / "SKILL.md"
-        content = skill_file.read_text(encoding="utf-8-sig")
+        content = ""
         fm = None
         manifest_error = None
         try:
-            fm, body = load_frontmatter(skill_file, canonical=True)
+            content = skill_file.read_text(encoding="utf-8-sig")
+            fm, body = load_frontmatter(skill_file, host=host)
             validated += 1
-        except ManifestError as exc:
-            manifest_error = str(exc)
+        except (ManifestError, OSError, UnicodeError) as exc:
+            manifest_error = f"UTF-8 read error: {exc}" if isinstance(exc, UnicodeError) else str(exc)
             try:
                 _, body = split_frontmatter(content)
             except ManifestError:
@@ -448,14 +480,14 @@ def run_tests(skills_root=DEFAULT_SKILLS_DIR, skill_filter=None,
             finding["checks"]["frontmatter"] = "FAIL"
             finding["issues"].append(manifest_error)
         else:
-            fm_issues = check_frontmatter(fm)
+            fm_issues = check_frontmatter(fm, host)
             if fm_issues:
                 finding["checks"]["frontmatter"] = "WARN"
                 finding["warnings"].extend(fm_issues)
             else:
                 finding["checks"]["frontmatter"] = "PASS"
 
-        # Check 1b: name must match its directory (hard failure — breaks routing)
+        # Check 1b: manifest name must match its directory.
         name_issue = check_name_matches_dir(fm, skill_dir.name)
         if manifest_error:
             finding["checks"]["name_matches_dir"] = "SKIP"
@@ -668,16 +700,23 @@ if __name__ == "__main__":
         help="Root containing skill directories (default: canonical .claude/skills)",
     )
     parser.add_argument("--json", action="store_true", help="Output as JSON")
+    parser.add_argument("--host", choices=("canonical", "antigravity"), default="canonical",
+                        help="Manifest schema to validate (default: canonical)")
     parser.add_argument("--skill", help="Test single skill by name")
     parser.add_argument("--report", help="Write report to file path")
     args = parser.parse_args()
 
-    results = run_tests(
-        skills_root=args.skills_root,
-        skill_filter=args.skill,
-        json_output=args.json,
-        report_path=args.report,
-    )
+    try:
+        results = run_tests(
+            skills_root=args.skills_root,
+            skill_filter=args.skill,
+            json_output=args.json,
+            report_path=args.report,
+            host=args.host,
+        )
+    except ValidationInputError as exc:
+        report_input_error(exc, args.json, args.report)
+        sys.exit(1)
 
     # Exit code: 0 if no failures, 1 if any
     has_fail = any(

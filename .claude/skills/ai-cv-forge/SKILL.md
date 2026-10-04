@@ -1,10 +1,10 @@
 ---
-name: ai-cv-forge
+name: "ai-cv-forge"
 description: "CV & career profile builder dành riêng cho sinh viên ngành AI mới ra trường. Từ input tối thiểu (khóa học, project, internship) → sinh cv.md + profile.yml + README theo format career-ops, cập nhật mindset tuyển dụng AI thực tế 2025–2026 (agentic, eval, RAG, MLOps, LLM infra), bỏ lối mòn template. Output feed thẳng vào career-ops pdf/apply. Triggers: init cv, build cv AI, cv scratch, xây cv, ai cv, profile AI mới ra trường, prepare AI resume."
-user_invocable: true
-args: mode
+allowed-tools: "Read Write Edit Glob Grep WebSearch WebFetch"
+args: "mode"
 argument-hint: "[init | resume-brief | project-brief | story-bank | linkedin-brief | profile]"
-allowed-tools: Read Write Edit Glob Grep WebSearch WebFetch
+user_invocable: true
 ---
 
 # AI CV Forge — CV builder cho AI graduate theo insight thị trường thực tế
@@ -85,9 +85,9 @@ Người dùng cung cấp dạng form sau (ít nhất phải có 3 trường có
 - Liên quan: course AI/ML notable (deep learning, NLP, LLM, CV, RL, MLOps...)
 
 ### Projects (mỗi mục: tên + mô tả ngắn + kết quả số nếu có)
-1. 
-2. 
-3. 
+1.
+2.
+3.
 
 ### Internship / Work experience (nếu có)
 - Vị trí, công ty, mô tả công việc
@@ -267,7 +267,7 @@ Với mỗi project lớn trong CV, tạo file bổ sung chứa:
 --Tóm tắt kiến thức nền + phương pháp + tool stack sử dụng--
 
 ## Output / Result (số/dạng có thể đo)
-- **Metric 1**: 
+- **Metric 1**:
 - **Metric 2**:
 - **Deliverable**: (notebook, repo, demo link, PDF, presentation, etc.)
 
@@ -417,7 +417,7 @@ Vì chưa có kinh nghiệm production thực tế:
 
 ## Format trong file
 ```markdown
-# Project 1: ... 
+# Project 1: ...
 
 **Note:** Học từ AI hiring thực tế: interviewers frequently hỏi "Tell me about a time X", story bank này chuẩn bị.
 
@@ -425,9 +425,9 @@ Vì chưa có kinh nghiệm production thực tế:
 - **Situation**:
 - **Task**:
 - **Action** (3–5 bước cụ thể):
-  1. 
-  2. 
-  3. 
+  1.
+  2.
+  3.
 - **Result** (định lượng):
 - **Reflection**:
 - **JD mapping**: nếu JD có keywords náy, story này match vào đâu?

@@ -1,8 +1,8 @@
 ---
-name: concept-explainer
-description: Concept explainer for GOBAL AGENT — explains complex concepts at the right depth for the learner. Modes: eli5 (plain-language intuition with one analogy + toy example), deep-dive (technical depth with examples), analogy (find the right comparison). It explains; it does NOT tutor (use study-tutor for full learning sessions). Triggers — giải thích khái niệm, X là gì, explain, ELI5, cho ví dụ dễ hiểu, ví von, analogy, không hiểu chỗ này.
-argument-hint: <concept> [eli5|deep-dive|analogy]
-allowed-tools: Read Write Bash Glob WebSearch WebFetch
+name: "concept-explainer"
+description: "Concept explainer for GOBAL AGENT — explains complex concepts at the right depth for the learner. Modes: eli5 (plain-language intuition with one analogy + toy example), deep-dive (technical depth with examples), analogy (find the right comparison). It explains; it does NOT tutor (use study-tutor for full learning sessions). Triggers — giải thích khái niệm, X là gì, explain, ELI5, cho ví dụ dễ hiểu, ví von, analogy, không hiểu chỗ này."
+allowed-tools: "Read Write Bash Glob WebSearch WebFetch"
+argument-hint: "<concept> [eli5|deep-dive|analogy]"
 ---
 
 # Concept Explainer

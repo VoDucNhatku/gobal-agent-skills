@@ -1,81 +1,78 @@
 ---
-name: token-budget
-description: Token budget manager for GOBAL AGENT — estimates, allocates, and tracks token usage per task and per session. Invoked before any fan-out dispatch or large operation. Enforces progressive disclosure tiers (Tier 1 ~100 token metadata, Tier 2 <5k token body, Tier 3 on-demand). Modes — estimate (calculate cost for a task), allocate (distribute budget across sub-tasks), track (log actual usage), overflow (handle budget exceeded: compress/shard/skip). It manages budgets; it does NOT execute tasks. Triggers — ước tính token, tốn bao nhiêu token, chi phí, budget, trước khi fan-out.
-argument-hint: <task description> [estimate|allocate|track|overflow]
-allowed-tools: Read Bash
+name: "token-budget"
+description: "Token budget manager for GOBAL AGENT — estimates, allocates, and tracks token usage per task and per session. Invoked before any fan-out dispatch or large operation. Enforces progressive disclosure tiers (Tier 1 ~100 token metadata, Tier 2 <5k token body, Tier 3 on-demand). Modes — estimate (calculate cost for a task), allocate (distribute budget across sub-tasks), track (log actual usage), overflow (handle budget exceeded: compress/shard/skip). It manages budgets; it does NOT execute tasks. Triggers — ước tính token, tốn bao nhiêu token, chi phí, budget, trước khi fan-out."
+allowed-tools: "Read Bash"
+argument-hint: "<task description> [estimate|allocate|track|overflow]"
 ---
 
 # Token Budget
 
-Manage token economy for GOBAL AGENT. Every task has a budget. Stay within it.
+> **Source:** GOBAL evidence-first design and preflight amendment, shared resource budget.
+> **Purpose:** Bound operations and context without assuming a vendor's model capacity.
 
-## Token Estimation Rules
+## Hard gate
 
-| Task Type | Input Tokens | Output Tokens |
-|-----------|-------------|---------------|
-| Simple Q&A | 1-2k | 0.5-1k |
-| Single skill invoke | 2-5k | 1-3k |
-| Multi-skill (solo) | 5-15k | 3-10k |
-| Fan-out (2-3 agents) | 10-30k | 10-30k |
-| Fan-out (4+ agents) | 20-50k | 20-50k |
-| Full research pipeline | 30-80k | 20-60k |
+Use one aggregate budget for the entire request: coordinator, sub-admins, workers,
+retries and verification all draw from it. Never give each worker the full shared pool.
+Use runtime-reported context/token limits and actual usage when available. If the host
+does not expose a metric, label it unknown; do not manufacture counts or savings.
+No fixed vendor context assumption or unmeasured parallel-cost multiplier is portable.
 
-## Progressive Disclosure Tiers
+## Evidence lane allocation
 
-```
-Tier 1 (always loaded, ~100 token): name + description only
-Tier 2 (on trigger, <5k token): SKILL.md body
-Tier 3 (on demand): references/ + scripts/
-```
+| Lane | Rounds | Queries | Source opens | Workers total |
+|---|---:|---:|---:|---:|
+| Fast non-research | 0 research | 0 default | 0 default | By justified task scope |
+| Quick evidence | 1 | 3 | 2 | 0 |
+| Standard evidence | 2 | 6 | 6 | 0 by default |
+| Deep evidence | 3 | 12 | 12 | min(host capacity, 3) |
 
-**Rule:** Never load Tier 2 unless the skill is actively being invoked. Never load Tier 3 unless Tier 2 references it.
+These are design ceilings, not measured optimum or latency guarantees. Count query
+strings and source retrievals even when batched. Select Deep explicitly before research
+delegation. Across non-research dispatch, use at most min(host capacity, 3) workers too;
+their code/build tools follow the task's separately stated resource constraints.
+If subagents are unavailable, sequential execution uses the same allocations.
+Supplied local-source reading has an explicit files/pages/ranges budget; it is not
+disguised as free unlimited ingestion. Search budget follows admin's on-demand protocol.
 
-## Budget Allocation (fan-out)
+## Progressive disclosure
 
-When admin decides fan-out:
-
-1. **Estimate total budget** = sum of sub-task estimates + 20% overhead for synthesis
-2. **Per-agent budget** = total / N agents
-3. **Per-agent context spec** = only include what fits in budget
-4. **If overflow** → apply overflow strategy (see below)
-
-## Overflow Strategies
-
-| Strategy | When | Action |
-|----------|------|--------|
-| Compress | Context too large | Summarize prior artifacts, drop redundant context |
-| Shard | Too many sub-tasks | Split into batches, run sequentially |
-| Skip | Low-value sub-task | Drop it, note in synthesis |
-| Reduce depth | Output too large | Switch to lighter mode (e.g., gist instead of summary) |
-
-## Session Budget
-
-```
-Total session: 200k tokens (Claude Opus default)
-├── System prompt: 10k (5%)
-├── Skill metadata (Tier 1): 5k (2.5%)
-├── Active skill body (Tier 2): 5k (2.5%)
-├── Conversation history: 50k (25%)
-├── Artifacts (Tier 3, on demand): 30k (15%)
-└── Working buffer: 100k (50%)
-```
-
-**Red flag:** If working buffer drops below 30%, trigger context-compressor.
+Tier 1 metadata is discovered by the host; its token cost varies by tokenizer and registry.
+Tier 2 bodies load only for skills actually used; Tier 3 references/resources load only
+when required. Keep context relevant, and retain direct passages needed for claim review.
+Do not trade away verification to meet a speculative token estimate.
 
 ## Mode: estimate
 
-Input: task description + context size
-Output: `{input_tokens, output_tokens, total, tier_required, fan_out_worthy}`
+Resolve task facets, evidence lane, local reading volume and available host capacity.
+Estimate token/resource needs from actual source sizes and host measurements where possible;
+label estimates as estimates with assumptions. Unknown input/output totals remain unknown.
+Return lane, ceilings, estimated context need, metrics available and whether parallel
+independent work warrants orchestration. Do not override the user's configured model.
 
 ## Mode: allocate
 
-Input: N sub-tasks + total budget
-Output: per-task budget allocation + overflow plan
+1. Record current totals and remaining query/open/round/worker/reading budget.
+2. Reserve operations/context for coordinator review and synthesis.
+3. Grant each independent worker a disjoint portion plus scoped sources and file ownership.
+4. Require worker manifests to return consumed operations and remaining allocation.
+5. Merge usage before any retry/re-plan; sub-admin handoff never resets the pool.
+
+Parallelization itself does not establish lower token cost. Prefer inline work for small
+or dependent tasks. Do not silently skip required acceptance criteria to fit a budget.
 
 ## Mode: track
 
-Log actual token usage per skill invocation. Write to `logs/token-usage-<date>.md`.
+Record actual search/open/worker counts and timestamps; token/cost metrics only when
+reported by the runtime. If reuse matters, save a compact task log in the project with
+lane, allocation, consumption, source-reading volume, limitations and measurement origin.
+Distinguish estimates from observed values and static checks from actual model executions.
+No percentage-saving claim without matched baseline measurements.
 
 ## Mode: overflow
 
-When budget exceeded: apply strategy, re-estimate, retry.
+Re-plan within the remaining allocation: compress redundant context, reuse fresh artifacts,
+reduce optional depth with disclosure or perform bounded work sequentially. Preserve exact
+passages needed to audit material claims. When ceilings are exhausted, stop with verified
+partial results and NEI/CONTESTED gaps; no hidden budget extension.
+Release tests are release gates, not a cost charged on each ordinary admin request.

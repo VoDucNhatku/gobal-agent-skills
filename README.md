@@ -6,15 +6,12 @@ language: en / vi
 
 # GOBAL Agent Skills
 
-**69 specialist skills for [Claude Code](https://claude.ai/claude-code) behind one entry point —
-which spends only what your request is actually worth.**
+**69 specialist skills for [Claude Code](https://claude.ai/claude-code), with an Antigravity IDE distribution under verification, behind one evidence-first entry point.**
 
 ![skills](https://img.shields.io/badge/skills-69-2a78d6?style=flat-square)
-![validator](https://img.shields.io/badge/validator-0%20failures%20·%200%20warnings-17915f?style=flat-square)
-![baseline](https://img.shields.io/badge/session%20baseline-9.0k%20tok-4a3aa7?style=flat-square)
 ![license](https://img.shields.io/badge/license-MIT-52514e?style=flat-square)
 
-[Quick Start](#quick-start) · [Skills](#skills) · [Architecture](#architecture-decisions) · [Tiếng Việt](#tiếng-việt)
+[Antigravity IDE](docs/ANTIGRAVITY.md) · [Claude Quick Start](#quick-start) · [Skills](#skills) · [Architecture](#architecture-decisions) · [Tiếng Việt](#tiếng-việt)
 
 </div>
 
@@ -25,14 +22,15 @@ needs thirty papers read in parallel, and only then does the machinery wake up:
 
 | You say | What runs | Cost |
 |---|---|---|
-| `admin, RAG khác fine-tuning chỗ nào?` | Answered inline. Nothing dispatched. | **1.9k tok** |
+| `admin, RAG khác fine-tuning chỗ nào?` | Answered inline; source lookup when needed. | bounded quick lane |
 | `admin, review cái diff này` | `code-reviewer`, called directly | + 1 skill |
-| `admin, dựng trang pricing` | `web-admin` owns the design → build → audit chain | + sub-admin |
-| `admin, đọc hết papers/ rồi so sánh` | 30 papers, sharded across parallel isolated workers | **5.8k tok** |
+| `admin, dựng trang pricing` | `design-web` → `build-ui`, in dependency order | requested workers |
+| `admin, đọc hết papers/ rồi so sánh` | Bounded independent workers, or sequential fallback | measured per run |
 
-Every skill is a self-contained playbook for doing one thing well. Six binding rule files
-in `~/.claude/rules/` hold the policy they share, read at run time so they never sit in
-context. Replies come back in Vietnamese; code and identifiers stay English.
+Skills bundle instructions and companion resources; executable workers declare optional runtime
+dependencies. Shared rules hold common policy, including a concise evidence-first invariant.
+Replies come back in Vietnamese; code and identifiers stay English. Source existence is not
+claim support, and a copied file is not proof of IDE activation.
 
 ---
 
@@ -48,6 +46,9 @@ file — so choosing **not** to fan out costs nothing extra. Force either way wi
 
 ## Quick Start
 
+This section is for **Claude Code**. For Antigravity IDE use the [Windows-first guide](docs/ANTIGRAVITY.md),
+which distinguishes current/legacy IDE paths, pilot, rule activation and full rollout gates.
+
 ```bash
 git clone https://github.com/VoDucNhatku/gobal-agent-skills.git
 cd gobal-agent-skills
@@ -56,8 +57,9 @@ cd gobal-agent-skills
 cp -r .claude/skills/. ~/.claude/skills/
 cp -r .claude/rules/.  ~/.claude/rules/
 
-# Verify the install
-python ~/.claude/skills/test-framework/scripts/test_skills.py
+# Optional structural validation (Python 3.11+, pinned PyYAML)
+python -m pip install -r ~/.claude/skills/test-framework/requirements.txt
+python ~/.claude/skills/test-framework/scripts/test_skills.py --skills-root ~/.claude/skills --host canonical
 ```
 
 Then just talk to it:
@@ -66,7 +68,7 @@ Then just talk to it:
 admin, tôi muốn nghiên cứu AI cho bài toán dự đoán học sinh bỏ học
 ```
 
-**Requirements:** Claude Code, Python 3.9+, Git. `pdflatex`/MiKTeX is needed only for the
+**Requirements:** Claude Code or Antigravity IDE (use the matching guide), Git. Validation and Python workers need Python 3.11+ plus declared dependencies. `pdflatex`/MiKTeX is needed only for the
 TikZ and PDF skills, Modal only for GPU deploys — both optional.
 
 ---
@@ -89,10 +91,10 @@ task, so it stays on the fast path; "read everything in `papers/`" is three word
 thirty independent ones, so it dispatches. Detail helps `admin` classify correctly and
 avoids the clarifying-question branch — it does not by itself buy a fan-out.
 
-`admin` and `workbench-admin` used to be near-duplicates costing 2.5k and 3.7k. Merging
-them by concatenation would have made *every* call — including a one-line question — cost
-5.8k. Splitting instead, with the heavy machinery in an on-demand reference, made the
-cheap path 25% cheaper than the old `admin` while keeping the better dispatch procedure.
+`admin` and `workbench-admin` used to duplicate routing instructions. Detailed dispatch
+now lives in an on-demand reference, so a narrow request need not load it. Historical
+prompt-size estimates are not measurements of the new Gemini workflow's cost or speed;
+those require comparable runtime traces before claiming a saving.
 
 ### Research & Academic (15)
 
@@ -203,6 +205,11 @@ cheap path 25% cheaper than the old `admin` while keeping the better dispatch pr
 
 ## Recent Changes
 
+**2026-10 — Antigravity evidence-first work in progress.** Strict schemas, parser packaging,
+normalization, source/claim contracts, deterministic generated output and a reversible pilot
+are under verification. [Preflight review](notes/review-antigravity-preflight.md) records the
+known gaps. Historical figures below are not current Gemini accuracy, latency or cost measurements.
+
 **2026-08 — orchestrators renamed to admins, and the entry point made cheap.** The rename
 was the easy half; the audit under it found a skill that could never be invoked, a binding
 rule file naming three dead skills, and a validator that was wrong in both directions.
@@ -277,7 +284,7 @@ Solution: Hierarchical admins
 ### Token economy (5 principles)
 
 1. **Progressive disclosure** — metadata (~100 tok) → body (<500 lines) → `references/` on demand
-2. **Fan-out judiciously** — parallel costs ~10x tokens. Gate on: independence + value ≥ 2k tokens + clear scope
+2. **Fan-out judiciously** — independent work shares one request budget; actual cost is measured, not a fixed multiplier
 3. **Preview-not-dump** — chat = 5–10 lines + file paths. Full content lives in files
 4. **Reuse-before-read** — check `INDEX.md` + existing artifacts before ingesting sources
 5. **Context isolation** — each worker gets ONLY its spec. The admin never sees raw PDF text
@@ -305,18 +312,18 @@ Solution: Hierarchical admins
 
 ## Giới thiệu
 
-GOBAL Agent Skills là **bộ công cụ "siêu trợ lý"** cho Claude Code — hình dung nó như 69 "chuyên gia" nhỏ, mỗi người giỏi đúng một việc, cộng thêm 6 file quy tắc gốc dùng chung. Bạn chỉ cần **nói tiếng Việt** — hệ thống tự hiểu, tự gọi đúng chuyên gia và trả kết quả bằng tiếng Việt.
+GOBAL Agent Skills gồm 69 skill chuyên môn và 7 file quy tắc dùng chung. Nguồn canonical dành cho Claude Code; bản Antigravity IDE có bundle và hướng dẫn cài riêng, đang qua kiểm chứng. Bạn có thể yêu cầu bằng tiếng Việt.
 
-Điểm khác biệt: bạn chỉ gọi **một** cửa duy nhất là `admin`, và nó **chỉ tiêu đúng số token việc đó đáng**:
+Bạn gọi một cửa duy nhất là `admin`; nó chọn phạm vi xử lý và giới hạn thao tác phù hợp:
 
 | Bạn gõ | Chạy gì | Tốn |
 |---|---|---|
-| `admin, RAG khác fine-tuning chỗ nào?` | Trả lời thẳng, không gọi ai | **1.9k tok** |
+| `admin, RAG khác fine-tuning chỗ nào?` | Trả lời trực tiếp; tra nguồn khi cần | lane có giới hạn |
 | `admin, review cái diff này` | Gọi thẳng `code-reviewer` | + 1 skill |
-| `admin, dựng trang pricing` | `web-admin` lo cả chuỗi thiết kế → dựng → audit | + sub-admin |
-| `admin, đọc hết papers/ rồi so sánh` | 30 bài, chia shard chạy song song, cô lập | **5.8k tok** |
+| `admin, dựng trang pricing` | `design-web` → `build-ui` theo dependencies | worker phù hợp |
+| `admin, đọc hết papers/ rồi so sánh` | Chia việc độc lập trong budget chung; fallback tuần tự | cần đo từng lượt |
 
-Ép nhánh khi bạn muốn tự quyết: `admin nhanh <việc>` (khóa đường rẻ) · `admin sâu <việc>` (ép chạy song song).
+Chọn độ sâu: `admin nhanh <việc>` (không worker) · `admin sâu <việc>` (nghiên cứu sâu khi cần, không bắt buộc song song). Chưa có số đo thực thì không hứa tiết kiệm token hay thời gian.
 
 ## Cách hoạt động — cho người không rành code
 
@@ -448,7 +455,7 @@ gobal-agent-skills/
 | Preview-not-dump | Chat chỉ in 5–10 dòng + đường dẫn. File đầy đủ nằm ở `notes/` |
 | Reuse-before-read | Trước khi mở PDF → kiểm tra `notes/INDEX.md`. Có rồi → dùng lại, không đọc lại |
 | Mode-scaling | 1 bài → chi tiết. 10 bài → 1 dòng/bài. Tổng output tăng tuyến tính, không nổ |
-| Fan-out có chọn lọc | Chạy song song ≈ tốn gấp 10 lần token. Chỉ làm khi việc độc lập + giá trị ≥ 2k token |
+| Fan-out có chọn lọc | Chỉ chia việc độc lập có lợi; admin và worker dùng chung trần thao tác, không giả định hệ số chi phí cố định |
 | Script-offloading | Chỉ phát JSON spec ngắn → gọi script dựng file. Không tự tay viết boilerplate |
 
 ### Chống "Bịa" (Hallucination) — nhiều lớp phòng thủ

@@ -1,8 +1,8 @@
 ---
-name: design-ui-direction
-description: DEPRECATED alias (2026-07-20) — design direction lives in design-web. The shared reference tables (anti-slop-bans, palettes, type-pairings, style-archetypes CSVs) and the Artifact preview template are owned by design-web (references/ and assets/). This stub only redirects; if invoked, immediately apply design-web instead.
-argument-hint: (deprecated — use design-web)
-allowed-tools: Skill Read
+name: "design-ui-direction"
+description: "DEPRECATED alias (2026-07-20) — design direction lives in design-web. The shared reference tables (anti-slop-bans, palettes, type-pairings, style-archetypes CSVs) and the Artifact preview template are owned by design-web (references/ and assets/). This stub only redirects; if invoked, immediately apply design-web instead."
+allowed-tools: "Skill Read"
+argument-hint: "(deprecated — use design-web)"
 ---
 
 # design-ui-direction — DEPRECATED alias → `design-web`
@@ -28,5 +28,5 @@ stub này.
 
 File này về sau chỉ còn là "data stub" trỏ sang chính các bảng CSV mà design-web sở
 hữu — một tầng chuyển hướng không mang thêm dữ liệu. Bản asset trùng lặp
-(`assets/artifact-preview-template.html`, byte-identical với bản của design-web) đã
-xóa; bản chuẩn duy nhất nằm ở `design-web/assets/`.
+(`design-web/assets/artifact-preview-template.html`, byte-identical với bản của
+design-web) đã xóa; bản chuẩn duy nhất nằm ở `design-web/assets/`.

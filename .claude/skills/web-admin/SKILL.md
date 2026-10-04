@@ -1,8 +1,8 @@
 ---
-name: web-admin
-description: DEPRECATED alias (2026-08-02) — điều phối web đã bỏ. Stub này chỉ redirect, không tự điều phối. Gọi thẳng design-web (quyết hướng thiết kế) hoặc build-ui (dựng theo hệ token đã có); chuỗi design → build → review nay nằm trong chính build-ui.
-argument-hint: (deprecated — gọi thẳng design-web hoặc build-ui)
-allowed-tools: Skill Read
+name: "web-admin"
+description: "DEPRECATED alias (2026-08-02) — điều phối web đã bỏ. Stub này chỉ redirect, không tự điều phối. Gọi thẳng design-web (quyết hướng thiết kế) hoặc build-ui (dựng theo hệ token đã có); chuỗi design → build → review nay nằm trong chính build-ui."
+allowed-tools: "Skill Read"
+argument-hint: "(deprecated — gọi thẳng design-web hoặc build-ui)"
 ---
 
 # web-admin — DEPRECATED alias

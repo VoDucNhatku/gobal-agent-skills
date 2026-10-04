@@ -1,4 +1,5 @@
 import json
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -18,6 +19,15 @@ VALIDATOR = (
 
 
 class SkillFrameworkTests(unittest.TestCase):
+    def test_invalid_utf8_returns_a_structured_failure(self):
+        skill_dir = self.write_skill("alpha")
+        (skill_dir / "SKILL.md").write_bytes(b"\xff\xfeinvalid text")
+        completed = self.run_validator()
+        self.assertEqual(completed.returncode, 1)
+        report = self.parse_report(completed)
+        self.assertEqual(report["summary"]["validated"], 0)
+        self.assertTrue(any("UTF-8" in issue for issue in self.issues(report)))
+
     def setUp(self):
         self.temp_dir = tempfile.TemporaryDirectory()
         self.skills_root = Path(self.temp_dir.name)
@@ -41,16 +51,17 @@ class SkillFrameworkTests(unittest.TestCase):
         )
         return skill_dir
 
-    def run_validator(self):
+    def run_validator(self, *arguments, validator=VALIDATOR, cwd=REPO_ROOT):
         return subprocess.run(
             [
                 sys.executable,
-                str(VALIDATOR),
+                str(validator),
                 "--skills-root",
                 str(self.skills_root),
                 "--json",
+                *arguments,
             ],
-            cwd=REPO_ROOT,
+            cwd=cwd,
             capture_output=True,
             text=True,
             encoding="utf-8",
@@ -71,6 +82,16 @@ class SkillFrameworkTests(unittest.TestCase):
     def issues(report):
         return [issue for skill in report["skills"] for issue in skill["issues"]]
 
+    def test_nonexistent_root_returns_machine_readable_error(self):
+        self.skills_root = self.skills_root / "missing"
+
+        completed = self.run_validator()
+
+        self.assertEqual(completed.returncode, 1)
+        report = self.parse_report(completed)
+        self.assertEqual(report["errors"][0]["code"], "invalid_skills_root")
+        self.assertEqual(report["summary"]["validated"], 0)
+
     def test_invalid_yaml_is_a_hard_failure(self):
         skill_dir = self.skills_root / "alpha"
         skill_dir.mkdir()
@@ -87,6 +108,62 @@ class SkillFrameworkTests(unittest.TestCase):
             any("invalid YAML" in issue for issue in self.issues(report)),
             report,
         )
+
+    def test_empty_root_returns_machine_readable_error(self):
+        completed = self.run_validator()
+
+        self.assertEqual(completed.returncode, 1)
+        report = self.parse_report(completed)
+        self.assertEqual(report["errors"][0]["code"], "empty_skills_root")
+
+    def test_unknown_skill_returns_machine_readable_error(self):
+        self.write_skill("alpha")
+
+        completed = self.run_validator("--skill", "unknown")
+
+        self.assertEqual(completed.returncode, 1)
+        report = self.parse_report(completed)
+        self.assertEqual(report["errors"][0]["code"], "unknown_skill")
+        self.assertIn("unknown", report["errors"][0]["message"])
+
+    def test_nested_fixture_manifests_are_not_registered(self):
+        self.write_skill("alpha")
+        self.write_skill("alpha/tests/fixture", name="invalid-fixture")
+
+        completed = self.run_validator()
+
+        self.assertEqual(completed.returncode, 0, completed.stdout + completed.stderr)
+        report = self.parse_report(completed)
+        self.assertEqual(report["summary"]["discovered"], 1)
+        self.assertEqual([skill["skill"] for skill in report["skills"]], ["alpha"])
+
+    def test_antigravity_schema_accepts_portable_fields(self):
+        skill_dir = self.write_skill("alpha")
+        (skill_dir / "SKILL.md").write_text(
+            '---\nname: alpha\ndescription: "Use when testing."\n---\n# Demo\n',
+            encoding="utf-8",
+        )
+
+        completed = self.run_validator("--host", "antigravity")
+
+        self.assertEqual(completed.returncode, 0, completed.stdout + completed.stderr)
+        report = self.parse_report(completed)
+        self.assertEqual(report["summary"]["validated"], 1)
+
+    def test_antigravity_schema_rejects_extra_manifest_fields(self):
+        for field in ("allowed-tools", "argument-hint", "unexpected"):
+            with self.subTest(field=field):
+                skill_dir = self.write_skill("alpha")
+                (skill_dir / "SKILL.md").write_text(
+                    '---\nname: alpha\ndescription: "Use when testing."\n'
+                    f'{field}: "Read"\n---\n# Demo\n', encoding="utf-8",
+                )
+
+                completed = self.run_validator("--host", "antigravity")
+
+                self.assertEqual(completed.returncode, 1)
+                report = self.parse_report(completed)
+                self.assertTrue(any(field in issue for issue in self.issues(report)), report)
 
     def test_test_framework_is_counted_when_it_has_a_skill_manifest(self):
         self.write_skill("alpha")
@@ -111,6 +188,17 @@ class SkillFrameworkTests(unittest.TestCase):
             report,
         )
 
+    def test_fenced_command_skill_root_path_checks_missing_resource(self):
+        self.write_skill("alpha", body=(
+            "```bash\npython '<skills>/alpha/scripts/missing.py' --json\n```\n"
+        ))
+
+        completed = self.run_validator()
+
+        self.assertEqual(completed.returncode, 1)
+        report = self.parse_report(completed)
+        self.assertTrue(any("alpha/scripts/missing.py" in issue for issue in self.issues(report)), report)
+
     def test_name_must_equal_directory(self):
         self.write_skill("alpha", name="beta")
 
@@ -121,6 +209,17 @@ class SkillFrameworkTests(unittest.TestCase):
         diagnostic = "\n".join(self.issues(report))
         self.assertIn("alpha", diagnostic)
         self.assertIn("beta", diagnostic)
+
+    def test_name_requires_kebab_case_even_when_directory_matches(self):
+        for name in ("alpha_beta", "alpha.beta", "-alpha", "alpha-", "alpha--beta"):
+            with self.subTest(name=name):
+                self.write_skill(name)
+
+                completed = self.run_validator(f"--skill={name}")
+
+                self.assertEqual(completed.returncode, 1)
+                report = self.parse_report(completed)
+                self.assertTrue(any("kebab-case" in issue for issue in self.issues(report)), report)
 
     def test_wrong_canonical_field_type_is_a_hard_failure(self):
         skill_dir = self.write_skill("alpha")
@@ -151,8 +250,24 @@ class SkillFrameworkTests(unittest.TestCase):
                 "Ignore `docs/missing.md`, `README.md`, and `/scripts/missing.py`.\n"
                 "Ignore non-literal `references/*.md`, `scripts/<name>.py`, and "
                 "`templates/{kind}.md` examples.\n"
+                "```bash\n"
+                "python '<skills>/<skill-name>/scripts/tool.py'\n"
+                "python '<skills>/alpha/scripts/<name>.py'\n"
+                "python '<skills>/alpha/scripts/*.py'\n"
+                "```\n"
             ),
         )
+
+        completed = self.run_validator()
+
+        self.assertEqual(completed.returncode, 0, completed.stdout + completed.stderr)
+
+    def test_fenced_command_skill_root_path_resolves_existing_resource(self):
+        skill_dir = self.write_skill("alpha", body=(
+            "```bash\npython '<skills>/alpha/scripts/tool.py'\n```\n"
+        ))
+        (skill_dir / "scripts").mkdir()
+        (skill_dir / "scripts" / "tool.py").write_text("", encoding="utf-8")
 
         completed = self.run_validator()
 
@@ -262,6 +377,21 @@ class SkillFrameworkTests(unittest.TestCase):
         completed = self.run_validator()
 
         self.assertEqual(completed.returncode, 0, completed.stdout + completed.stderr)
+
+    def test_copied_skill_runs_without_repository_from_external_cwd(self):
+        copied_skill = self.skills_root / "test-framework"
+        shutil.copytree(VALIDATOR.parents[1], copied_skill, ignore=shutil.ignore_patterns("__pycache__"))
+        external_cwd = self.skills_root / "unrelated-working-directory"
+        external_cwd.mkdir()
+        self.write_skill("alpha")
+
+        completed = self.run_validator(
+            validator=copied_skill / "scripts" / "test_skills.py", cwd=external_cwd,
+        )
+
+        self.assertEqual(completed.returncode, 0, completed.stdout + completed.stderr)
+        report = self.parse_report(completed)
+        self.assertEqual(report["summary"]["validated"], 2)
 
 
 if __name__ == "__main__":

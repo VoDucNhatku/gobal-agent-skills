@@ -1,8 +1,8 @@
 ---
-name: scaffold-project
-description: Designs the folder structure AND the team git workflow for a new project, scaled to team size — asks 3 blocking questions, picks a layout profile (research | web | agent | mixed), then offloads creation to a script that writes the tree plus its governance files. Modes — plan (blueprint only, default), apply (create for real), publish (secret-scan, then create the GitHub repo via gh and invite the team, only after an explicit yes), audit (score an existing repo), onboard (regenerate the teammate guide). Triggers — thiết kế thư mục, cấu trúc dự án, dựng khung dự án, tổ chức project, scaffold project, project structure, chia thư mục, làm việc nhóm trên github, quy trình git cho nhóm, nhiều người cùng repo, repo cho N người, onboard thành viên mới, tạo repo github, đẩy lên github, push lần đầu, mời thành viên vào repo. It decides layout + collaboration policy; it does NOT write framework code (use build-ui mode scaffold) or resolve a product stack (use scaffold-course-platform).
-argument-hint: <project-name | path> [plan|apply|audit|onboard]
-allowed-tools: Read Write Edit Bash Glob Grep AskUserQuestion
+name: "scaffold-project"
+description: "Designs the folder structure AND the team git workflow for a new project, scaled to team size — asks 3 blocking questions, picks a layout profile (research | web | agent | mixed), then offloads creation to a script that writes the tree plus its governance files. Modes — plan (blueprint only, default), apply (create for real), publish (secret-scan, then create the GitHub repo via gh and invite the team, only after an explicit yes), audit (score an existing repo), onboard (regenerate the teammate guide). Triggers — thiết kế thư mục, cấu trúc dự án, dựng khung dự án, tổ chức project, scaffold project, project structure, chia thư mục, làm việc nhóm trên github, quy trình git cho nhóm, nhiều người cùng repo, repo cho N người, onboard thành viên mới, tạo repo github, đẩy lên github, push lần đầu, mời thành viên vào repo. It decides layout + collaboration policy; it does NOT write framework code (use build-ui mode scaffold) or resolve a product stack (use scaffold-course-platform)."
+allowed-tools: "Read Write Edit Bash Glob Grep AskUserQuestion"
+argument-hint: "<project-name | path> [plan|apply|audit|onboard]"
 ---
 
 # Scaffold Project (dựng khung dự án + quy trình nhóm)

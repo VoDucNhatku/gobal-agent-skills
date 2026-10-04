@@ -1,8 +1,8 @@
 ---
-name: code-admin
-description: Code domain admin for GOBAL AGENT — coordinates code tasks: understand → plan → implement → review → verify. Routes to appropriate code skills based on task type. Modes — implement, debug, review, plan. It coordinates; it does NOT write code directly. Triggers — task code nhiều bước, điều phối code, làm tính năng, sửa bug, review code, viết spec rồi code.
-argument-hint: <code task> [implement|debug|review|plan]
-allowed-tools: Skill Agent Read Write Glob Bash
+name: "code-admin"
+description: "Code domain admin for GOBAL AGENT — coordinates code tasks: understand → plan → implement → review → verify. Routes to appropriate code skills based on task type. Modes — implement, debug, review, plan. It coordinates; it does NOT write code directly. Triggers — task code nhiều bước, điều phối code, làm tính năng, sửa bug, review code, viết spec rồi code."
+allowed-tools: "Skill Agent Read Write Glob Bash"
+argument-hint: "<code task> [implement|debug|review|plan]"
 ---
 
 # Code Admin
@@ -53,7 +53,7 @@ Code Request
 
 ## Routing Rules & Handoff
 
-When coordinating, explicitly state the handoff path. 
+When coordinating, explicitly state the handoff path.
 *Example: "Route to `code-senior` to implement the sorting algorithm. Next required skill: `code-reviewer`."*
 
 | Request Type | Primary Skill | Prerequisite Skill |

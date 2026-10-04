@@ -1,8 +1,8 @@
 ---
-name: paper-storytelling
+name: "paper-storytelling"
 description: "Viết/viết lại bản thảo theo cấu trúc storytelling chuẩn IEEE/Springer (mẫu SARD): title 3 vế, research questions tổ chức bài, contributions viết thành văn xuôi gắn số, Results+Discussion GỘP theo phát hiện, negative result kể như finding, kèm QUY TRÌNH thiết kế pipeline figure TikZ 2 hàng (inference/train-only) + Algorithm walkthrough + headline pgfplots + vòng compile→render→inspect. Triggers: viết theo cấu trúc storytelling, narrative paper, SARD structure, viết lại paper theo bài mẫu, vẽ pipeline đẹp, storytelling rewrite, cấu trúc bài chi tiết."
+allowed-tools: "Read Write Edit Glob Bash"
 argument-hint: "<paper id | main.tex path> [rewrite|draft|figure-only|analyze <exemplar.pdf>]"
-allowed-tools: Read Write Edit Glob Bash
 ---
 
 # Paper Storytelling — Cấu trúc kể chuyện + Pipeline figure chuẩn IEEE/Springer

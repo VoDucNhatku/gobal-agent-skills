@@ -1,0 +1,5 @@
+{
+  "$schema": "https://antigravity.google/schemas/v1/plugin.json",
+  "name": "gobal-agent-skills",
+  "description": "Evidence-grounded GOBAL AGENT skills for Antigravity IDE."
+}

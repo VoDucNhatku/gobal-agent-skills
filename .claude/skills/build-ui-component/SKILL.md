@@ -1,15 +1,15 @@
 ---
-name: build-ui-component
-description: DEPRECATED alias (2026-07-20) — absorbed into build-ui. One-component builds are build-ui mode component; the component catalog moved to build-ui/references/component-catalog.md. This stub only redirects; if invoked, immediately apply build-ui instead.
-argument-hint: (deprecated — use build-ui)
-allowed-tools: Skill Read
+name: "build-ui-component"
+description: "DEPRECATED alias (2026-07-20) — absorbed into build-ui. One-component builds are build-ui mode component; the component catalog moved to build-ui/references/component-catalog.md. This stub only redirects; if invoked, immediately apply build-ui instead."
+allowed-tools: "Skill Read"
+argument-hint: "(deprecated — use build-ui)"
 ---
 
 # build-ui-component — DEPRECATED alias → `build-ui`
 
 Skill này đã được sáp nhập vào **`build-ui`** (2026-07-20). File này chỉ tồn tại để
-các tham chiếu cũ không gãy. Tài sản duy nhất (`references/component-catalog.md`) đã
-chuyển về `build-ui/references/component-catalog.md`; bản ở đây đã xóa.
+các tham chiếu cũ không gãy. Tài sản duy nhất
+(`build-ui/references/component-catalog.md`) đã chuyển về `build-ui`; bản ở đây đã xóa.
 
 ## Nếu skill này bị gọi
 

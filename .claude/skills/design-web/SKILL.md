@@ -1,8 +1,8 @@
 ---
-name: design-web
-description: Decides the visual direction for a web surface AND verifies it by rendering, screenshotting and measuring — because in practice nearly every real defect is caught by looking, not by thinking harder. Grounds in the subject's own world, asks 2-3 blocking questions, commits ONE decisive token system, then renders the surface, LOOKS at the screenshot, and computes every contrast ratio with scripts/contrast.py before calling it done. Adapts to the target: a standalone surface previews as a self-contained HTML Artifact; a real project is designed in the project's own stack, with no Artifact detour. Modes — direction (default), learn (extract a reference's design architecture, never its skin), content-site, directions N. Triggers — thiết kế web, design a web page, thiết kế giao diện, làm landing page, hướng thiết kế, bảng màu font, palette typography, học style từ web này, knowledge microsite, design a UI, giao diện xấu quá, làm đẹp giao diện, nhìn như AI.
-argument-hint: <surface-slug | "url <link>" | freeform brief> [direction|learn|content-site|directions N]
-allowed-tools: Read Write Edit WebFetch Glob Grep Bash AskUserQuestion
+name: "design-web"
+description: "Decides the visual direction for a web surface AND verifies it by rendering, screenshotting and measuring — because in practice nearly every real defect is caught by looking, not by thinking harder. Grounds in the subject's own world, asks 2-3 blocking questions, commits ONE decisive token system, then renders the surface, LOOKS at the screenshot, and computes every contrast ratio with scripts/contrast.py before calling it done. Adapts to the target: a standalone surface previews as a self-contained HTML Artifact; a real project is designed in the project's own stack, with no Artifact detour. Modes — direction (default), learn (extract a reference's design architecture, never its skin), content-site, directions N. Triggers — thiết kế web, design a web page, thiết kế giao diện, làm landing page, hướng thiết kế, bảng màu font, palette typography, học style từ web này, knowledge microsite, design a UI, giao diện xấu quá, làm đẹp giao diện, nhìn như AI."
+allowed-tools: "Read Write Edit WebFetch Glob Grep Bash AskUserQuestion"
+argument-hint: "<surface-slug | \"url <link>\" | freeform brief> [direction|learn|content-site|directions N]"
 ---
 
 # Design Web (quyết hướng thiết kế — và tự kiểm chứng)

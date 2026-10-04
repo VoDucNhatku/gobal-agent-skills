@@ -1,8 +1,8 @@
 ---
-name: reuse-checker
-description: DEPRECATED alias (2026-07-20) — absorbed into artifact-manager. Its staleness table and check/suggest/diff modes now live there (modes reuse/suggest/diff). This stub only redirects; if invoked, immediately apply artifact-manager instead.
-argument-hint: (deprecated — use artifact-manager)
-allowed-tools: Skill Read
+name: "reuse-checker"
+description: "DEPRECATED alias (2026-07-20) — absorbed into artifact-manager. Its staleness table and check/suggest/diff modes now live there (modes reuse/suggest/diff). This stub only redirects; if invoked, immediately apply artifact-manager instead."
+allowed-tools: "Skill Read"
+argument-hint: "(deprecated — use artifact-manager)"
 ---
 
 # reuse-checker — DEPRECATED alias → `artifact-manager`

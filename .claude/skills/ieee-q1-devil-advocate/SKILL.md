@@ -1,8 +1,8 @@
 ---
-name: ieee-q1-devil-advocate
+name: "ieee-q1-devil-advocate"
 description: "Phản biện gắt gao theo tiêu chuẩn Q1 IEEE. Tập trung vào Novelty (điểm mới thực sự) và Ablation Study (chứng minh từng module có tác dụng). Rejection pattern analysis. Triggers: phản biện, Q1 review, IEEE review, devil's advocate, rejection analysis, novelty check, ablation check, làm thẻ bài báo, rejection letter, desk reject."
-allowed-tools: Read Write Grep Glob
-argument-hint: <paper draft path (.md|.tex)>
+allowed-tools: "Read Write Grep Glob"
+argument-hint: "<paper draft path (.md|.tex)>"
 ---
 
 # IEEE Q1 Devil's Advocate — Phản biện gắt gão chuẩn Q1

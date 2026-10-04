@@ -1,8 +1,8 @@
 ---
-name: using-git-worktrees
-description: Using git worktrees for GOBAL AGENT — manages isolated git worktrees for parallel development without branch switching. Use when starting work on a new task, feature, or bugfix that needs isolation from current workspace.
-argument-hint: [branch-name]
-allowed-tools: Read Write Bash Glob
+name: "using-git-worktrees"
+description: "Using git worktrees for GOBAL AGENT — manages isolated git worktrees for parallel development without branch switching. Use when starting work on a new task, feature, or bugfix that needs isolation from current workspace."
+allowed-tools: "Read Write Bash Glob"
+argument-hint: "[branch-name]"
 ---
 
 # Using Git Worktrees
@@ -25,21 +25,25 @@ Git worktrees let you have multiple branches checked out simultaneously in separ
 | Starting a new feature while main work continues | ✅ Yes |
 | Reviewing a PR without disturbing current work | ✅ Yes |
 | Running long tests without blocking editor | ✅ Yes |
-| Quick fix on existing branch | ❌ No — switch directly |
+| Quick fix on existing branch | ❌ No — keep the existing checkout and user changes |
 | Single-task workflow | ❌ No — overkill |
 
 ---
 
 ## Setup Workflow
 
-### Step 1: Ensure Clean State
+### Step 1: Inspect and preserve source state
 
 ```bash
-git status
-git stash          # If uncommitted changes exist
+git status --short
+git worktree list --porcelain
 ```
 
-**Cannot create worktree with uncommitted changes in the source branch.**
+Uncommitted changes in the source do not prevent creating a separate worktree from a
+commit. They are not copied into the new checkout. Do not automatically stash, commit,
+reset or switch the source branch; preserve user work. If the task needs those changes,
+reuse the current checkout or ask how they should be carried over.
+See [Git's worktree manual](https://git-scm.com/docs/git-worktree).
 
 ### Step 2: Create Worktree
 
@@ -85,9 +89,10 @@ git worktree remove ../<project>-<branch>
 # Prune stale worktree references
 git worktree prune
 
-# Force-remove (if remove fails due to uncommitted changes)
-git worktree remove -f ../<project>-<branch>
 ```
+
+If removal refuses dirty files, stop and inspect the exact target; do not turn that error
+into forced deletion. A PR being created does not mean local changes are safely preserved.
 
 ---
 
@@ -96,27 +101,22 @@ git worktree remove -f ../<project>-<branch>
 ### After Merge or PR Creation
 
 ```bash
-# 1. Verify PR is created and CI is green
-# 2. Return to main repo
+# 1. Verify needed work is preserved and inspect the exact target's status
+git -C ../<project>-<branch> status --short
+# 2. If clean and no longer needed, return to main repo
 cd <main-repo-path>
 # 3. Remove worktree
 git worktree remove ../<project>-<branch>
 # 4. Prune
 git worktree prune
-# 5. Switch back to main branch
-git checkout main
 ```
 
 ### After Discard
 
-```bash
-# 1. Delete branch (force, since work was discarded)
-git branch -D <branch-name>
-# 2. Remove worktree
-git worktree remove ../<project>-<branch>
-# 3. Prune
-git worktree prune
-```
+Discard requires explicit user authorization covering the exact target path and branch.
+Inspect uncommitted files and unmerged commits first, and preserve a recoverable snapshot
+when needed. Prefer normal removal and merged-branch deletion; if either refuses, report
+the reason. No routine force-delete recipe and no inferred permission from "cleanup".
 
 ---
 
@@ -124,7 +124,7 @@ git worktree prune
 
 | Mistake | Fix |
 |---------|-----|
-| Creating worktree with uncommitted changes | Stash or commit first |
+| Assuming dirty source blocks a new worktree | Leave source changes alone; the new checkout starts from a commit |
 | Running `git worktree remove` from inside the worktree | cd out first |
 | Forgetting to prune after removal | Run `git worktree prune` |
 | Worktree and branch name mismatch | Use consistent naming convention |

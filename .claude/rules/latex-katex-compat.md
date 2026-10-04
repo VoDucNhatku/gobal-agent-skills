@@ -55,7 +55,7 @@ When in doubt, check the supported-function lists:
 - **`vi-translate`:** copy equations **verbatim** from the source paper — do not
   re-render or simplify them — but still apply the fixes above so copied equations render
   on both engines.
-- **`latex-fix`:** the bundled `scripts/latex_lint.py` detects the issues in the table
+- **`latex-fix`:** its bundled `~/.claude/skills/latex-fix/scripts/latex_lint.py` detects the issues in the table
   above (plain-text math, wrong `$$`/`\(`/`\[` delimiters, KaTeX-unsupported macros,
   malformed `\tag`) and returns flagged spans with line numbers. Fix **only the flagged
   spans** against this table — never re-read or re-emit the whole file.

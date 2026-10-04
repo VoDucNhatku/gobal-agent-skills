@@ -1,8 +1,8 @@
 ---
-name: paper-method
-description: Deep-reads one paper's method at a chosen lens. Mode critique = formulation, notation, math, losses, novelty, stated + unstated limitations, and a reproducibility checklist (the most math-dense mode); mode recipe = an ordered, reimplementation-ready pipeline table + a Mermaid data-flow chart. Triggers — methodology read, phân tích phương pháp, đọc kỹ phương pháp, explain the math, giải thích công thức, is this reproducible, có tái lập được không, critique the method, đánh giá phương pháp, novelty and limitations, hạn chế của phương pháp, extract the pipeline, trích xuất pipeline, implementation recipe, các bước của phương pháp, công thức loss. Distills one paper's method faithfully — it does not give a general overview (use paper-read), compare papers (use paper-synthesize), or write runnable code (use paper-to-notebook / run-on-modal).
-argument-hint: <id|file|path> [critique|recipe]
-allowed-tools: Skill Agent Read Write Glob Bash
+name: "paper-method"
+description: "Deep-reads one paper's method at a chosen lens. Mode critique = formulation, notation, math, losses, novelty, stated + unstated limitations, and a reproducibility checklist (the most math-dense mode); mode recipe = an ordered, reimplementation-ready pipeline table + a Mermaid data-flow chart. Triggers — methodology read, phân tích phương pháp, đọc kỹ phương pháp, explain the math, giải thích công thức, is this reproducible, có tái lập được không, critique the method, đánh giá phương pháp, novelty and limitations, hạn chế của phương pháp, extract the pipeline, trích xuất pipeline, implementation recipe, các bước của phương pháp, công thức loss. Distills one paper's method faithfully — it does not give a general overview (use paper-read), compare papers (use paper-synthesize), or write runnable code (use paper-to-notebook / run-on-modal)."
+allowed-tools: "Skill Agent Read Write Glob Bash"
+argument-hint: "<id|file|path> [critique|recipe]"
 ---
 
 # Paper Method (đọc kỹ phương pháp)
@@ -61,7 +61,7 @@ own column set or section order.
 5. **Novelty** — what is genuinely new vs prior work, attributable to the paper.
 6. **Chuỗi nhân quả ablation (Ablation causality)** — only when the paper has an
    ablation table. Reuse the SAME column set as `paper-read` mode `think`
-   (`references/depth-modes.md`) so the two skills stay consistent:
+   (`paper-read/references/depth-modes.md`) so the two skills stay consistent:
    | Thành phần | Delta khi ablate | Kết luận nhân quả bài rút ra | Có kiểm soát? |
    Mỗi dòng: trỏ đúng ablation row trong bài (vd "Table 3 — w/o Attn"); cột "Có
    kiểm soát?" = **có** (bài ablate trực tiếp) / **gián tiếp** (2 ablation cộng

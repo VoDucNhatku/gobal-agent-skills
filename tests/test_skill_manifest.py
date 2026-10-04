@@ -11,6 +11,14 @@ from scripts.skill_manifest import (
 
 
 class SkillManifestTests(unittest.TestCase):
+    def test_complex_mapping_key_is_a_manifest_error_not_a_traceback(self):
+        path = self.write_skill(
+            '---\nname: demo\ndescription: "Use when testing."\n'
+            '? [invalid, key]\n: value\n---\n# Demo\n'
+        )
+        with self.assertRaisesRegex(ManifestError, "mapping keys must be strings"):
+            load_frontmatter(path)
+
     def write_skill(self, text: str) -> Path:
         root = Path(tempfile.mkdtemp())
         path = root / "SKILL.md"
@@ -72,10 +80,34 @@ class SkillManifestTests(unittest.TestCase):
 
     def test_requires_allowed_tools_to_be_string_for_canonical_skill(self):
         path = self.write_skill(
-            "---\nname: demo\ndescription: demo\nallowed-tools: [Read]\n---\n# Demo\n"
+            "---\nname: demo\ndescription: demo\nargument-hint: quick\n"
+            "allowed-tools: [Read]\n---\n# Demo\n"
         )
         with self.assertRaisesRegex(ManifestError, "allowed-tools"):
             load_frontmatter(path, canonical=True)
+
+    def test_canonical_schema_requires_all_four_fields(self):
+        fields = {
+            "name": "demo", "description": "Use when testing.",
+            "argument-hint": "quick", "allowed-tools": "Read",
+        }
+        for missing in fields:
+            with self.subTest(missing=missing):
+                text = "---\n" + "".join(
+                    f"{key}: {value}\n" for key, value in fields.items() if key != missing
+                ) + "---\n# Demo\n"
+                with self.assertRaisesRegex(ManifestError, missing):
+                    load_frontmatter(self.write_skill(text), canonical=True)
+
+    def test_canonical_schema_preserves_additional_supported_metadata(self):
+        path = self.write_skill(
+            "---\nname: demo\ndescription: Use when testing.\n"
+            "argument-hint: quick\nallowed-tools: Read\nuser_invocable: true\n---\n# Demo\n"
+        )
+
+        data, _ = load_frontmatter(path, host="canonical")
+
+        self.assertIs(data["user_invocable"], True)
 
     def test_dump_skill_is_deterministic_and_normalizes_body(self):
         frontmatter = {

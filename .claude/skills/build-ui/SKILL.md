@@ -1,8 +1,8 @@
 ---
-name: build-ui
-description: Builds accessible, on-brand front-end code against the project's own stack, then proves it renders — screenshot it, look at it, measure the contrast of what shipped. Uses a design record when one exists; when none does, reads the tokens already in the project rather than stopping, and only asks when there is genuinely nothing to build on. Modes — component (one accessible component on the locked tokens), page (a surface composed of components), admin (role-gated CRUD shell with SERVER-SIDE authorization), scaffold (a theme-neutral project skeleton). Triggers — dựng component, build the component, build the page, code the UI, dựng giao diện, làm trang admin, admin dashboard, CRUD dashboard, dựng khung dự án, scaffold the project, implement the design, sửa giao diện. It BUILDS and verifies; it does not decide the look (design-web) or audit an existing site (review-frontend).
-argument-hint: <component|page|admin|scaffold> <name> [design-record path or slug]
-allowed-tools: Read Edit Write Glob Grep Bash
+name: "build-ui"
+description: "Builds accessible, on-brand front-end code against the project's own stack, then proves it renders — screenshot it, look at it, measure the contrast of what shipped. Uses a design record when one exists; when none does, reads the tokens already in the project rather than stopping, and only asks when there is genuinely nothing to build on. Modes — component (one accessible component on the locked tokens), page (a surface composed of components), admin (role-gated CRUD shell with SERVER-SIDE authorization), scaffold (a theme-neutral project skeleton). Triggers — dựng component, build the component, build the page, code the UI, dựng giao diện, làm trang admin, admin dashboard, CRUD dashboard, dựng khung dự án, scaffold the project, implement the design, sửa giao diện. It BUILDS and verifies; it does not decide the look (design-web) or audit an existing site (review-frontend)."
+allowed-tools: "Read Edit Write Glob Grep Bash"
+argument-hint: "<component|page|admin|scaffold> <name> [design-record path or slug]"
 ---
 
 # Build UI (dựng giao diện — và chứng minh nó hiện đúng)

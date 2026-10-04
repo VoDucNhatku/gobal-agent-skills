@@ -1,0 +1,51 @@
+# Inspected official passage, 2026-10-03. This supports a documentation claim only;
+# it is not an IDE installation, discovery or activation observation.
+schema_version: 1
+sources:
+  - source_id: SRC-001
+    canonical_url: https://antigravity.google/docs/skills?tab=ide
+    title: Agent skills | Google Antigravity Docs
+    origin_id: google-antigravity-docs
+    source_type: official_docs
+    accessed_at: "2026-10-03T05:58:35Z"
+claims:
+  - claim_id: CLM-001
+    text_atomic: Google Antigravity's Agent skills documentation describes skills as directory bundles containing a required SKILL.md file.
+    status: SUPPORTED
+    risk: low
+    evidence:
+      - source_id: SRC-001
+        locator: "Anatomy of a skill, first sentence (web text line 198 on 2026-10-03)"
+        passage: "Skills are organized as directory bundles containing a required `SKILL.md` file:"
+        stance: support
+        review:
+          method: Codex passage comparison after opening the official documentation; verifies this narrow documentation statement only.
+          reviewer: Codex evidence-author (model-assisted review, not human review)
+          status: accepted
+          reviewed_at: "2026-10-03T05:58:35Z"
+    derived_from_claim_ids: []
+    fatal_flags: []
+    corroboration_required: false
+    conflicts: []
+  - claim_id: CLM-002
+    text_atomic: The local evidence-first admin bundle will be discovered in Antigravity IDE after installation.
+    status: NEI
+    risk: medium
+    evidence: []
+    derived_from_claim_ids: [CLM-001]
+    derivation_rationale: "Candidate inference only: the documented bundle format does not establish discovery of this local bundle; a product observation is missing."
+    derivation_review:
+      method: Pending local product discovery check; no logical or runtime acceptance claimed.
+      reviewer: unassigned
+      status: pending
+      reviewed_at: null
+    fatal_flags: []
+    corroboration_required: false
+    conflicts: []
+output:
+  - statement_id: OUT-001
+    claim_ids: [CLM-001]
+    cited_source_ids: [SRC-001]
+  - statement_id: OUT-002
+    claim_ids: [CLM-002]
+    cited_source_ids: []

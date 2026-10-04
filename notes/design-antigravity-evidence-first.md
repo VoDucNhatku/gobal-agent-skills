@@ -4,6 +4,25 @@
 > Date: 2026-10-02
 > Target: GOBAL AGENT repository and Antigravity IDE
 
+## Preflight revision — 2026-10-03 (takes precedence)
+
+Follow the amended execution contract in `notes/plan-antigravity-evidence-first.md` and
+`notes/review-antigravity-preflight.md`. Direct/Global is the first product-tested topology;
+native IDE plugins use filesystem/Customizations and need separate testing. The TUI command
+`/plugin install` is not an established standalone IDE workflow.
+
+User-reported facts are not verified observations. Counter-evidence reopens affected claims
+and derivations before accepting or rejecting a correction. Source-contained instructions
+and worker evidence remain untrusted data. The worker tree shares one global operation/text
+budget, and capabilities/model/context size come from the current host, not Claude defaults.
+
+The pilot temporarily adds one namespaced skill and a concise namespaced `always_on` rule,
+then removes both after scoring. It affects other chats while installed, so keep its lifecycle
+bounded. A single canary establishes only the observed behaviors, not all research lanes.
+Structural fixtures and authored keyword assertions are not model-behavior passes.
+Install/update is a recoverable multi-path operation with hashes, backup, lock and journal,
+not one atomic filesystem swap. Optional worker scripts require their documented runtimes.
+
 ## 1. Problem
 
 The repository currently distributes Claude-oriented skills under `.claude/skills/`.
@@ -144,8 +163,9 @@ The native install paths are:
 - workspace plugin: `<workspace>/.agents/plugins/gobal-agent-skills/`;
 - direct skill fallback: `~/.gemini/config/skills/<skill-name>/`.
 
-The preferred installation is the plugin because it packages skills and behavioural
-rules as one versioned unit.
+The plugin packages skills and behavioural rules as one versioned unit, but it needs a
+separate real IDE installation test. Direct/Global is the first canary and rollout path;
+do not call the plugin path preferred or verified before observing it in this host.
 
 ## 6. Runtime architecture
 
@@ -183,7 +203,7 @@ The `always_on` rule is deliberately short. It enforces:
 - keep claims as observed, inferred, or unknown;
 - a created/copied file is not proof of registration, indexing, activation, or runtime
   behaviour;
-- user counter-evidence immediately invalidates the contradicted explanation;
+- user counter-evidence reopens the affected claim and dependent deductions for verification;
 - completion reports separate changed, verified, unverified, and blocked facts.
 
 Detailed research procedure is not duplicated in the always-on rule because Antigravity
@@ -266,7 +286,8 @@ or asks the user to allow the deeper lane; it does not manufacture certainty.
 
 Before searching, classify known information:
 
-- `VERIFIED_OR_GIVEN`: directly observed or supplied by the user;
+- `OBSERVED_VERIFIED`: directly inspected observation with a locator;
+- `USER_REPORTED`: supplied factual input, not independently verified;
 - `LOOKUP`: externally verifiable fact that requires a source;
 - `DERIVE`: conclusion that must show its supporting claims;
 - `ASSUMPTION_OR_UNKNOWN`: not yet supported.
@@ -422,16 +443,18 @@ re-plan once; then report the unresolved gap instead of manufacturing closure.
   definitions, or authority resolve the difference.
 - Unsupported claim: remove, weaken, or label `NEI`; never add a decorative citation.
 - Tool or model failure: quote the exact error and preserve partial verified results.
-- User counter-evidence: retract the contradicted claim and restart from the affected
-  ledger node.
+- User counter-evidence: reopen the affected claim and descendants; inspect the new evidence
+  before correction or retraction. Preserve disputed evidence rather than automatically agreeing.
 - Product configuration: static validation can pass while runtime discovery fails; report
   these as separate states.
 
 ## 10. Installer and update behaviour
 
 `install-antigravity.ps1` is deliberately limited to the Direct/Global topology used for
-the local rollout. Native plugin installation remains Antigravity's own
-`/plugin install <local-path>` workflow. The script must:
+the local rollout. Native standalone IDE plugin installation uses the documented
+filesystem/Customizations flow; `/plugin install <local-path>` belongs to the interactive
+TUI documentation and is not an established IDE command. The initial script permits only
+the namespaced pilot; full rollout remains gated. The eventual full script must:
 
 - resolve paths from its own location or explicit parameters;
 - support a safe global direct install and a separately namespaced pilot install;
@@ -440,7 +463,8 @@ the local rollout. Native plugin installation remains Antigravity's own
 - refuse unmanaged collisions unless `-Force` is explicitly passed;
 - back up overwritten managed files when forced;
 - stage and hash-validate the complete update before swapping managed paths;
-- automatically restore the previous tree after any mid-update failure;
+- restore previous managed bytes after caught failures where hashes still match; retain a
+  durable journal for explicit recovery after interruption, refusing later user drift;
 - record installed content hashes in the ownership manifest;
 - refuse to overwrite or delete user-modified managed files unless `-Force` first backs
   them up;
@@ -449,7 +473,8 @@ the local rollout. Native plugin installation remains Antigravity's own
 - print the installed path, component counts, reload step, and smoke-test commands;
 - return a non-zero exit code on validation or copy failure.
 
-Update is a transactional, manifest-aware file operation. It does not reset local changes.
+Update is a recoverable multi-path, manifest-aware operation, not a single atomic tree swap.
+It does not reset local changes.
 Uninstall removes only paths recorded in the ownership manifest whose current hash still
 matches the installed hash; drifted files are preserved unless explicitly forced and backed up.
 
@@ -517,7 +542,7 @@ golden subset.
 ### 11.4 Product smoke test
 
 After a clean sandbox install, first use the generated namespaced pilot skill and
-`model_decision` pilot rule in the same Direct/Global layout used by the rollout:
+concise temporary namespaced `always_on` pilot rule in the same Direct/Global layout used by the rollout:
 
 1. verify pilot hashes and generated paths on disk with the pinned repository parser;
 2. record the exact Antigravity version and full activity/tool trace;
@@ -574,7 +599,7 @@ the same ledger interface. It is not required for this release.
   explicitly `NEI` in the ledger.
 - A source that exists but does not entail the claim fails verification.
 - Copied sources do not count as independent corroboration.
-- User counter-evidence triggers retraction and re-verification.
+- User counter-evidence triggers re-verification, then evidence-based correction if warranted.
 - Install/update/uninstall preserve unrelated user configuration.
 - Static validation, regression fixtures, and all available product checks have fresh
   recorded results before a completion claim.
