@@ -10,8 +10,11 @@ Không chép canary marker vào prompt và không bật thêm research/subagent 
 
 ## Lượt thử cần bạn thao tác
 
-1. Mở chat mới trong Antigravity IDE. Nếu menu chưa cập nhật, Reload Window rồi mở
-   chat mới. Ghi app version, model và mức reasoning đang dùng.
+1. Mở **một cuộc trò chuyện mới**, không gửi tiếp vào ô nhập của chat pilot/lượt thử web
+   cũ. Trước câu hỏi đầu tiên, lịch sử chat mới không được có prompt/câu trả lời pilot
+   cũ. Không fork/continue hoặc dán lại lịch sử. Nếu menu chưa cập nhật, lưu công việc
+   đang sửa, Reload Window khi không có tác vụ chạy rồi mở chat mới. Ghi app version,
+   model và mức reasoning đang dùng.
 2. Gõ `/`, kiểm có `admin-evidence-pilot` và **chọn skill trong menu**. Nếu không thấy,
    báo đúng lỗi discovery; không giả vờ đã gọi skill bằng cách chỉ dán tên.
 3. Gửi phần yêu cầu dưới đây sau skill đã chọn:

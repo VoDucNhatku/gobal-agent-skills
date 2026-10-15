@@ -10,6 +10,12 @@ not on each `/admin` request. These instructions are policy, not proof of model 
 Record outcome, deliverable, target product/entity/version, population, jurisdiction, time,
 freshness, constraints, risk, acceptance and operation budget. A material claim changes
 the answer, recommendation or user action; audit those rather than every connective phrase.
+Include the requested evidence class in acceptance. For an official-document task, obtain
+the relevant publisher passage and cite its URL/locator before closing that requirement.
+Runtime metadata or configuration is evidence of that local observation only, not a
+substitute for the requested documentation. Failed/unavailable retrieval leaves the
+official determination NEI and the task incomplete in that respect; do not guess a tool
+error. Omit or qualify ancillary product/CLI claims lacking their own supporting passage.
 
 | Fact class | Meaning |
 |---|---|
@@ -54,7 +60,11 @@ if independent work merits delegation, explicitly select Deep. Host without suba
 sequential work. Unavailable web leaves LOOKUP/NEI and an access limitation.
 
 Quick uses one facet and the strongest relevant primary source; one direct, authoritative
-source can suffice for an exact low-risk specification. Standard plans 2–6 facets only when
+source can suffice for an exact low-risk specification. Correcting an unsupported premise
+does not by itself turn such a lookup into a Standard dispute; credible conflicting
+passages, substantive multi-facet comparisons or higher risk can justify Standard.
+Keep required product distinctions within the chosen allocation; qualify or omit unsupported
+ancillary host claims rather than broaden the lookup. Standard plans 2–6 facets only when
 the request has that breadth, including counter-evidence for disputed claims. Deep persists
 the full ledger and shares its budget among independent facets; high-impact decisions need
 strong contextual sources and explicit limits. `admin nhanh` stays Quick with provisional
@@ -62,8 +72,10 @@ results if necessary; `admin sâu` does not force research for non-research work
 
 ## Source reading and review
 
-1. Reuse fresh source cards/artifacts if identity, currency and scope still match.
-2. Search targeted primary queries plus counter-evidence where risk/dispute warrants it.
+1. Reuse fresh source cards/artifacts if identity, currency, scope and requested evidence
+   class still match. A runtime catalog is not a reusable official source card.
+2. Open a relevant supplied official URL directly when available; otherwise search
+   targeted primary queries plus counter-evidence where risk/dispute warrants it.
    Search snippets discover URLs only and are not evidence.
 3. Open the relevant full page/document section/repository file; inaccessible/paywalled
    metadata can establish identity only, not unseen body support.
@@ -93,3 +105,5 @@ passage does not entail the exact claim, remove/qualify the claim or find eviden
 Completion separates changed, verified, unverified and blocked. Static checks show structure;
 product/runtime behavior requires direct observations. Model review and schema checks do not
 prove universal correctness, eliminate hallucinations or establish performance improvements.
+Review unresolved acceptance requirements as well as claim support: a correct-looking
+answer without the required evidence is not completed official verification.

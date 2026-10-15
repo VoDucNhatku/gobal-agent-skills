@@ -66,6 +66,29 @@ and `notes/verification-antigravity-pilot.md`. Task 7 is **pilot-only**; full in
 full rollout, remote CI and publication remain pending. Do not infer completion from
 the generated 69-skill bundle or the local checkpoint commit.
 
+Update 2026-10-05: user returned answer text but not activity trace. Visible official
+source/completion gate fails, activation/budget remain unobserved. Per Task 10, isolated
+pilot has been uninstalled (9 managed files; baseline count 70; protected bytes unchanged).
+Task 10 product acceptance and Tasks 11–12 remain pending. Next prerequisite is the old
+run's expanded trace before changing protocol or reinstalling; see evaluation note.
+
+Further update 2026-10-05: old-run activity and Router guide content received. A later
+web prompt was appended in the same conversation, not the proposed new-chat control;
+UI shows a PowerShell fetch-finished status, without raw command/source output. This
+resolves the apparent canary persistence as compatible with retained chat context,
+not proof of cache or current pilot activation. Continue Task 10 with a separately
+recorded unchanged-payload reinstall and genuine new-chat retest (Task 10b below).
+No policy/code repair or 69-skill rollout is authorized by a false clean-test verdict.
+
+Latest update 2026-10-05: Task 10b returned a separate welcome-screen conversation
+with the pilot chip and original official-document request. Its answer again substituted
+runtime paths for official evidence and reported nothing unverified. Source/completion
+FAIL is visible; collapsed activity does not establish retrieval capability or exact body.
+Pilot was removed with ownership checks (transaction 577b1245-aae0-46f1-9247-5317f7166447);
+baseline 70 entries and protected profile/MCP hashes are restored/unchanged.
+Task 10c repairs the explicit evidence-class/completion contract inside the approved
+Task 5 design, not a new architecture or a proven fix. No repeated unchanged retest.
+
 ---
 
 ### Task 1: Establish the Python validation harness
@@ -894,9 +917,53 @@ Pass only if discovery, protocol marker, false-premise rejection, correct offici
 official-source support, product distinction, uncertainty labelling, and operation budget
 all pass. Otherwise roll back the isolated pilot and return to the failing task.
 
-- [ ] **Step 5: Remove or archive the pilot**
+- [x] **Step 5: Remove or archive the pilot**
 
 Use installer uninstall/pilot rollback so installed skill count returns to its baseline.
+
+---
+
+### Task 10b: Repeat the unchanged pilot in a genuinely new conversation
+
+This repeats Task 10, not a candidate policy fix. Scope remains nine managed pilot files
+and one bounded new-chat case; global pilot rule is temporary and removed after scoring.
+Existing profile skills, cv-maker, rules, MCP, source policy and GitHub stay unchanged.
+
+- [x] Re-run the complete suite, generated drift check, canonical validation and ledger
+  structural check; require all exits 0. Dry-run the existing pilot-only installer.
+- [x] Immediately snapshot protected bytes; install without Force; check the nine payload
+  and ownership hashes, exact inventory, strict metadata, committed journal and 70→71
+  SKILL.md entries. Compare protected profile/MCP hashes before/after.
+- [x] Receive separate-conversation answer/screenshot; expanded activity, exact loaded
+  body and operation budget remain unobserved. Do not call that missing trace a pass.
+- [x] Score visible source/completion FAIL separately from prior same-chat responses,
+  record limits/budget, then uninstall
+  the temporary pilot with protected bytes and baseline skill count verified.
+
+---
+
+### Task 10c: Narrow evidence-class correction after the reproduced failure
+
+Scope: canonical admin entrypoint, research reference and concise evidence-first rule;
+regenerate their native/pilot counterparts. Preserve lane ceilings, zero Quick workers,
+existing profile and the full-rollout gate. This is a candidate compliance correction,
+not a demonstrated internal root cause or a Gemini pass.
+
+- [x] Record the observed RED: official-document request answered with runtime metadata
+  and false closure. Separate it from unknown source-loading/capability causes.
+- [x] Bind requested evidence class at intake and final acceptance; official publisher
+  passage/URL/locator cannot be replaced by local catalog/path checks. Retrieval failure
+  retains NEI/Unverified. Ancillary product claims require their own support.
+- [x] Strengthen the authored case's grading criteria without relabelling fixtures as runs.
+- [x] Regenerate, run fresh structural/integration checks and independent forward tests;
+  record failures and costs/operation counts without claiming Gemini adherence.
+- Local result: 165 tests / 145.387s / OK; canonical 693 PASS; generator, quick_validate,
+  ledger structural check and pilot dry-run pass. Final Codex Quick test meets operation
+  count ceilings but reports 25,729 opened-source characters against 20,000; no aggregate
+  performance or Gemini claim. See evaluation note for exact candidate hash and limits.
+- [ ] Arrange a bounded candidate-pilot window with the human, then install/check only
+  namespaced payload, obtain one new-chat result and score/remove it. No rollout on
+  static checks, Codex forward tests or canary markers alone.
 
 ---
 
