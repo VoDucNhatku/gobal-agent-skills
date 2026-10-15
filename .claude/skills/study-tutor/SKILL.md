@@ -1,8 +1,8 @@
 ---
-name: study-tutor
-description: Study tutor for GOBAL AGENT — adaptive learning assistant. Modes: explain (concept explanation), practice (guided exercises), quiz (test knowledge), summarize (condense material). It tutors; it does NOT replace domain expertise (use domain-specific skills for actual work). Triggers — học, dạy tôi, ôn bài, luyện tập, gia sư, giảng lại, kiểm tra trình độ.
-argument-hint: <topic | concept> [explain|practice|quiz|summarize]
-allowed-tools: Skill Read Write Glob Bash WebSearch WebFetch
+name: "study-tutor"
+description: "Study tutor for GOBAL AGENT — adaptive learning assistant. Modes: explain (concept explanation), practice (guided exercises), quiz (test knowledge), summarize (condense material). It tutors; it does NOT replace domain expertise (use domain-specific skills for actual work). Triggers — học, dạy tôi, ôn bài, luyện tập, gia sư, giảng lại, kiểm tra trình độ."
+allowed-tools: "Skill Read Write Glob Bash WebSearch WebFetch"
+argument-hint: "<topic | concept> [explain|practice|quiz|summarize]"
 ---
 
 # Study Tutor

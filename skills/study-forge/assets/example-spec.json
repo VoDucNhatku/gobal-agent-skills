@@ -1,0 +1,880 @@
+{
+  "slug": "demo-ml-core",
+  "title": "Sổ tay ML — lõi tuần 1–3",
+  "subtitle": "Bốn thẻ mẫu do study-forge sinh ra: ba thẻ công thức và một thẻ mã nguồn, cùng một bộ ô như nhau. Đây vừa là ví dụ tham chiếu, vừa là smoke-test của build_handbook.py.",
+  "source": "Summary_Math_Formulas_Notebook.tex (tái thiết kế)",
+  "domain": "mixed",
+  "notation": [
+    {
+      "sym": "m",
+      "role": "index",
+      "read": "em",
+      "means": "số điểm dữ liệu (số hàng)"
+    },
+    {
+      "sym": "n",
+      "role": "index",
+      "read": "en",
+      "means": "số đặc trưng (số cột)"
+    },
+    {
+      "sym": "i",
+      "role": "index",
+      "read": "i",
+      "means": "chỉ số HÀNG — đi với mũ trên (i)"
+    },
+    {
+      "sym": "j",
+      "role": "index",
+      "read": "j",
+      "means": "chỉ số CỘT — đi với chỉ số dưới j"
+    },
+    {
+      "sym": "x",
+      "role": "data",
+      "read": "ích",
+      "means": "đặc trưng đầu vào"
+    },
+    {
+      "sym": "y",
+      "role": "truth",
+      "read": "i-gờ-réc",
+      "means": "nhãn thật (ground truth)"
+    },
+    {
+      "sym": "w",
+      "role": "param",
+      "read": "kép-uê",
+      "means": "trọng số — mô hình học ra"
+    },
+    {
+      "sym": "b",
+      "role": "param",
+      "read": "bê",
+      "means": "hệ số tự do — mô hình học ra"
+    },
+    {
+      "sym": "alpha",
+      "role": "hyper",
+      "read": "an-pha",
+      "means": "learning rate — BẠN chọn, không học"
+    },
+    {
+      "sym": "mu",
+      "role": "op",
+      "read": "muy",
+      "means": "trung bình của một đặc trưng"
+    },
+    {
+      "sym": "sigma",
+      "role": "op",
+      "read": "xích-ma",
+      "means": "độ lệch chuẩn của một đặc trưng"
+    }
+  ],
+  "dag": [
+    {
+      "from": "C1",
+      "to": "C2",
+      "label": "đo sai số của"
+    },
+    {
+      "from": "C2",
+      "to": "C3",
+      "label": "lấy đạo hàm"
+    },
+    {
+      "from": "C4",
+      "to": "C3",
+      "label": "làm nhanh hơn"
+    },
+    {
+      "from": "C3",
+      "to": "C5",
+      "label": "hiện thực hoá"
+    }
+  ],
+  "cards": [
+    {
+      "id": "C1",
+      "title": "Mô hình tuyến tính một biến",
+      "tier": 1,
+      "job": "Biến một con số vào thành một con số ra, bằng đúng hai nút vặn: độ dốc và độ cao.",
+      "expr": "f_{w,b}(x) = w \\cdot x + b",
+      "legend": [
+        {
+          "key": "x",
+          "role": "data",
+          "note": "đầu vào — bạn đưa cho mô hình, mô hình không đổi được"
+        },
+        {
+          "key": "w",
+          "role": "param",
+          "note": "nút vặn ĐỘ DỐC: x tăng 1 thì đầu ra tăng w"
+        },
+        {
+          "key": "b",
+          "role": "param",
+          "note": "nút vặn ĐỘ CAO: nâng/hạ cả đường thẳng, không phụ thuộc x"
+        }
+      ],
+      "shapes": [
+        {
+          "expr": "w * x",
+          "in": "scalar · scalar",
+          "out": "scalar",
+          "note": "một biến nên chưa cần ma trận"
+        },
+        {
+          "expr": "X @ w + b",
+          "in": "(m,n)·(n,1)",
+          "out": "(m,1)",
+          "note": "dạng nhiều biến — xem C4"
+        }
+      ],
+      "ablation": [
+        {
+          "remove": "w",
+          "severity": "breaks",
+          "effect": "w=0 → f=b, đường nằm ngang. Mô hình bỏ qua HOÀN TOÀN dữ liệu, luôn đoán một hằng số."
+        },
+        {
+          "remove": "b",
+          "severity": "degrades",
+          "effect": "b=0 → đường buộc đi qua gốc (0,0). Giả định 'không đầu vào thì không đầu ra' — sai với hầu hết dữ liệu thật (nhà 0 m² vẫn có giá đất)."
+        }
+      ],
+      "trace": {
+        "given": "w = 2, b = 1, ba đầu vào x = 0, 1, 3",
+        "steps": [
+          {
+            "step": "x = 0 → 2·0 + 1",
+            "value": "1"
+          },
+          {
+            "step": "x = 1 → 2·1 + 1",
+            "value": "3"
+          },
+          {
+            "step": "x = 3 → 2·3 + 1",
+            "value": "7"
+          }
+        ],
+        "result": "x nhích 1 đơn vị thì đầu ra nhích đúng w = 2 đơn vị — đó chính là nghĩa của 'độ dốc'."
+      },
+      "picture": {
+        "kind": "plot",
+        "plot": {
+          "xlabel": "x",
+          "ylabel": "f_{w,b}(x)",
+          "xmin": -0.5,
+          "xmax": 5,
+          "ymin": 0,
+          "ymax": 4,
+          "curves": [
+            {
+              "expr": "0*x+1.5",
+              "domain": "-0.5:5",
+              "style": "ghost",
+              "legend": "w=0,\\ b=1.5"
+            },
+            {
+              "expr": "0.5*x",
+              "domain": "-0.5:5",
+              "style": "main",
+              "legend": "w=0.5,\\ b=0"
+            },
+            {
+              "expr": "0.5*x+1",
+              "domain": "-0.5:5",
+              "style": "alt",
+              "legend": "w=0.5,\\ b=1"
+            }
+          ]
+        },
+        "caption": "w quyết định độ nghiêng, b nâng cả đường lên/xuống. Khi w = 0 đường nằm ngang — mô hình bỏ qua hoàn toàn x."
+      },
+      "twin": {
+        "lang": "python",
+        "src": "def predict(x, w, b):\n    return w * x + b",
+        "map": [
+          {
+            "sym": "w",
+            "var": "w"
+          },
+          {
+            "sym": "b",
+            "var": "b"
+          },
+          {
+            "sym": "x",
+            "var": "x"
+          }
+        ]
+      },
+      "failures": [
+        {
+          "symptom": "Dự đoán luôn ra cùng một số bất kể x",
+          "cause": "w đã tụt về 0 (learning rate quá lớn làm nổ rồi bão hoà, hoặc đặc trưng là hằng số)",
+          "fix": "In w sau mỗi epoch; kiểm tra x có phương sai khác 0 không"
+        },
+        {
+          "symptom": "Fit tốt ở giữa nhưng lệch hẳn ở hai đầu",
+          "cause": "quan hệ thật không tuyến tính",
+          "fix": "Vẽ residual theo x — nếu thấy hình cung thì cần thêm đặc trưng bậc cao"
+        }
+      ],
+      "probes": [
+        {
+          "q": "Hai mô hình cùng w nhưng b khác nhau. Đồ thị khác nhau ở chỗ nào?",
+          "a": "Hai đường song song — cùng độ nghiêng, một đường nằm cao hơn đường kia đúng bằng hiệu hai giá trị b."
+        },
+        {
+          "q": "Vì sao ép b = 0 lại nguy hiểm hơn ta tưởng?",
+          "a": "Vì nó không chỉ dịch đường thẳng — nó ép đường phải xuyên qua gốc toạ độ. Để bù, thuật toán sẽ bẻ cong w khỏi giá trị đúng, nên SAI SỐ LAN SANG CẢ w, không chỉ riêng b."
+        },
+        {
+          "q": "Cho x = 0. Mô hình đoán ra gì, và điều đó nói gì về ý nghĩa của b?",
+          "a": "Đoán đúng bằng b. Nên b chính là 'dự đoán khi mọi đặc trưng bằng 0'. Hệ quả: nếu x = 0 vô nghĩa trong thực tế (diện tích nhà bằng 0), thì b KHÔNG diễn giải được như một giá trị thật — nó chỉ là tham số hiệu chỉnh."
+        },
+        {
+          "q": "Đổi đơn vị x từ mét sang xentimét (nhân tất cả x với 100). w và b tối ưu thay đổi thế nào?",
+          "a": "w chia cho 100, b giữ nguyên. Vì dự đoán phải không đổi: w'·(100x) + b' = w·x + b, suy ra w' = w/100 và b' = b. Đây là lý do KHÔNG được so sánh độ lớn |w| giữa các đặc trưng khác đơn vị để kết luận 'đặc trưng nào quan trọng hơn'."
+        },
+        {
+          "q": "Mô hình có bao nhiêu tham số phải học? Con số đó có tăng khi thêm dữ liệu không?",
+          "a": "Đúng 2 (w và b), và KHÔNG tăng theo m. Đó là đặc điểm của mô hình tham số (parametric): thêm 1 triệu điểm dữ liệu thì mô hình vẫn chỉ có 2 số. Trái ngược với k-NN, nơi 'mô hình' chính là toàn bộ dữ liệu."
+        }
+      ]
+    },
+    {
+      "id": "C2",
+      "title": "Hàm chi phí MSE",
+      "tier": 1,
+      "job": "Ép toàn bộ độ tệ của mô hình trên mọi điểm dữ liệu xuống còn MỘT con số, để có thứ mà tối thiểu hoá.",
+      "expr": "J(w,b) = \\frac{1}{2m} \\sum_{i=1}^{m} \\left( f_{w,b}(x^{(i)}) - y^{(i)} \\right)^2",
+      "legend": [
+        {
+          "key": "f",
+          "role": "pred",
+          "note": "dự đoán của mô hình tại điểm thứ i"
+        },
+        {
+          "key": "y",
+          "role": "truth",
+          "note": "nhãn thật tại điểm thứ i"
+        },
+        {
+          "key": "m",
+          "role": "index",
+          "note": "số điểm — chia cho nó để J không phình theo cỡ dữ liệu"
+        },
+        {
+          "key": "2",
+          "role": "op",
+          "note": "số 2 ở mẫu KHÔNG có ý nghĩa thống kê: nó chỉ để khi đạo hàm, số mũ 2 rơi xuống và triệt tiêu"
+        }
+      ],
+      "shapes": [
+        {
+          "expr": "y_hat - y",
+          "in": "(m,1)−(m,1)",
+          "out": "(m,1)",
+          "note": "vector sai số, một dòng một điểm"
+        },
+        {
+          "expr": "(e**2).sum()",
+          "in": "(m,1)",
+          "out": "scalar",
+          "note": "đây là chỗ m chiều sụp còn 1"
+        }
+      ],
+      "ablation": [
+        {
+          "remove": "bình phương",
+          "severity": "breaks",
+          "effect": "Dùng |e| thay vì e²: hàm vẫn đo được sai số nhưng GÃY tại e=0 — không có đạo hàm ở đúng điểm ta cần hội tụ tới."
+        },
+        {
+          "remove": "1/m",
+          "severity": "degrades",
+          "effect": "J tỉ lệ thẳng với số điểm. Thêm dữ liệu là J tự tăng, gradient tự tăng theo → learning rate đang chạy tốt bỗng làm mô hình nổ."
+        },
+        {
+          "remove": "1/2",
+          "severity": "subtle",
+          "effect": "Không ảnh hưởng vị trí điểm tối ưu, chỉ làm mọi gradient to gấp đôi. Thuần tuý là mẹo cho công thức đạo hàm sạch."
+        }
+      ],
+      "trace": {
+        "given": "m = 3 điểm: x = [1, 2, 3], y = [2, 4, 5]; mô hình hiện tại w = 1, b = 0",
+        "steps": [
+          {
+            "step": "1. Dự đoán  f = 1·x + 0",
+            "value": "[1, 2, 3]"
+          },
+          {
+            "step": "2. Sai số   e = f − y",
+            "value": "[−1, −2, −2]"
+          },
+          {
+            "step": "3. Bình phương  e²",
+            "value": "[1, 4, 4]"
+          },
+          {
+            "step": "4. Tổng  Σe²",
+            "value": "9"
+          },
+          {
+            "step": "5. Chia 2m = 6",
+            "value": "9 / 6"
+          }
+        ],
+        "result": "J = 1.5"
+      },
+      "picture": {
+        "kind": "plot",
+        "plot": {
+          "xlabel": "w",
+          "ylabel": "J(w)",
+          "xmin": 0,
+          "xmax": 3.5,
+          "ymin": 0,
+          "ymax": 8,
+          "curves": [
+            {
+              "expr": "(14*x^2 - 50*x + 45)/6",
+              "domain": "0:3.5",
+              "style": "main",
+              "legend": "J(w)"
+            }
+          ],
+          "points": [
+            {
+              "x": 1,
+              "y": 1.5,
+              "label": "dang o day: w=1, J=1.5",
+              "style": "step",
+              "anchor": "south west",
+              "dx": 6,
+              "dy": 4
+            },
+            {
+              "x": 1.7857,
+              "y": 0.0595,
+              "label": "day bat: w*=1.79",
+              "style": "min",
+              "anchor": "south west",
+              "dx": 6,
+              "dy": 10
+            }
+          ]
+        },
+        "caption": "Bình phương sai số biến độ tệ thành một lòng chảo lồi — đúng một đáy, nên Gradient Descent không thể kẹt ở đâu khác."
+      },
+      "twin": {
+        "lang": "python",
+        "src": "def cost(X, y, w, b):\n    e = (X @ w + b) - y          # (m,1) vector sai so\n    return (e ** 2).sum() / (2 * len(y))",
+        "map": [
+          {
+            "sym": "m",
+            "var": "len(y)"
+          },
+          {
+            "sym": "J",
+            "var": "gia tri tra ve"
+          }
+        ]
+      },
+      "failures": [
+        {
+          "symptom": "J = nan ngay từ epoch đầu",
+          "cause": "learning rate quá lớn → w nổ → e² tràn số",
+          "fix": "Giảm alpha 10 lần; chuẩn hoá đặc trưng trước (xem C4)"
+        },
+        {
+          "symptom": "J giảm rồi tăng đều đặn",
+          "cause": "alpha vượt ngưỡng hội tụ — bước nhảy qua đáy sang bờ bên kia mỗi lần một xa hơn",
+          "fix": "Giảm alpha; vẽ J theo epoch để thấy ngay"
+        },
+        {
+          "symptom": "J nhỏ trên train, lớn trên test",
+          "cause": "overfitting — không phải lỗi của MSE",
+          "fix": "Thêm regularization; đây là bài toán của C tiếp theo, không sửa ở đây"
+        }
+      ],
+      "probes": [
+        {
+          "q": "Nhân đôi toàn bộ dữ liệu (mỗi điểm xuất hiện 2 lần). J thay đổi thế nào?",
+          "a": "Không đổi. Tử số Σe² gấp đôi, mẫu 2m cũng gấp đôi — triệt tiêu. Đó chính là lý do có 1/m: J đo độ tệ TRUNG BÌNH, không phải độ tệ TỔNG."
+        },
+        {
+          "q": "Một điểm ngoại lai lệch gấp 10 lần các điểm khác. Nó đóng góp bao nhiêu phần vào J so với một điểm thường?",
+          "a": "Gấp 100 lần, vì sai số được BÌNH PHƯƠNG. Đây là mặt trái của MSE: nó cực kỳ nhạy với ngoại lai, và mô hình sẽ hy sinh mọi điểm khác để chiều điểm đó."
+        },
+        {
+          "q": "J có bao giờ âm được không?",
+          "a": "Không. Mọi số hạng đều là bình phương nên đều ≥ 0, và 1/(2m) > 0. J = 0 chỉ xảy ra khi dự đoán khớp hoàn hảo MỌI điểm. Vì vậy 0 là chặn dưới cứng — biết trước điều này giúp phát hiện ngay lỗi cài đặt khi thấy J âm."
+        },
+        {
+          "q": "Đổi đơn vị y từ nghìn đồng sang đồng (nhân 1000). J thay đổi bao nhiêu lần?",
+          "a": "Gấp 1 000 000 lần (10⁶), vì sai số nhân 1000 rồi mới bình phương. Hệ quả thực tế: giá trị tuyệt đối của J KHÔNG so sánh được giữa hai bài toán khác đơn vị. Chỉ so sánh được xu hướng giảm, hoặc phải chuẩn hoá trước."
+        },
+        {
+          "q": "Mô hình A đạt J = 0 trên tập train. Có nên chọn A không?",
+          "a": "Chưa kết luận được, và thường là dấu hiệu XẤU. J = 0 trên train nghĩa là mô hình khớp cả nhiễu — kinh điển của overfitting. MSE trên train không nói gì về dữ liệu mới; phải nhìn J trên tập test mới quyết định được."
+        }
+      ]
+    },
+    {
+      "id": "C3",
+      "title": "Bước Gradient Descent",
+      "tier": 1,
+      "job": "Từ bộ tham số hiện tại, nhích một bước nhỏ theo hướng làm J giảm nhanh nhất — rồi lặp lại.",
+      "expr": "w := w - \\alpha \\cdot \\frac{1}{m}\\sum_{i=1}^{m}\\left(f_{w,b}(x^{(i)}) - y^{(i)}\\right)x^{(i)}",
+      "legend": [
+        {
+          "key": "alpha",
+          "role": "hyper",
+          "note": "độ dài mỗi bước. BẠN chọn — đây là siêu tham số, mô hình không học nó"
+        },
+        {
+          "key": "w",
+          "role": "param",
+          "note": "cái đang được cập nhật"
+        },
+        {
+          "key": "x",
+          "role": "data",
+          "note": "nhân vào sai số: đặc trưng nào lớn thì bị quy trách nhiệm nhiều hơn"
+        }
+      ],
+      "shapes": [
+        {
+          "expr": "X.T @ e",
+          "in": "(n,m)·(m,1)",
+          "out": "(n,1)",
+          "note": "gradient CÙNG hình dạng với w — luôn kiểm tra điều này"
+        },
+        {
+          "expr": "w - alpha * grad",
+          "in": "(n,1)−(n,1)",
+          "out": "(n,1)",
+          "note": "nếu shape lệch, numpy broadcast im lặng ra (n,n) — bug thầm lặng kinh điển"
+        }
+      ],
+      "ablation": [
+        {
+          "remove": "dấu trừ",
+          "severity": "breaks",
+          "effect": "Đổi thành dấu cộng là đi NGƯỢC lên dốc — J tăng mỗi bước, mô hình càng học càng tệ."
+        },
+        {
+          "remove": "alpha nhỏ",
+          "severity": "degrades",
+          "effect": "alpha quá lớn: bước nhảy vọt qua đáy, nảy sang bờ kia ngày một xa → phân kỳ. Quá nhỏ: đúng hướng nhưng cần hàng vạn vòng lặp."
+        },
+        {
+          "remove": "cập nhật đồng thời",
+          "severity": "subtle",
+          "effect": "Tính w mới rồi dùng NGAY w mới đó để tính b: b bị cập nhật theo một mặt cong khác với mặt cong thật. Vẫn có thể hội tụ nên rất khó phát hiện — đó là điều làm nó nguy hiểm."
+        }
+      ],
+      "trace": {
+        "given": "Cùng dữ liệu C2 (e = [−1, −2, −2], x = [1, 2, 3]), alpha = 0.1, w = 1",
+        "steps": [
+          {
+            "step": "1. Nhân từng phần  e·x",
+            "value": "[−1, −4, −6]"
+          },
+          {
+            "step": "2. Tổng",
+            "value": "−11"
+          },
+          {
+            "step": "3. Chia m = 3 → gradient",
+            "value": "−3.667"
+          },
+          {
+            "step": "4. Bước đi  −alpha·grad",
+            "value": "+0.367"
+          },
+          {
+            "step": "5. w mới = 1 + 0.367",
+            "value": "1.367"
+          }
+        ],
+        "result": "w: 1 → 1.367. Gradient ÂM nên w ĐI LÊN — dấu trừ trong công thức là thứ đảo hướng đó."
+      },
+      "picture": {
+        "kind": "plot",
+        "plot": {
+          "xlabel": "w",
+          "ylabel": "J(w)",
+          "xmin": 0.6,
+          "xmax": 2.6,
+          "ymin": 0,
+          "ymax": 2.4,
+          "curves": [
+            {
+              "expr": "(14*x^2 - 50*x + 45)/6",
+              "domain": "0.6:2.6",
+              "style": "main",
+              "legend": "J(w)"
+            }
+          ],
+          "points": [
+            {
+              "x": 1,
+              "y": 1.5,
+              "label": "w0",
+              "style": "step",
+              "anchor": "south west",
+              "dx": 4,
+              "dy": 3
+            },
+            {
+              "x": 1.367,
+              "y": 0.469,
+              "label": "w1",
+              "style": "step",
+              "anchor": "south west",
+              "dx": 4,
+              "dy": 3
+            },
+            {
+              "x": 1.562,
+              "y": 0.176,
+              "label": "w2",
+              "style": "step",
+              "anchor": "south west",
+              "dx": 4,
+              "dy": 3
+            },
+            {
+              "x": 1.7857,
+              "y": 0.0595,
+              "label": "w* (day)",
+              "style": "min",
+              "anchor": "west",
+              "dx": 8,
+              "dy": 10
+            }
+          ],
+          "arrows": [
+            {
+              "from": [
+                1,
+                1.5
+              ],
+              "to": [
+                1.367,
+                0.469
+              ]
+            },
+            {
+              "from": [
+                1.367,
+                0.469
+              ],
+              "to": [
+                1.562,
+                0.176
+              ]
+            }
+          ]
+        },
+        "caption": "Càng gần đáy, độ dốc càng nhỏ nên bước đi tự thu ngắn lại — không cần giảm alpha thủ công."
+      },
+      "twin": {
+        "lang": "python",
+        "src": "e    = (X @ w + b) - y        # (m,1)\ngw   = X.T @ e / len(y)       # (n,1)  <- cung shape voi w\ngb   = e.mean()               # scalar\nw, b = w - alpha * gw, b - alpha * gb   # dong thoi",
+        "map": [
+          {
+            "sym": "alpha",
+            "var": "alpha"
+          },
+          {
+            "sym": "w",
+            "var": "w"
+          }
+        ]
+      },
+      "failures": [
+        {
+          "symptom": "J dao động lên xuống không giảm",
+          "cause": "alpha quá lớn",
+          "fix": "Thử alpha = 0.001, 0.01, 0.1, 1 và vẽ J — chọn cái lớn nhất mà vẫn giảm đơn điệu"
+        },
+        {
+          "symptom": "J giảm cực chậm rồi đứng yên",
+          "cause": "alpha quá nhỏ, HOẶC các đặc trưng lệch thang đo (xem C4)",
+          "fix": "Chuẩn hoá đặc trưng TRƯỚC khi tăng alpha"
+        },
+        {
+          "symptom": "Chạy không lỗi nhưng w có shape lạ như (3,3)",
+          "cause": "gradient bị broadcast do y là (m,) thay vì (m,1)",
+          "fix": "assert gw.shape == w.shape ngay sau khi tính gradient"
+        }
+      ],
+      "probes": [
+        {
+          "q": "Đang đứng đúng tại đáy. Bước cập nhật tiếp theo làm gì?",
+          "a": "Không làm gì. Tại đáy gradient = 0, nên w := w − alpha·0 = w. Thuật toán tự đứng lại — không cần điều kiện dừng riêng để nó khỏi trượt qua."
+        },
+        {
+          "q": "Vì sao gradient của w có x nhân vào, còn gradient của b thì không?",
+          "a": "Vì đạo hàm của (wx+b) theo w là x, còn theo b là 1. Nói theo trực giác: sai số ở một điểm có x lớn thì phần lớn trách nhiệm thuộc về w; còn b chịu trách nhiệm ĐỀU NHAU ở mọi điểm."
+        },
+        {
+          "q": "Nhân đôi alpha có làm hội tụ nhanh gấp đôi không?",
+          "a": "Không — quan hệ không tuyến tính. Tăng alpha rút ngắn số bước cho tới một ngưỡng; vượt ngưỡng thì phân kỳ hẳn chứ không phải 'chậm hơn một chút'. Tồn tại alpha tối ưu, và hỏng nằm ngay bên kia nó."
+        },
+        {
+          "q": "Khởi tạo w = 100 thay vì w = 0. Kết quả CUỐI CÙNG có khác không?",
+          "a": "Với bài này thì không — J là hàm lồi, chỉ một đáy, nên mọi khởi tạo đều về đúng chỗ đó, chỉ khác số bước. Nhưng với hàm KHÔNG lồi (mạng nơ-ron sâu) thì khác hẳn. Đó chính là lý do khởi tạo là vấn đề lớn ở deep learning mà không đáng lo ở đây."
+        },
+        {
+          "q": "Gradient tại một điểm bằng 0. Có chắc đó là điểm thấp nhất không?",
+          "a": "Trong trường hợp tổng quát thì KHÔNG: gradient = 0 cũng đúng tại cực đại và tại điểm yên ngựa (saddle point). Riêng với J lồi ở đây thì gradient = 0 kéo theo cực tiểu toàn cục. Tính lồi mới là thứ cho ta quyền kết luận, không phải gradient."
+        }
+      ]
+    },
+    {
+      "id": "C5",
+      "title": "Bước huấn luyện dạng vector hoá (mã thật)",
+      "tier": 2,
+      "job": "Thẻ MÃ NGUỒN: cùng bộ ô như thẻ công thức, nhưng đối tượng phân tích là một đoạn code lấy ra từ project.",
+      "code": {
+        "lang": "python",
+        "src": "def train_step(X, y, w, b, alpha):\n    \"\"\"Mot buoc gradient descent, vector hoa toan bo.\"\"\"\n    m      = X.shape[0]\n    y_hat  = X @ w + b            # (m,1)\n    e      = y_hat - y            # (m,1)\n    grad_w = X.T @ e / m          # (n,1)\n    grad_b = e.sum() / m          # scalar\n    w      = w - alpha * grad_w\n    b      = b - alpha * grad_b\n    return w, b, float((e ** 2).sum() / (2 * m))"
+      },
+      "legend": [
+        {
+          "key": "X",
+          "role": "data",
+          "note": "ma trận đặc trưng — MỘT HÀNG là một mẫu, một cột là một đặc trưng"
+        },
+        {
+          "key": "y",
+          "role": "truth",
+          "note": "nhãn thật, bắt buộc shape (m,1) chứ không phải (m,)"
+        },
+        {
+          "key": "w",
+          "role": "param",
+          "note": "trọng số, shape (n,1) — hàm trả về bản MỚI, không sửa tại chỗ"
+        },
+        {
+          "key": "alpha",
+          "role": "hyper",
+          "note": "learning rate, do người gọi truyền vào"
+        }
+      ],
+      "shapes": [
+        {
+          "expr": "X @ w",
+          "in": "(m,n)·(n,1)",
+          "out": "(m,1)",
+          "note": "n phải khớp, nếu không numpy báo lỗi ngay — đây là lỗi TỐT"
+        },
+        {
+          "expr": "y_hat - y",
+          "in": "(m,1)−(m,1)",
+          "out": "(m,1)",
+          "note": "nếu y là (m,) thì kết quả thành (m,m) — SAI mà KHÔNG báo lỗi"
+        },
+        {
+          "expr": "X.T @ e",
+          "in": "(n,m)·(m,1)",
+          "out": "(n,1)",
+          "note": "chuyển vị là thứ đưa sai số 'ngược' về không gian đặc trưng"
+        }
+      ],
+      "ablation": [
+        {
+          "remove": "/ m ở grad_w",
+          "severity": "degrades",
+          "effect": "Gradient tỉ lệ với cỡ batch. Đổi batch size là phải chỉnh lại alpha — thứ khiến code chạy tốt ở máy này lại nổ ở máy khác."
+        },
+        {
+          "remove": "X.T",
+          "severity": "breaks",
+          "effect": "X @ e sai chiều — (m,n)·(m,1) không nhân được, numpy ném ValueError ngay. Đây là lỗi dễ nhất trong hàm này."
+        },
+        {
+          "remove": "cập nhật đồng thời",
+          "severity": "subtle",
+          "effect": "Nếu tính b bằng w vừa cập nhật, vẫn chạy, vẫn hội tụ gần đúng — nhưng không còn là gradient descent nữa. Loại bug âm thầm nhất."
+        }
+      ],
+      "trace": {
+        "given": "X = [[1],[2],[3]], y = [[2],[4],[5]], w = [[1]], b = 0, alpha = 0.1",
+        "steps": [
+          {
+            "step": "y_hat = X @ w + b",
+            "value": "[[1],[2],[3]]"
+          },
+          {
+            "step": "e = y_hat − y",
+            "value": "[[−1],[−2],[−2]]"
+          },
+          {
+            "step": "grad_w = X.T @ e / 3",
+            "value": "[[−3.667]]"
+          },
+          {
+            "step": "grad_b = e.sum() / 3",
+            "value": "−1.667"
+          },
+          {
+            "step": "w, b sau cập nhật",
+            "value": "[[1.367]], 0.167"
+          }
+        ],
+        "result": "trả về (w=[[1.367]], b=0.167, loss=1.5) — khớp đúng con số ở thẻ C2 và C3."
+      },
+      "picture": {
+        "kind": "flow",
+        "flow": {
+          "dir": "vertical",
+          "nodes": [
+            {
+              "id": "n0",
+              "text": "Khởi tạo w, b",
+              "type": "start",
+              "width": "38mm"
+            },
+            {
+              "id": "n1",
+              "text": "y_hat = X @ w + b",
+              "type": "proc",
+              "width": "42mm"
+            },
+            {
+              "id": "n2",
+              "text": "e = y_hat - y",
+              "type": "proc",
+              "width": "42mm"
+            },
+            {
+              "id": "n3",
+              "text": "grad = X.T @ e / m",
+              "type": "proc",
+              "width": "42mm"
+            },
+            {
+              "id": "n4",
+              "text": "w := w - alpha * grad",
+              "type": "proc",
+              "width": "46mm"
+            },
+            {
+              "id": "n5",
+              "text": "Đã hội tụ?",
+              "type": "dec",
+              "width": "24mm"
+            },
+            {
+              "id": "n6",
+              "text": "Dừng — dùng f để dự đoán",
+              "type": "start",
+              "width": "44mm"
+            }
+          ],
+          "edges": [
+            {
+              "from": "n0",
+              "to": "n1"
+            },
+            {
+              "from": "n1",
+              "to": "n2"
+            },
+            {
+              "from": "n2",
+              "to": "n3"
+            },
+            {
+              "from": "n3",
+              "to": "n4"
+            },
+            {
+              "from": "n4",
+              "to": "n5"
+            },
+            {
+              "from": "n5",
+              "to": "n6",
+              "label": "Rồi"
+            },
+            {
+              "from": "n5",
+              "to": "n1",
+              "label": "Chưa",
+              "offset": 3.2
+            }
+          ]
+        },
+        "caption": "Một lần gọi train_step là đúng một vòng của sơ đồ này. Cạnh quay ngược bên trái là chỗ 'lặp cho đến khi hội tụ'."
+      },
+      "twin": {
+        "lang": "text",
+        "src": "grad_w  =  (1/m) * X^T (Xw + b - y)\ngrad_b  =  (1/m) * sum(Xw + b - y)\nw       :=  w - alpha * grad_w",
+        "map": [
+          {
+            "sym": "\\alpha",
+            "var": "alpha"
+          },
+          {
+            "sym": "m",
+            "var": "X.shape[0]"
+          },
+          {
+            "sym": "\\nabla_w J",
+            "var": "grad_w"
+          }
+        ]
+      },
+      "failures": [
+        {
+          "symptom": "loss trả về là nan sau vài bước",
+          "cause": "alpha quá lớn hoặc X chưa chuẩn hoá nên có cột giá trị rất lớn",
+          "fix": "Chuẩn hoá X; kẹp alpha; assert np.isfinite(loss)"
+        },
+        {
+          "symptom": "w bỗng có shape (3,3)",
+          "cause": "y truyền vào là (m,) nên e bị broadcast thành (m,m)",
+          "fix": "y = y.reshape(-1, 1) ở đầu hàm, và assert e.shape == y_hat.shape"
+        },
+        {
+          "symptom": "loss đứng yên hoàn toàn",
+          "cause": "alpha = 0, hoặc X toàn số 0, hoặc quên gán lại giá trị trả về ở chỗ gọi",
+          "fix": "Kiểm tra chỗ gọi: w, b, loss = train_step(...) — quên gán là lỗi hay gặp nhất"
+        }
+      ],
+      "probes": [
+        {
+          "q": "Vì sao hàm TRẢ VỀ w, b thay vì sửa trực tiếp?",
+          "a": "Vì mảng numpy là kiểu tham chiếu. Sửa tại chỗ sẽ ngầm thay đổi w của người gọi, khiến việc so sánh trước/sau, checkpoint hay chạy nhiều cấu hình song song đều hỏng. Trả về bản mới làm luồng dữ liệu hiện rõ."
+        },
+        {
+          "q": "Đổi X từ (m,n) sang (n,m) mà quên sửa gì khác. Lỗi lộ ra ở dòng nào?",
+          "a": "Ngay dòng X @ w: (n,m)·(n,1) không khớp chiều nên numpy ném ValueError. Đây là kết quả TỐT — sai kích thước mà nổ ngay còn hơn sai âm thầm như trường hợp y là (m,)."
+        },
+        {
+          "q": "Giá trị loss hàm trả về là của tham số TRƯỚC hay SAU khi cập nhật?",
+          "a": "TRƯỚC. `e` được tính từ w cũ, và loss dùng lại chính `e` đó, trong khi w chỉ được gán lại ở hai dòng dưới. Nên đường loss vẽ ra bị trễ đúng một bước so với tham số hiện tại — chi tiết nhỏ nhưng làm lệch biểu đồ hội tụ khi so sánh các cấu hình."
+        },
+        {
+          "q": "Muốn thêm L2 regularization thì sửa những dòng nào?",
+          "a": "Cộng vào grad_w: `grad_w += (lam / m) * w`. KHÔNG cộng vào grad_b — quy ước là không phạt bias. Và nếu muốn loss trả về khớp với hàm đang thực sự tối ưu thì phải cộng thêm `lam / (2*m) * (w**2).sum()`; quên vế này là lý do loss 'không khớp lý thuyết'."
+        },
+        {
+          "q": "Gọi hàm với X rỗng (m = 0) thì chuyện gì xảy ra?",
+          "a": "Chia cho 0 ở `X.T @ e / m`: numpy trả về nan/inf kèm RuntimeWarning chứ không ném exception. w bị đầu độc thành nan và mọi epoch sau đều vô nghĩa, nhưng chương trình vẫn chạy tiếp. Nên guard `if m == 0: raise ValueError(...)` ngay đầu hàm."
+        }
+      ]
+    }
+  ]
+}

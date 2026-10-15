@@ -1,8 +1,8 @@
 ---
-name: workbench-admin
-description: DEPRECATED alias (2026-08-01) — điều phối đã gộp hết vào admin. Stub này chỉ redirect, không tự điều phối. Nếu bị gọi, chuyển ngay sang admin với cùng input; quy trình Phase 0–6 và worker registry chi tiết nay nằm ở admin/references/dispatch-protocol.md.
-argument-hint: (deprecated — dùng admin)
-allowed-tools: Skill Read
+name: "workbench-admin"
+description: "DEPRECATED alias (2026-08-01) — điều phối đã gộp hết vào admin. Stub này chỉ redirect, không tự điều phối. Nếu bị gọi, chuyển ngay sang admin với cùng input; quy trình Phase 0–6 và worker registry chi tiết nay nằm ở admin/references/dispatch-protocol.md."
+allowed-tools: "Skill Read"
+argument-hint: "(deprecated — dùng admin)"
 ---
 
 # workbench-admin — DEPRECATED alias → `admin`

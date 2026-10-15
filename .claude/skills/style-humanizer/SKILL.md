@@ -1,8 +1,8 @@
 ---
-name: style-humanizer
+name: "style-humanizer"
 description: "Giảm đánh dấu AI-generated text qua heuristic checklist + style calibration. Không dùng perplexity/burstiness metric loop (tool ngoài không có API chuẩn). Áp dụng: kiểm tra burstiness, em dash, throat-cleaning openers, paragraph length variance, synonym cycling, AI-typical term filter. Triggers: humanize, giảm AI, AI checker, burstiness, paragraph variance, writing quality check, qua AI detector, giấu AI, chống AI detect."
-argument-hint: <manuscript path> [--pdf <compiled.pdf>]
-allowed-tools: Read Write Edit Grep Glob
+allowed-tools: "Read Write Edit Grep Glob"
+argument-hint: "<manuscript path> [--pdf <compiled.pdf>]"
 ---
 
 # Style Humanizer — Writing Quality Check + Style Calibration

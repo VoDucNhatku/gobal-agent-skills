@@ -1,8 +1,8 @@
 ---
-name: citation-guard
+name: "citation-guard"
 description: "Bảo vệ trích dẫn: DOI verify, orphan in-text/reference detection, citation synthesis quality, self-citation ratio, source currency, retraction screening. Auto-correction deterministic errors; flag vấn đề cần người dùng. Triggers: check citations, citation audit, verify DOI, orphan citation, trích dẫn, kiểm tra trích dẫn, review reference list, check đạo văn trích dẫn."
-allowed-tools: Read Write Grep Glob Bash WebFetch WebSearch
-argument-hint: <manuscript path> [apa|chicago|mla|ieee|vancouver]
+allowed-tools: "Read Write Grep Glob Bash WebFetch WebSearch"
+argument-hint: "<manuscript path> [apa|chicago|mla|ieee|vancouver]"
 ---
 
 # Citation Guard — Trích dẫn chuyên nghiệp + đạo văn guard

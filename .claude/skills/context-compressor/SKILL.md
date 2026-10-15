@@ -1,8 +1,8 @@
 ---
-name: context-compressor
-description: Context compression for GOBAL AGENT — reduces context size when approaching token limits. Strategies: summarization (condense conversation history), artifact offloading (push content into files), progressive disclosure (load only what's needed). It compresses; it does NOT delete important state (that's the admin's judgment). Triggers — nén context, sắp hết token, context đầy, compact hội thoại, tóm gọn lịch sử.
-argument-hint: [summarize|offload|prune]
-allowed-tools: Read Write Bash
+name: "context-compressor"
+description: "Context compression for GOBAL AGENT — reduces context size when approaching token limits. Strategies: summarization (condense conversation history), artifact offloading (push content into files), progressive disclosure (load only what's needed). It compresses; it does NOT delete important state (that's the admin's judgment). Triggers — nén context, sắp hết token, context đầy, compact hội thoại, tóm gọn lịch sử."
+allowed-tools: "Read Write Bash"
+argument-hint: "[summarize|offload|prune]"
 ---
 
 # Context Compressor

@@ -1,8 +1,8 @@
 ---
-name: latex-math-renderer
-description: DEPRECATED alias (2026-07-20) — math repair lives in latex-fix; the compatibility table lives in ~/.claude/rules/latex-katex-compat.md. The HTML render modes were dropped (CDN-script snippets are blocked by Artifact CSP and were never part of a real workflow). This stub only redirects; if invoked, immediately apply latex-fix instead.
-argument-hint: (deprecated — use latex-fix)
-allowed-tools: Skill Read
+name: "latex-math-renderer"
+description: "DEPRECATED alias (2026-07-20) — math repair lives in latex-fix, with the shared latex-katex-compat rule. The HTML render modes were dropped (CDN-script snippets are blocked by Artifact CSP and were never part of a real workflow). This stub only redirects; if invoked, immediately apply latex-fix instead."
+allowed-tools: "Skill Read"
+argument-hint: "(deprecated — use latex-fix)"
 ---
 
 # latex-math-renderer — DEPRECATED alias → `latex-fix`

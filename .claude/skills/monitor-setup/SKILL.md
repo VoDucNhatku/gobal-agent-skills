@@ -1,8 +1,8 @@
 ---
-name: monitor-setup
-description: Monitoring setup for GOBAL AGENT — configures observability for deployed applications. Modes: setup (new monitoring), verify (check existing), dashboard (create dashboard), alerts (configure alerts). It sets up; it does NOT investigate incidents (use debug-investigator for that). Triggers — dựng monitoring, thêm metrics, cấu hình alert, structured log, observability, dashboard giám sát.
-argument-hint: <app | service> [setup|verify|dashboard|alerts]
-allowed-tools: Read Write Bash Glob
+name: "monitor-setup"
+description: "Monitoring setup for GOBAL AGENT — configures observability for deployed applications. Modes: setup (new monitoring), verify (check existing), dashboard (create dashboard), alerts (configure alerts). It sets up; it does NOT investigate incidents (use debug-investigator for that). Triggers — dựng monitoring, thêm metrics, cấu hình alert, structured log, observability, dashboard giám sát."
+allowed-tools: "Read Write Bash Glob"
+argument-hint: "<app | service> [setup|verify|dashboard|alerts]"
 ---
 
 # Monitor Setup

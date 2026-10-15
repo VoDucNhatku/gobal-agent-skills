@@ -1,7 +1,10 @@
 # Python
+.venv/
+.tmp/
 __pycache__/
 *.pyc
 *.pyo
+.coverage
 
 # IDE & OS
 .DS_Store

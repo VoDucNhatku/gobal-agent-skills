@@ -1,8 +1,8 @@
 ---
-name: code-reviewer
-description: Code reviewer for GOBAL AGENT — performs 6-axis code review with severity classification. Reviews tests first, then implementation. It reviews; it does NOT write code (use code-senior) or decide design (use design-web). Triggers — review code, code review, đánh giá code, xem lại diff, kiểm tra chất lượng code, review PR.
-argument-hint: <diff | PR> [review|approve|request-changes]
-allowed-tools: Read Write Edit Glob Bash Grep
+name: "code-reviewer"
+description: "Code reviewer for GOBAL AGENT — performs 6-axis code review with severity classification. Reviews tests first, then implementation. It reviews; it does NOT write code (use code-senior) or decide design (use design-web). Triggers — review code, code review, đánh giá code, xem lại diff, kiểm tra chất lượng code, review PR."
+allowed-tools: "Read Write Edit Glob Bash Grep"
+argument-hint: "<diff | PR> [review|approve|request-changes]"
 ---
 
 # Code Reviewer

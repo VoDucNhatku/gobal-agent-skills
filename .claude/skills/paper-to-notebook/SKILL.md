@@ -1,8 +1,8 @@
 ---
-name: paper-to-notebook
-description: Turns one paper into a runnable Jupyter notebook (.ipynb), Colab- or local-ready. Modes — reproduce (full method pipeline annotated with paper section refs, adapting official/third-party code when it exists) and run-results (load pretrained weights, run the official eval, show results vs the paper's reported numbers). Searches Papers With Code / GitHub / Hugging Face for official code first, then offloads notebook assembly to a bundled builder (never hand-writes nbformat JSON). Code + comments English; chat report Vietnamese. Triggers — code the paper, viết code bài báo, implement the method, tái lập, reproduce results, tái lập kết quả, run pretrained, chạy mô hình, make a notebook, tạo notebook, turn paper into code. Produces a notebook; for serverless GPU deployment + cost use run-on-modal; for method analysis use paper-method.
-argument-hint: <id|file|path> [reproduce|run-results] [repo-url]
-allowed-tools: Read Write Edit Glob Bash
+name: "paper-to-notebook"
+description: "Turns one paper into a runnable Jupyter notebook (.ipynb), Colab- or local-ready. Modes — reproduce (full method pipeline annotated with paper section refs, adapting official/third-party code when it exists) and run-results (load pretrained weights, run the official eval, show results vs the paper's reported numbers). Searches Papers With Code / GitHub / Hugging Face for official code first, then offloads notebook assembly to a bundled builder (never hand-writes nbformat JSON). Code + comments English; chat report Vietnamese. Triggers — code the paper, viết code bài báo, implement the method, tái lập, reproduce results, tái lập kết quả, run pretrained, chạy mô hình, make a notebook, tạo notebook, turn paper into code. Produces a notebook; for serverless GPU deployment + cost use run-on-modal; for method analysis use paper-method."
+allowed-tools: "Read Write Edit Glob Bash"
+argument-hint: "<id|file|path> [reproduce|run-results] [repo-url]"
 ---
 
 # Paper → Notebook (viết code tái lập bài báo)

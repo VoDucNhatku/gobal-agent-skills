@@ -1,8 +1,8 @@
 ---
-name: brainstorming
-description: Brainstorming for GOBAL AGENT — explores user intent, requirements, and design BEFORE any implementation. MUST be used before any creative work: creating features, building components, adding functionality, or modifying behavior. It designs; it does NOT write code or invoke implementation skills. Triggers — brainstorm, bàn ý tưởng, ý tưởng cho tính năng, thiết kế trước khi code, explore options, chưa biết làm thế nào.
-argument-hint: <project description>
-allowed-tools: Read Write Bash Glob WebSearch WebFetch
+name: "brainstorming"
+description: "Brainstorming for GOBAL AGENT — explores user intent, requirements, and design BEFORE any implementation. MUST be used before any creative work: creating features, building components, adding functionality, or modifying behavior. It designs; it does NOT write code or invoke implementation skills. Triggers — brainstorm, bàn ý tưởng, ý tưởng cho tính năng, thiết kế trước khi code, explore options, chưa biết làm thế nào."
+allowed-tools: "Read Write Bash Glob WebSearch WebFetch"
+argument-hint: "<project description>"
 ---
 
 # Brainstorming

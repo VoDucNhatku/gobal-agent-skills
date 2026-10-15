@@ -1,0 +1,22 @@
+# Preserve unknown resource bytes; only declared text extensions are normalized.
+* -text
+*.md text eol=lf
+*.py text eol=lf
+*.ps1 text eol=lf
+*.json text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.txt text eol=lf
+*.csv text eol=lf
+*.tsv text eol=lf
+*.sh text eol=lf
+*.toml text eol=lf
+*.tex text eol=lf
+*.js text eol=lf
+*.ts text eol=lf
+*.css text eol=lf
+*.html text eol=lf
+*.svg text eol=lf
+*.ipynb text eol=lf
+*.gitignore text eol=lf
+*.gitattributes text eol=lf

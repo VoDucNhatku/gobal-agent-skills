@@ -1,8 +1,8 @@
 ---
-name: study-forge
-description: Turns a study document (course slides, PDF, book chapter, notes) OR a code snippet pulled from a project into a print-quality study handbook — every formula/function gets a fixed 10-cell card, with a real pgfplots graph, a TikZ flowchart, meaningful symbol coloring, and a self-check cell. Exports PDF (primary), Markdown (quick read), HTML (web view). Modes — formula, code, course (whole document set), refit (redesign an existing handbook). Triggers — làm sổ tay, tạo template học, học công thức này, giải thích đoạn code này, làm tài liệu ôn tập, sổ tay toán, cheat sheet có giải thích, biến slide thành sổ tay, study handbook, explain this code as a handbook, làm cho dễ hiểu, template học tập. It GENERATES a printable artifact; it does NOT tutor interactively (use study-tutor), explain one concept in chat (use concept-explainer), analyze a paper's method (use paper-method), or fix math rendering (use latex-fix).
-argument-hint: <nguồn: đường dẫn | đoạn code | chủ đề> [formula|code|course|refit] [--format pdf|md|html|all]
-allowed-tools: Read Write Edit Glob Grep Bash PowerShell Skill
+name: "study-forge"
+description: "Turns a study document (course slides, PDF, book chapter, notes) OR a code snippet pulled from a project into a print-quality study handbook — every formula/function gets a fixed 10-cell card, with a real pgfplots graph, a TikZ flowchart, meaningful symbol coloring, and a self-check cell. Exports PDF (primary), Markdown (quick read), HTML (web view). Modes — formula, code, course (whole document set), refit (redesign an existing handbook). Triggers — làm sổ tay, tạo template học, học công thức này, giải thích đoạn code này, làm tài liệu ôn tập, sổ tay toán, cheat sheet có giải thích, biến slide thành sổ tay, study handbook, explain this code as a handbook, làm cho dễ hiểu, template học tập. It GENERATES a printable artifact; it does NOT tutor interactively (use study-tutor), explain one concept in chat (use concept-explainer), analyze a paper's method (use paper-method), or fix math rendering (use latex-fix)."
+allowed-tools: "Read Write Edit Glob Grep Bash PowerShell Skill"
+argument-hint: "<nguồn: đường dẫn | đoạn code | chủ đề> [formula|code|course|refit] [--format pdf|md|html|all]"
 ---
 
 # Study Forge

@@ -1,8 +1,8 @@
 ---
-name: paper-synthesize
-description: Synthesizes ACROSS many papers — the cross-paper Worker of the Workbench suite. Modes — compare (side-by-side table + differentiators + a hybrid-pipeline proposal), taxonomy (organizing dimensions + named categories + matrix), gaps (recurring weaknesses, white space → concrete research opportunities), expand (generalize ONE problem into its broader class, relaxable assumptions, open sub-problems). Reasons over already-distilled notes/ when present. Triggers — compare papers, so sánh bài báo, which is better, đề xuất pipeline kết hợp, systematize, hệ thống hóa, build a taxonomy, dựng khung phân loại, research gaps, khoảng trống nghiên cứu, future directions, hướng nghiên cứu, what's missing, generalize the problem, khái quát vấn đề. It does NOT condense one paper (use paper-read), critique one method (use paper-method), or extract typed entities (use knowledge-graph).
-argument-hint: <ids|all|topic> [compare|taxonomy|gaps|expand]
-allowed-tools: Skill Agent Read Write Glob Bash
+name: "paper-synthesize"
+description: "Synthesizes ACROSS many papers — the cross-paper Worker of the Workbench suite. Modes — compare (side-by-side table + differentiators + a hybrid-pipeline proposal), taxonomy (organizing dimensions + named categories + matrix), gaps (recurring weaknesses, white space → concrete research opportunities), expand (generalize ONE problem into its broader class, relaxable assumptions, open sub-problems). Reasons over already-distilled notes/ when present. Triggers — compare papers, so sánh bài báo, which is better, đề xuất pipeline kết hợp, systematize, hệ thống hóa, build a taxonomy, dựng khung phân loại, research gaps, khoảng trống nghiên cứu, future directions, hướng nghiên cứu, what's missing, generalize the problem, khái quát vấn đề. It does NOT condense one paper (use paper-read), critique one method (use paper-method), or extract typed entities (use knowledge-graph)."
+allowed-tools: "Skill Agent Read Write Glob Bash"
+argument-hint: "<ids|all|topic> [compare|taxonomy|gaps|expand]"
 ---
 
 # Paper Synthesize (tổng hợp liên-paper)

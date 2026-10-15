@@ -1,8 +1,8 @@
 ---
-name: project-memory
-description: Project memory for GOBAL AGENT — persists project context across sessions using file-based memory. Modes: save (store context), recall (load context), update (modify existing), compact (summarize old context). It remembers; it does NOT make decisions based on memory (that is the admin's job). Triggers — nhớ dự án, lưu context, phiên trước làm gì, khôi phục ngữ cảnh, tiếp tục việc cũ.
-argument-hint: <project> [save|recall|update|compact]
-allowed-tools: Read Write Bash Glob
+name: "project-memory"
+description: "Project memory for GOBAL AGENT — persists project context across sessions using file-based memory. Modes: save (store context), recall (load context), update (modify existing), compact (summarize old context). It remembers; it does NOT make decisions based on memory (that is the admin's job). Triggers — nhớ dự án, lưu context, phiên trước làm gì, khôi phục ngữ cảnh, tiếp tục việc cũ."
+allowed-tools: "Read Write Bash Glob"
+argument-hint: "<project> [save|recall|update|compact]"
 ---
 
 # Project Memory

@@ -1,8 +1,8 @@
 ---
-name: paper-read
-description: Reads and distills ONE paper at a chosen depth. Modes — gist (quick should-I-read overview), summary (faithful section-by-section condensation, the default), eli5 (plain-language intuition, one analogy + toy example), mindmap (Mermaid structure diagram), think (argument map — claims→evidence, ablation causality, implicit assumptions, what-would-falsify). Output prose is Vietnamese (academic), code/identifiers English. Triggers — overview of 003, summarize this paper, what's this paper about, is it worth reading, explain simply, ELI5, give me the intuition, mindmap of the paper, tóm tắt bài báo, bài này nói về gì, có đáng đọc không, giải thích đơn giản, trực giác, sơ đồ tư duy, đọc lướt bài, bản đồ lập luận, claim dựa trên gì, ablation nào gánh, phân tích lập luận. Condenses/maps ONE paper faithfully; it does NOT critique the method or math (use paper-method) and does NOT compare across papers (use paper-synthesize). Accepts an id, filename, path, or `all`.
-argument-hint: <id|file|path|all> [gist|summary|eli5|mindmap|think]
-allowed-tools: Skill Agent Read Write Glob Bash
+name: "paper-read"
+description: "Reads and distills ONE paper at a chosen depth. Modes — gist (quick should-I-read overview), summary (faithful section-by-section condensation, the default), eli5 (plain-language intuition, one analogy + toy example), mindmap (Mermaid structure diagram), think (argument map — claims→evidence, ablation causality, implicit assumptions, what-would-falsify). Output prose is Vietnamese (academic), code/identifiers English. Triggers — overview of 003, summarize this paper, what's this paper about, is it worth reading, explain simply, ELI5, give me the intuition, mindmap of the paper, tóm tắt bài báo, bài này nói về gì, có đáng đọc không, giải thích đơn giản, trực giác, sơ đồ tư duy, đọc lướt bài, bản đồ lập luận, claim dựa trên gì, ablation nào gánh, phân tích lập luận. Condenses/maps ONE paper faithfully; it does NOT critique the method or math (use paper-method) and does NOT compare across papers (use paper-synthesize). Accepts an id, filename, path, or `all`."
+allowed-tools: "Skill Agent Read Write Glob Bash"
+argument-hint: "<id|file|path|all> [gist|summary|eli5|mindmap|think]"
 ---
 
 # paper-read — distill one paper at a chosen depth

@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "files": {
+    "rules/admin-evidence-pilot.md": "ede762fcdda904256b76463024f7f003515c4c0632c83b4f0c43147e1714aa32",
+    "skills/admin-evidence-pilot/SKILL.md": "9d86573f9d659af690bc0b2ca59773ec2e03b2e3b18de519fd44c26b88982f5a",
+    "skills/admin-evidence-pilot/references/claim-ledger.md": "9c9be491209bce287cf808b085210b6507d1fa4cd8328ec736734be2e7a7cf53",
+    "skills/admin-evidence-pilot/references/dispatch-protocol.md": "ca18e556b11fa8853bde69e31e0ca504dc23edff93380ca83dd629b03793dbef",
+    "skills/admin-evidence-pilot/references/research-protocol.md": "36e72bedd332b90d453b1e00e40c4ce14b986c3dd05c7dbe41a5625c208fce7d",
+    "skills/admin-evidence-pilot/references/shared-rules/research-proposal-integrity.md": "3fc4d699219885c9f9b5d4b932fc9a4c460ec19b1079d9a192f19cf99a5fc27f",
+    "skills/admin-evidence-pilot/references/shared-rules/workbench-conventions.md": "7c1e2dcd9f7e450eabc9a3f54eef72a1a85a6e3f2c3131a0c615f07658e24fd7",
+    "skills/admin-evidence-pilot/references/source-quality.md": "b36818fde3b05ae7faef2df0c078f17daa08d814c368a9e83785c2722e0ba1fc",
+    "skills/admin-evidence-pilot/resources/claim-ledger.example.yml": "65ff78d2791a83a768a63771756976959e979c25bae36efbc1c095baf1ad0c25"
+  }
+}

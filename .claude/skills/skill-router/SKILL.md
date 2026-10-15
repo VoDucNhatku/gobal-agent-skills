@@ -1,8 +1,8 @@
 ---
-name: skill-router
-description: DEPRECATED alias (2026-07-20) — routing lives in admin. This stub only redirects; it performs no routing itself. If invoked, immediately apply admin instead (modes classify/route cover everything this skill did).
-argument-hint: (deprecated — use admin)
-allowed-tools: Skill Read
+name: "skill-router"
+description: "DEPRECATED alias (2026-07-20) — routing lives in admin. This stub only redirects; it performs no routing itself. If invoked, immediately apply admin instead (modes classify/route cover everything this skill did)."
+allowed-tools: "Skill Read"
+argument-hint: "(deprecated — use admin)"
 ---
 
 # skill-router — DEPRECATED alias → `admin`

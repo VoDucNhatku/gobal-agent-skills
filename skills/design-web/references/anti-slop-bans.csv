@@ -1,0 +1,9 @@
+id|vertical|banned_default|why|do_instead
+ban-saas-purple|SaaS / startup|#7C3AED→#DB2777 purple-to-pink gradient hero on white|the single most overused AI/SaaS look; reads as templated|pick a subject-specific dominant + one sharp accent; atmosphere via subtle grain/gradient in the brand hue, not blurple
+ban-inter-everything|any|Inter / Roboto / system-ui as the only typeface|the default "safe" face; zero personality, no display/body contrast|pick a characterful display + a distinct body (see type-pairings.csv); keep ≥3x size + heavy weight contrast
+ban-cream-serif-terra|editorial / wellness|warm cream #F4F1EA + serif + terracotta accent|a recognized AI-slop cluster (the "editorial" default)|if the brief wants warm/editorial, shift ground off cream (bone/paper-cool), use a cool or oxblood accent, and an unexpected display face
+ban-acid-cyber|dev-tools / crypto|near-black + lone acid-green/vermilion pop|the "cyber" slop cluster|only if the subject truly is cyber; then break it with an unusual layout grammar and a second supporting hue
+ban-broadsheet|news / docs|broadsheet hairline-rule dense columns, no rhythm|the "newspaper" slop cluster; flat and airless|introduce asymmetry, a signature element, and atmosphere; let whitespace and one accent carry hierarchy
+ban-emoji-icons|any|🚀✨🎯 emoji standing in for an icon set|reads as low-effort; inconsistent rendering|use a real icon set (inline SVG); zero emoji in nav/buttons/feature bullets/empty states
+ban-centered-cards|any|centered hero + 3 equal feature cards + accordion FAQ + CTA band, all same padded box|the predictable AI layout; no rhythm or asymmetry|vary section width/rhythm; one signature layout element; break the equal-cards grid
+ban-flat-fill|any|pure #FFFFFF / #000000 flat ground|flat, dead, unconsidered|give the ground atmosphere (subtle gradient/grain/pattern) and pick a neutral with a slight hue bias toward the accent

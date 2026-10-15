@@ -1,8 +1,8 @@
 ---
-name: executing-plans
-description: Executing plans for GOBAL AGENT — implements a written plan task by task with per-task verification, plan-reality drift detection, and STOP-and-REGAIN on divergence. Use when you have a written implementation plan to execute. It executes plans; it does NOT write them (use writing-plans) and does NOT replace the final done-gate (use verification-before-completion).
-argument-hint: <plan-file>
-allowed-tools: Read Write Edit Bash Glob
+name: "executing-plans"
+description: "Executing plans for GOBAL AGENT — implements a written plan task by task with per-task verification, plan-reality drift detection, and STOP-and-REGAIN on divergence. Use when you have a written implementation plan to execute. It executes plans; it does NOT write them (use writing-plans) and does NOT replace the final done-gate (use verification-before-completion)."
+allowed-tools: "Read Write Edit Bash Glob"
+argument-hint: "<plan-file>"
 ---
 
 # Executing Plans

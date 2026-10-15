@@ -1,8 +1,8 @@
 ---
-name: audit-log
-description: Append-only decision-moment log for AI/ML research. Captures only the 1–3 key decisions per thinking session (architecture change, debug direction, hallucination catch), not transcripts. Compact md entries with evidence. Triggers — log session, audit log, ghi quyết định, record decision.
-argument-hint: <context | "summary" | "clear">
-allowed-tools: Skill Agent Read Write Bash
+name: "audit-log"
+description: "Append-only decision-moment log for AI/ML research. Captures only the 1–3 key decisions per thinking session (architecture change, debug direction, hallucination catch), not transcripts. Compact md entries with evidence. Triggers — log session, audit log, ghi quyết định, record decision."
+allowed-tools: "Skill Agent Read Write Bash"
+argument-hint: "<context | \"summary\" | \"clear\">"
 ---
 
 # AI Audit Log — Decision Moment Capture

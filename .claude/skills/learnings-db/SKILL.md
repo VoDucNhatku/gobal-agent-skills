@@ -1,8 +1,8 @@
 ---
-name: learnings-db
-description: Learnings database for GOBAL AGENT — captures lessons learned from every session. Modes: capture (log a learning), query (search learnings), suggest (recommend based on current task), pattern (extract cross-project patterns). It learns; it does NOT apply learnings automatically (that is the admin's decision). Triggers — ghi bài học, lesson learned, rút kinh nghiệm, đã học được gì, lỗi này lặp lại.
-argument-hint: [capture|query|suggest|pattern]
-allowed-tools: Read Write Bash Glob
+name: "learnings-db"
+description: "Learnings database for GOBAL AGENT — captures lessons learned from every session. Modes: capture (log a learning), query (search learnings), suggest (recommend based on current task), pattern (extract cross-project patterns). It learns; it does NOT apply learnings automatically (that is the admin's decision). Triggers — ghi bài học, lesson learned, rút kinh nghiệm, đã học được gì, lỗi này lặp lại."
+allowed-tools: "Read Write Bash Glob"
+argument-hint: "[capture|query|suggest|pattern]"
 ---
 
 # Learnings DB

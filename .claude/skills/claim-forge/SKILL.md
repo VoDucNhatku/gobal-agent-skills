@@ -1,8 +1,8 @@
 ---
-name: claim-forge
-description: Turns an ARGUMENT-bearing document (economics paper, social-science paper, management/law text, policy report, book chapter) into a print-quality critical-reading handbook — every card is ONE falsifiable claim, with its source, argument chain, evidence tier, load-bearing assumptions, the strongest counter-reading, and what would refute it. Ends with a one-page claim ledger. Exports PDF. Modes — paper (single document), theme (multiple sources on one topic), audit (self-review a draft). Triggers — đọc phê phán, sổ tay lập luận, bài này lập luận thế nào, bằng chứng có đủ không, giả định nào gánh, phản biện bài báo, paper kinh tế, khoa học xã hội, làm sổ tay cho paper không có code, critical reading handbook, claim ledger. It GENERATES a printable handbook for argument-bearing documents; a document with formulas/code uses study-forge instead; a single-pass Markdown analysis note uses paper-read mode think; a harsh Q1-standard rebuttal uses ieee-q1-devil-advocate.
-argument-hint: <đường dẫn tài liệu | chủ đề> [paper|theme|audit]
-allowed-tools: Read Write Edit Glob Grep Bash PowerShell WebSearch WebFetch Skill
+name: "claim-forge"
+description: "Turns an ARGUMENT-bearing document (economics paper, social-science paper, management/law text, policy report, book chapter) into a print-quality critical-reading handbook — every card is ONE falsifiable claim, with its source, argument chain, evidence tier, load-bearing assumptions, the strongest counter-reading, and what would refute it. Ends with a one-page claim ledger. Exports PDF. Modes — paper (single document), theme (multiple sources on one topic), audit (self-review a draft). Triggers — đọc phê phán, sổ tay lập luận, bài này lập luận thế nào, bằng chứng có đủ không, giả định nào gánh, phản biện bài báo, paper kinh tế, khoa học xã hội, làm sổ tay cho paper không có code, critical reading handbook, claim ledger. It GENERATES a printable handbook for argument-bearing documents; a document with formulas/code uses study-forge instead; a single-pass Markdown analysis note uses paper-read mode think; a harsh Q1-standard rebuttal uses ieee-q1-devil-advocate."
+allowed-tools: "Read Write Edit Glob Grep Bash PowerShell WebSearch WebFetch Skill"
+argument-hint: "<đường dẫn tài liệu | chủ đề> [paper|theme|audit]"
 ---
 
 # Claim Forge
