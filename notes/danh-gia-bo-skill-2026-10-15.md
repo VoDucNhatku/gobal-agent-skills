@@ -458,6 +458,15 @@ Mục tiêu: số skill **hiện description** trong danh sách nằm gọn tron
 
 **Cập nhật 15/10/2026 (cùng phiên, ĐO):** tiêu đề "cũ hơn nguồn 5 tuần" bị sai, vì tôi suy ra từ ngày sửa file (08/09). Khi so phần thân với từng commit, bản cài **khớp commit `e51683d` (02/10/2026) ở 68/69 skill**; chỉ `test-framework` khác. Bản cài vì vậy chỉ thiếu các commit từ `0ef12b5` (04/10, evidence-first) trở đi, khoảng 2 ngày. Nội dung còn lại của F-17 vẫn đúng.
 
+**Cập nhật 15/10/2026 — đã xử lý (ĐO):** sau khi `main` của repo `gobal-agent-skills` được merge ở `8053e95` (PR #1), bản cài đã được đồng bộ lại:
+
+- **Skill:** 67/69 thư mục giống hệt repo từng byte.
+- **Hai skill dùng chung với Codex** (`latex-fix`, `study-forge`, junction sang `~/.codex/skills`): chỉ thay `SKILL.md`. Riêng `study-forge` trước đó có frontmatter YAML không hợp lệ.
+- **Rule:** đủ 7 rule, đã có `evidence-first.md`.
+- **Validator trên bản cài:** 99,6%. 3 lỗi còn lại là báo nhầm "escapes skills root" do junction; các file được nhắc tới đều tồn tại.
+- **Sao lưu:** `~/.claude/backups/skills-rules-2026-10-15/`.
+- **Chưa làm:** R-15 (script tự báo lệch) vẫn còn mở.
+
 Đo thêm về các bản đang có:
 - `origin/main` của repo `gobal-agent-skills` (`20de9e1`, tháng 08) dùng bố cục cũ và cũ nhất.
 - Repo `gobal-agent-skills-antigravity` (05/10) có `skills/` và `rules/` khớp working tree local, chỉ khác 4 file README/test.
