@@ -27,6 +27,8 @@ papers), `research-assess` (judge a proposal, direction or claim), `evidence-che
 ## 2. Specialties not in the catalog
 These skills are hidden from the catalog only to save tokens; they are fully usable. Pick one
 below, read `../<skill>/SKILL.md` (relative to this file) and follow it as if it had been loaded.
+Files it points to (`_shared/rules`, references) are needed only for the output they govern,
+such as an exported file; skip them for an outline or a chat answer.
 
 ### Writing and LaTeX
 | Skill | Use when |
@@ -83,8 +85,9 @@ below, read `../<skill>/SKILL.md` (relative to this file) and follow it as if it
 
 ## 3. Before research work
 If the project has `notes/lessons.md`, read its first 40 lines once per task and apply
-the lessons that match. If the request touches novelty, venue or a proposal, the project
-scope rule in `../_shared/research-integrity.md` §1 applies. For web research with
+the lessons that match. If the request touches novelty, venue or a proposal, the project's
+`SCOPE` rows override any rubric (`../_shared/research-integrity.md` §1); `research-assess`
+applies this without reading that file. For web research with
 several sources, read `references/research-protocol.md` (search budgets, stop rules) and
 `references/source-quality.md` only when choosing between conflicting sources.
 

@@ -10,8 +10,9 @@ description: "Turns a study document (course slides, PDF, book chapter, notes) O
 > **Mục đích:** biến tài liệu học hoặc code thành sổ tay in được, nơi mỗi công thức và
 > mỗi hàm đều bị mổ xẻ theo cùng một giao thức 10 ô.
 
-Đọc `../_shared/rules/workbench-conventions.md` (song ngữ, preview-not-dump, script-offloading)
-và `../_shared/rules/latex-katex-compat.md` khi xuất Markdown.
+Khi xuất file: đọc `../_shared/rules/workbench-conventions.md` (song ngữ, preview-not-dump,
+script-offloading), và `../_shared/rules/latex-katex-compat.md` khi xuất Markdown. Chỉ phác
+dàn ý hoặc trả lời trong chat thì không cần đọc hai file này.
 
 **Câu mở đầu:** "Tôi dùng skill study-forge để dựng sổ tay này."
 

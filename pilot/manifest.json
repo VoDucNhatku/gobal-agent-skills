@@ -2,7 +2,7 @@
   "schema_version": 1,
   "files": {
     "rules/admin-evidence-pilot.md": "ede762fcdda904256b76463024f7f003515c4c0632c83b4f0c43147e1714aa32",
-    "skills/admin-evidence-pilot/SKILL.md": "d9575105b790984d21870f43b6d9f3630e2eef7bd22ad66085fe427b778006c7",
+    "skills/admin-evidence-pilot/SKILL.md": "670ce64e25bb5da17847be147c9948bf96f4b307aa0ad1797d47bc988552cca7",
     "skills/admin-evidence-pilot/references/claim-ledger.md": "9c9be491209bce287cf808b085210b6507d1fa4cd8328ec736734be2e7a7cf53",
     "skills/admin-evidence-pilot/references/dispatch-protocol.md": "b1dcb032502a2b90a77a610dc75b3181dccd8075024e49612475b364e1371307",
     "skills/admin-evidence-pilot/references/research-protocol.md": "36e72bedd332b90d453b1e00e40c4ce14b986c3dd05c7dbe41a5625c208fce7d",

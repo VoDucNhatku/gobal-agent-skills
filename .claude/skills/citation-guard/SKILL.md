@@ -10,6 +10,7 @@ argument-hint: "<manuscript path> [apa|chicago|mla|ieee|vancouver]"
 
 Kiểm tra và sửa toàn bộ citation trong draft bài báo. Binding:
 `../_shared/rules/paper-writing-integrity.md` §1–2 (zero fabricated references, đạo văn).
+LUẬT CỨNG dưới đây đã chứa §1; chỉ mở file đó khi kiểm đạo văn (§2) hoặc khi sửa bản thảo.
 
 ## LUẬT CỨNG — không bịa reference (đọc trước mọi việc khác)
 
