@@ -33,7 +33,7 @@ Ba câu này không phải hình thức: (1) sinh ra `CODEOWNERS`, (2) sinh ra `
 
 ## Conventions
 
-Binding: `../../rules/workbench-conventions.md` — song ngữ §1 (prose tiếng Việt, tên
+Binding: `../_shared/rules/workbench-conventions.md` — song ngữ §1 (prose tiếng Việt, tên
 file/định danh tiếng Anh), preview-not-dump §3, script-offloading §9. **Đọc lúc chạy, không
 inline.** Tri thức nặng nằm ở `references/`, danh sách thư mục nằm ở `scripts/profiles.json`.
 
@@ -179,7 +179,7 @@ cũ trước**, viết lại lịch sử chỉ là bước phụ). Không tự s
 - `build-ui` mode `scaffold` → dựng code framework **bên trong** `apps/web` đã có.
 - `scaffold-course-platform` → chọn stack sản phẩm; skill này chỉ lo bố cục + quy trình.
 - `security-review` → chạy sau `audit` nếu phát hiện bí mật đã commit.
-- `artifact-manager` → ghi blueprint vào `notes/INDEX.md`.
+- `research-memory` → ghi blueprint vào `notes/INDEX.md`.
 
 
 ## Antigravity resource execution

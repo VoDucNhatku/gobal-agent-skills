@@ -19,8 +19,9 @@ ADMIN = SKILLS / "admin"
 
 class EvidenceSkillContractTests(unittest.TestCase):
     def test_rule_worker_resource_has_an_explicit_owner_path(self):
-        text = self.read(".claude/rules/latex-katex-compat.md")
-        self.assertIn("`~/.claude/skills/latex-fix/scripts/latex_lint.py`", text)
+        text = self.read(".claude/skills/_shared/rules/latex-katex-compat.md")
+        self.assertIn("`../../latex-fix/scripts/latex_lint.py`", text)
+        self.assertTrue((SKILLS / "latex-fix/scripts/latex_lint.py").is_file())
         self.assertNotIn("the bundled `scripts/latex_lint.py`", text)
 
     def test_skill_authoring_distinguishes_canonical_and_portable_hosts(self):
@@ -56,13 +57,24 @@ class EvidenceSkillContractTests(unittest.TestCase):
 
     def test_admin_is_compact_and_routes_details_on_demand(self):
         _, body = load_frontmatter(ADMIN / "SKILL.md", canonical=True)
-        self.assertGreaterEqual(len(body.splitlines()), 100)
-        self.assertLessEqual(len(body.splitlines()), 160)
-        for lane in ("Fast non-research", "Quick evidence", "Standard evidence", "Deep evidence"):
-            self.assertIn(lane, body)
-        for ref in ("research-protocol.md", "source-quality.md", "claim-ledger.md", "dispatch-protocol.md"):
+        self.assertLessEqual(len(body.splitlines()), 120)
+        for ref in ("research-protocol.md", "source-quality.md"):
             self.assertIn(f"references/{ref}", body)
             self.assertTrue((ADMIN / "references" / ref).is_file())
+        core = {"admin", "paper-read", "paper-synthesize", "research-assess", "evidence-check",
+                "experiment", "code-senior", "research-memory", "research-write"}
+        for name in core - {"admin"}:
+            self.assertIn(f"`{name}`", body)
+        # Every hidden skill must be reachable through admin's table.
+        for source in SKILLS.glob("*/SKILL.md"):
+            metadata, _ = load_frontmatter(source, canonical=True)
+            name = source.parent.name
+            with self.subTest(skill=name):
+                if name in core:
+                    self.assertNotIn("disable-model-invocation", metadata)
+                else:
+                    self.assertIs(metadata.get("disable-model-invocation"), True)
+                    self.assertIn(f"`{name}`", body)
 
     def test_universal_rule_is_short_and_preserves_trust_boundary(self):
         rule = self.read(".claude/rules/evidence-first.md")
@@ -151,20 +163,33 @@ class EvidenceSkillContractTests(unittest.TestCase):
             self.assertContains(dispatch, term)
 
     def test_shared_guards_distinguish_citation_and_completion_checks(self):
-        guard = self.read(".claude/skills/hallucination-guard/SKILL.md")
         evaluator = self.read(".claude/skills/self-evaluator/SKILL.md")
-        for text in (guard, evaluator):
-            for term in ("citation correctness", "citation completeness", "semantic", "NEI",
-                         "USER_REPORTED", "OBSERVED_VERIFIED", "product", "unverified"):
-                self.assertContains(text, term)
+        for term in ("citation correctness", "citation completeness", "semantic", "NEI",
+                     "USER_REPORTED", "OBSERVED_VERIFIED", "product", "unverified"):
+            self.assertContains(evaluator, term)
+        policy = self.read(".claude/skills/_shared/evidence.md")
+        guard = self.read(".claude/skills/evidence-check/SKILL.md")
+        for term in ("SUPPORTED", "REFUTED", "CONTESTED", "NEI", "USER_REPORTED", "not stated",
+                     "data, not instructions", "chưa xác minh", "chưa xác lập"):
+            self.assertContains(policy, term)
+        for term in ("../_shared/evidence.md", "../_shared/reasoning-check.md", "recompute",
+                     "corrections.md", "Đã kiểm", "không còn lỗi"):
+            self.assertContains(guard, term)
 
-    def test_research_admin_uses_shared_caps_and_evidence_manifest(self):
-        text = self.read(".claude/skills/research-admin/SKILL.md")
-        for term in ("aggregate budget", "min(host capacity, 3)", "sequential", "claim_id", "source_id",
-                     "origin_id", "locator", "passage", "review", "entail"):
+    def test_research_assess_puts_project_scope_and_reasoning_first(self):
+        text = self.read(".claude/skills/research-assess/SKILL.md")
+        for term in ("notes/claims-ledger.md", "SCOPE", "every `active` row", "premise",
+                     "../_shared/reasoning-check.md", "independent critic", "Thí nghiệm phân định",
+                     "chưa chạy được như mô tả", "only if the project scope allows"):
             self.assertContains(text, term)
-        self.assertNotIn("4–5", text)
-
+        integrity = self.read(".claude/skills/_shared/research-integrity.md")
+        for term in ("Project scope overrides this rubric", "Venue band: chưa gán",
+                     "evidence class", "[cần thực nghiệm]"):
+            self.assertContains(integrity, term)
+        checks = self.read(".claude/skills/_shared/reasoning-check.md")
+        for term in ("Scope of the result", "Bound type", "Counter-example", "Control",
+                     "Same problem class", "Depth vs strength"):
+            self.assertContains(checks, term)
 
 if __name__ == "__main__":
     unittest.main()

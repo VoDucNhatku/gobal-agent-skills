@@ -488,7 +488,9 @@ class PilotInstallerTests(unittest.TestCase):
                 refused = self.run_installer(fault={marker: "1", "USERPROFILE": str(self.profile)})
 
                 self.assertNotEqual(refused.returncode, 0)
-                self.assertIn("forbidden on the real profile", (refused.stdout + refused.stderr).lower())
+                # PowerShell wraps Write-Error output to the console width, so compare whitespace-normalized text.
+                output = " ".join((refused.stdout + refused.stderr).lower().split())
+                self.assertIn("forbidden on the real profile", output)
                 self.assertEqual(self.snapshot(), {})
 
     def test_exclusive_lock_rejects_a_concurrent_installer(self):

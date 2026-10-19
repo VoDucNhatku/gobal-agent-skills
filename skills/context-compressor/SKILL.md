@@ -46,7 +46,7 @@ The tier definitions (metadata → skill body → references) are owned by **`to
 ### 4. Prune Unused Artifacts
 
 Remove artifacts no longer needed:
-- Check artifact-manager index for stale entries
+- Check research-memory index for stale entries
 - Keep only artifacts from current task chain
 - Archive old artifacts to `logs/archive/`
 
@@ -114,8 +114,8 @@ Scan loaded artifacts → archive stale ones → update index.
 ## Integration
 
 - `admin` → Triggers compression when buffer < 30%
-- `project-memory` → Offloads old context to memory files
-- `artifact-manager` → Prunes stale artifacts
+- `research-memory` → Offloads old context to memory files
+- `research-memory` → Prunes stale artifacts
 - `token-budget` → Monitors context size, triggers compression
 
 

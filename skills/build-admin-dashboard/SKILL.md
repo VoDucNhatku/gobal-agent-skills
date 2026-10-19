@@ -29,7 +29,7 @@ It **does not** run without an authenticated context. The owner of any rendered 
    - data table w/ sort + filter + pagination,
    - inline create/edit/delete actions gated by role,
    - optimistic UI + error/empty/loading states,
-   - audit log entries via `audit-log` for mutating actions.
+   - audit log entries via `research-memory` for mutating actions.
 4. Wire a server-side authorization boundary (RLS policy / route handler / server action) so every mutation and every gated read is authorized.
 5. Run `review-frontend` at the end of an admin build to catch slop and a11y regressions before handoff.
 
@@ -42,9 +42,9 @@ This skill reads the locked design file created by `design-web`. Always reuse to
 Required cross-cutting skills used by this skill:
 - `design-web` — locked token source (read `notes/design-<slug>.md`)
 - `review-frontend` — post-build a11y + slop audit
-- `audit-log` — record mutations with materiality filter
+- `research-memory` — record mutations with materiality filter
 - `token-budget` — estimate fan-out cost before spawning subagents
-- `artifact-manager` — check existing admin modules/specs before rebuilding (mode `reuse`)
+- `research-memory` — check existing admin modules/specs before rebuilding (mode `recall` / `index`)
 
 ## Triggers
 

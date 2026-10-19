@@ -1,4 +1,5 @@
 ---
+disable-model-invocation: true
 name: "receiving-code-review"
 description: "Receiving code review for GOBAL AGENT — how to respond to review feedback constructively. Address every comment, fix issues, push back when wrong. Use when you have received review feedback on your code."
 allowed-tools: "Read Write Edit Bash Glob"

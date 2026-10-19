@@ -254,7 +254,7 @@ Unit tests alone aren't enough for UI.
 ## Cross-References
 
 - `code-senior` → Code quality and implementation patterns
-- `debug-investigator` → Systematic debugging when tests reveal bugs
+- `code-senior` → Systematic debugging when tests reveal bugs
 - `code-reviewer` → Review tests as part of code review
 - `spec-writer` → Write spec before TDD implementation
 - `build-ui` → UI implementation with test coverage

@@ -1,6 +1,6 @@
 ---
 name: "code-senior"
-description: "Senior-grade, theme-neutral implementation Worker — infers the language/stack from the project, understands the task in detail BEFORE touching code, makes the smallest correct change, and verifies it. Carries an anti-runaway-edit contract (a small fix must never become a full-file rewrite) and verification gates that refuse to call work done on assumptions. Modes — implement (understand → plan a minimal diff → edit surgically → verify; the default), debug (reproduction-first: a red failing command BEFORE any hypothesis, then rank falsifiable hypotheses), review (diff-only senior review against a definition-of-done, severity-coded). Triggers — implement, code this, viết code, sửa code, fix the bug, debug, gỡ lỗi, refactor, review my changes, review diff, đánh giá code, add a feature, thêm tính năng, làm tính năng. It writes/fixes/reviews code with guardrails; it does NOT design UI (use design-web), build from a design-record (use build-ui), or write a paper notebook (use paper-to-notebook)."
+description: "Implements, debugs and reviews code with minimal, verified changes: understands the task first, edits surgically, reproduces a bug with a failing command before guessing, and proves the fix runs. Use for training scripts, data pipelines and research code as well as apps. Triggers — viết code, sửa code, debug, gỡ lỗi, lỗi train, refactor, review diff, thêm tính năng."
 ---
 
 # Code Senior (viết/sửa/review code chuẩn senior, có rào chắn)
@@ -14,7 +14,7 @@ solves the task — then proves it works. Borrows the discipline of superpowers 
 > anti-rationalization); mattpocock/skills (reproduction-first debugging).
 
 ## Conventions
-Binding: `../../rules/workbench-conventions.md` (bilingual §1 — code/identifiers English, the
+Binding: `../_shared/rules/workbench-conventions.md` (bilingual §1 — code/identifiers English, the
 chat report Vietnamese; preview-not-dump §3; scope handoff §10). Read at run time; do not inline.
 
 ## Procedure
@@ -48,7 +48,7 @@ read-before-edit staleness rule below).
    - Edge cases from preconditions: <empty/negative/duplicates/singular matrix/overflow/NaN/
      non-convergence — each one must reappear in step 4's verification or be explicitly waived>
    ```
-   Provenance tags follow `../../rules/research-proposal-integrity.md` §4 — a [design]
+   Provenance tags follow `../_shared/research-integrity.md` §4 — a [design]
    choice is never presented with [derived]-level confidence ("dùng Adam vì nó tốt" without a
    stated assumption is a gate FAIL).
 2. **Plan the minimal diff.** Name the exact files/functions to change and why each is necessary.
@@ -76,7 +76,7 @@ read-before-edit staleness rule below).
 
 ### Phase 2 — Verification gate + anti-rationalization (binding)
 
-Two hard laws, checked here on **every** entry path. They used to live only in `code-admin`, which
+Two hard laws, checked here on **every** entry path. They used to live only in `admin`, which
 meant calling this skill directly — the normal way anyone works — skipped them entirely. A gate you
 can walk around by picking a different door is not a gate.
 
@@ -132,7 +132,7 @@ A small change must stay small. Never let a one-line fix become a full-file rewr
 - **Don't dump diffs to chat (§3).** Report paths + key lines + the verify result.
 - **Stay in scope (§10).** This skill implements/fixes/reviews code:
   - `→ dùng design-web cho` quyết định giao diện; `→ dùng build-ui cho` dựng theo design-record.
-  - `→ dùng paper-to-notebook / run-on-modal cho` code tái lập bài báo.
+  - `→ dùng experiment cho` notebook/GPU tái lập bài báo và phân tích log huấn luyện.
 
 
 ## Antigravity resource execution

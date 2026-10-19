@@ -1,6 +1,7 @@
 ---
+disable-model-invocation: true
 name: "paper-submission"
-description: "Academic manuscript and paper submission worker — drafts, formats, and polishes academic papers for submission to top-tier venues (IEEE Q1/Q2, CVPR, ICCV, ECCV, NeurIPS, etc.). Modes: draft (generate manuscript from synthesis notes), format (apply specific LaTeX templates like IEEEtran/cvpr), rebuttal (draft reviewer responses based on reviews). Triggers — write paper, draft manuscript, format for IEEE, format for CVPR, write rebuttal, chuẩn bị nộp báo, viết bản thảo, phản hồi reviewer. It writes and formats manuscripts; it does NOT conduct the primary research or run experiments (use paper-method, paper-synthesize, or run-on-modal)."
+description: "Academic manuscript and paper submission worker — drafts, formats, and polishes academic papers for submission to top-tier venues (IEEE Q1/Q2, CVPR, ICCV, ECCV, NeurIPS, etc.). Modes: draft (generate manuscript from synthesis notes), format (apply specific LaTeX templates like IEEEtran/cvpr), rebuttal (draft reviewer responses based on reviews). Triggers — write paper, draft manuscript, format for IEEE, format for CVPR, write rebuttal, chuẩn bị nộp báo, viết bản thảo, phản hồi reviewer. It writes and formats manuscripts; it does NOT conduct the primary research or run experiments (use paper-read, paper-synthesize, or experiment)."
 allowed-tools: "Read Write Glob Bash"
 argument-hint: "<topic | conference name> [draft|format|rebuttal]"
 ---
@@ -9,9 +10,9 @@ argument-hint: "<topic | conference name> [draft|format|rebuttal]"
 
 > **Role:** Transforms research synthesis notes, experiment results, and method notes into submission-ready academic manuscripts (LaTeX/PDF format) tailored to specific conferences/journals.
 
-Binding: `~/.claude/rules/paper-writing-integrity.md` (§1 zero fabricated references, §2
+Binding: `../_shared/rules/paper-writing-integrity.md` (§1 zero fabricated references, §2
 đạo văn, §3 results integrity — [TODO] thay vì bịa số, §6 vị trí trong pipeline) và
-`~/.claude/rules/research-proposal-integrity.md` (§1 tier + venue band; draft không được
+`../_shared/research-integrity.md` (§1 tier + venue band; draft không được
 claim vượt tier trong `notes/claims-ledger.md`).
 
 ## Vị trí trong pipeline sản xuất bản thảo (§6 paper-writing-integrity)
@@ -51,7 +52,7 @@ figure (latex-tikz-generator) được chạy song song với việc draft prose
 ### Mode: format
 1. **Identify Target:** Determine target venue (e.g., CVPR, ICCV, IEEE Q1).
 2. **Template Application:** Use the official LaTeX template for the venue. Structure the `.tex` file with appropriate macros (e.g., `\author`, `\maketitle`, `\bibliographystyle`).
-3. **Math & Figures:** Math in the `.tex` follows the venue template (full LaTeX); any math emitted into markdown notes follows `~/.claude/rules/latex-katex-compat.md` (repair via `latex-fix` at the compile stage). Check that figure references follow venue guidelines.
+3. **Math & Figures:** Math in the `.tex` follows the venue template (full LaTeX); any math emitted into markdown notes follows `../_shared/rules/latex-katex-compat.md` (repair via `latex-fix` at the compile stage). Check that figure references follow venue guidelines.
 4. **Output:** Generate the `main.tex` and a `bib` file.
 
 ### Mode: rebuttal
@@ -75,7 +76,7 @@ figure (latex-tikz-generator) được chạy song song với việc draft prose
 
 ## Cross-References
 - `paper-synthesize` → Provides the raw material for the Related Work section.
-- `paper-method` → Provides the raw material for the Method section.
+- `paper-read` → Provides the raw material for the Method section.
 - `paper-storytelling` → Chuyên biệt hóa khâu draft/format khi user muốn cấu trúc
   storytelling (SARD-style: research questions, Results+Discussion gộp theo phát hiện,
   pipeline figure 2 hàng + Algorithm walkthrough). Nó THAY khâu đầu này; chuỗi sau

@@ -94,7 +94,7 @@ CONTESTED. Claim confidence cannot be established by URL count or a worker's ass
 
 ## Phase 5 — Check and handoff
 
-hallucination-guard audits material claim support; self-evaluator checks acceptance and
+evidence-check audits material claim support; self-evaluator checks acceptance and
 reports. Distinguish citation correctness from completeness, static validity from
 product behavior. Structural tests do not prove semantic support or model compliance.
 Do not run release regression suites on ordinary requests. Novelty/venue claims retain

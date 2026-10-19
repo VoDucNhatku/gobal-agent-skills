@@ -1,4 +1,5 @@
 ---
+disable-model-invocation: true
 name: "verification-before-completion"
 description: "Verification before completion for GOBAL AGENT — standalone verification gate that must pass before claiming any work is done. Iron Law: NO COMPLETION CLAIMS WITHOUT FRESH VERIFICATION. Use when work is supposedly complete and you are about to claim it done."
 allowed-tools: "Read Write Bash Glob"

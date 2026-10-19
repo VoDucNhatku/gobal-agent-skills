@@ -1,4 +1,5 @@
 ---
+disable-model-invocation: true
 name: "requesting-code-review"
 description: "Requesting code review for GOBAL AGENT — prepares a branch for review by ensuring it meets quality standards before requesting human or AI review. Use when implementation is complete and you want a review before merge."
 allowed-tools: "Read Write Bash Glob"

@@ -1,4 +1,5 @@
 ---
+disable-model-invocation: true
 name: "ai-cv-forge"
 description: "CV & career profile builder dành riêng cho sinh viên ngành AI mới ra trường. Từ input tối thiểu (khóa học, project, internship) → sinh cv.md + profile.yml + README theo format career-ops, cập nhật mindset tuyển dụng AI thực tế 2025–2026 (agentic, eval, RAG, MLOps, LLM infra), bỏ lối mòn template. Output feed thẳng vào career-ops pdf/apply. Triggers: init cv, build cv AI, cv scratch, xây cv, ai cv, profile AI mới ra trường, prepare AI resume."
 allowed-tools: "Read Write Edit Glob Grep WebSearch WebFetch"

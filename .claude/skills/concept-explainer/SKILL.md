@@ -1,4 +1,5 @@
 ---
+disable-model-invocation: true
 name: "concept-explainer"
 description: "Concept explainer for GOBAL AGENT — explains complex concepts at the right depth for the learner. Modes: eli5 (plain-language intuition with one analogy + toy example), deep-dive (technical depth with examples), analogy (find the right comparison). It explains; it does NOT tutor (use study-tutor for full learning sessions). Triggers — giải thích khái niệm, X là gì, explain, ELI5, cho ví dụ dễ hiểu, ví von, analogy, không hiểu chỗ này."
 allowed-tools: "Read Write Bash Glob WebSearch WebFetch"
@@ -82,7 +83,7 @@ argument-hint: "<concept> [eli5|deep-dive|analogy]"
 
 - `study-tutor` — full learning session following this concept
 - `knowledge-quiz` — test retention after the explanation
-- `paper-read` / `paper-method` — source paper context; usually invoked by `study-tutor` rather than research-admin directly
+- `paper-read` / `paper-read` — source paper context; usually invoked by `study-tutor` rather than admin directly
 
 ## Progressive Disclosure
 
@@ -97,4 +98,4 @@ argument-hint: "<concept> [eli5|deep-dive|analogy]"
 - `study-tutor` → Full learning session with this concept
 - `knowledge-quiz` → Test understanding after explanation
 - `paper-read` → Source paper for research concepts
-- `paper-method` → Technical implementation details
+- `paper-read` → Technical implementation details

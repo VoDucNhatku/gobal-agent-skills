@@ -1,4 +1,5 @@
 ---
+disable-model-invocation: true
 name: "scaffold-project"
 description: "Designs the folder structure AND the team git workflow for a new project, scaled to team size — asks 3 blocking questions, picks a layout profile (research | web | agent | mixed), then offloads creation to a script that writes the tree plus its governance files. Modes — plan (blueprint only, default), apply (create for real), publish (secret-scan, then create the GitHub repo via gh and invite the team, only after an explicit yes), audit (score an existing repo), onboard (regenerate the teammate guide). Triggers — thiết kế thư mục, cấu trúc dự án, dựng khung dự án, tổ chức project, scaffold project, project structure, chia thư mục, làm việc nhóm trên github, quy trình git cho nhóm, nhiều người cùng repo, repo cho N người, onboard thành viên mới, tạo repo github, đẩy lên github, push lần đầu, mời thành viên vào repo. It decides layout + collaboration policy; it does NOT write framework code (use build-ui mode scaffold) or resolve a product stack (use scaffold-course-platform)."
 allowed-tools: "Read Write Edit Bash Glob Grep AskUserQuestion"
@@ -35,7 +36,7 @@ Ba câu này không phải hình thức: (1) sinh ra `CODEOWNERS`, (2) sinh ra `
 
 ## Conventions
 
-Binding: `~/.claude/rules/workbench-conventions.md` — song ngữ §1 (prose tiếng Việt, tên
+Binding: `../_shared/rules/workbench-conventions.md` — song ngữ §1 (prose tiếng Việt, tên
 file/định danh tiếng Anh), preview-not-dump §3, script-offloading §9. **Đọc lúc chạy, không
 inline.** Tri thức nặng nằm ở `references/`, danh sách thư mục nằm ở `scripts/profiles.json`.
 
@@ -181,4 +182,4 @@ cũ trước**, viết lại lịch sử chỉ là bước phụ). Không tự s
 - `build-ui` mode `scaffold` → dựng code framework **bên trong** `apps/web` đã có.
 - `scaffold-course-platform` → chọn stack sản phẩm; skill này chỉ lo bố cục + quy trình.
 - `security-review` → chạy sau `audit` nếu phát hiện bí mật đã commit.
-- `artifact-manager` → ghi blueprint vào `notes/INDEX.md`.
+- `research-memory` → ghi blueprint vào `notes/INDEX.md`.

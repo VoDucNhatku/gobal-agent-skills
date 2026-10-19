@@ -1,0 +1,36 @@
+# dsh headless overlay for skill evals: local 9Router provider, telemetry off.
+# The API key is read from the dsh credential store (NINEROUTER_API_KEY); no secret lives here.
+- id: session-telemetry-otel
+  name: "@deepseek-ai/dsh-session-telemetry-otel"
+  config:
+    mode: DISABLED
+- id: session-log-deepseek
+  name: "@deepseek-ai/dsh-session-log-deepseek"
+  config:
+    enabled: false
+- id: llm-pi-ai
+  name: "@deepseek-ai/dsh-llm-pi-ai"
+  config:
+    providers:
+      ninerouter:
+        displayName: 9Router
+        api: openai-completions
+        baseURL: http://127.0.0.1:20128/v1
+        apiKeyEnv: NINEROUTER_API_KEY
+        # A silent upstream stream is abandoned after 120 s and retried (default 300 s).
+        streamIdleTimeoutMs: 120000
+        models:
+          - id: cx/gpt-6.1-sol
+            name: GPT 6.1 Sol
+            contextWindow: 272000
+            input: [text, image]
+            reasoningEfforts: {off: null, low: low, medium: medium, high: high, xhigh: xhigh}
+- id: agent-default-model
+  name: "@deepseek-ai/dsh-agent-default-model"
+  config:
+    provider: ninerouter
+    model: cx/gpt-6.1-sol
+    reasoningEffort: medium
+- id: credentials
+  name: "@deepseek-ai/dsh-credentials-local"
+  disabled: false

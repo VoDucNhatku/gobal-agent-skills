@@ -80,7 +80,7 @@ description: "Concept explainer for GOBAL AGENT — explains complex concepts at
 
 - `study-tutor` — full learning session following this concept
 - `knowledge-quiz` — test retention after the explanation
-- `paper-read` / `paper-method` — source paper context; usually invoked by `study-tutor` rather than research-admin directly
+- `paper-read` / `paper-read` — source paper context; usually invoked by `study-tutor` rather than admin directly
 
 ## Progressive Disclosure
 
@@ -95,7 +95,7 @@ description: "Concept explainer for GOBAL AGENT — explains complex concepts at
 - `study-tutor` → Full learning session with this concept
 - `knowledge-quiz` → Test understanding after explanation
 - `paper-read` → Source paper for research concepts
-- `paper-method` → Technical implementation details
+- `paper-read` → Technical implementation details
 
 
 ## Antigravity resource execution

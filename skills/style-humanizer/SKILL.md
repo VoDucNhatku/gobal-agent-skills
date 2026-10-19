@@ -15,7 +15,7 @@ Tốt hơn: tập trung vào **heuristic checklist** + **style calibration** (fe
 - **Burstiness cue** (local observation, không tính metric): phát hiện 5+ câu liên tiếp có cùng khoảng từ count → suggest lệch độ dài.
 - **Style calibration pass**: khi user cung cấp 3+ past papers, generate profile rồi hướng dẫn draft theo đúng fingerprint riêng.
 
-Binding: `../../rules/paper-writing-integrity.md` §4–5.
+Binding: `../_shared/rules/paper-writing-integrity.md` §4–5.
 
 ## LUẬT 0 — Bất biến bảo toàn nghĩa (meaning-preservation invariant)
 

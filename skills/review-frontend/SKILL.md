@@ -10,8 +10,8 @@ mode, applies only the high-confidence repairs surgically. The goal is to catch 
 UI and accessibility failures before ship.
 
 ## Conventions
-Binding: `../../rules/workbench-conventions.md` (bilingual §1 — report Vietnamese; preview §3;
-scope handoff §10) and `../../rules/frontend-aesthetics.md` — the audit IS its §8 slop-cluster
+Binding: `../_shared/rules/workbench-conventions.md` (bilingual §1 — report Vietnamese; preview §3;
+scope handoff §10) and `../_shared/rules/frontend-aesthetics.md` — the audit IS its §8 slop-cluster
 checklist + §1 anti-slop list + §7 quality floor + §4 WCAG floor. Read at run time; never inline. If
 a `notes/design-<slug>.md` exists, audit token-consistency AGAINST it (did the build drift from the
 locked tokens?).

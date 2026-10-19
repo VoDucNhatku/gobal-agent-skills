@@ -1,4 +1,5 @@
 ---
+disable-model-invocation: true
 name: "latex-tikz-generator"
 description: "Sinh code TikZ/Latex để vẽ diagram chuẩn Q1 (pipeline, block, attention, architecture, flow). Output là code LaTeX .tex inline, có thể compile trực tiếp. Tránh đạo văn hình ảnh vì TikZ là vector code, không có metadata. Triggers: vẽ pipeline, TikZ, system diagram, architecture diagram, flowchart, vẽ sơ đồ LaTeX, figure cho bài báo."
 allowed-tools: "Read Write Edit Glob Bash"
@@ -9,7 +10,7 @@ argument-hint: "<pipeline|architecture|attention-heatmap|training-curve>"
 
 Sinh code TikZ/Latex để vẽ figure cho bài báo Q1 IEEE. Output là `.tex` inline, compile trong LaTeX trực tiếp, không cần file ngoài.
 
-Binding: `~/.claude/rules/paper-writing-integrity.md` §2 (figures — chuẩn là ORIGINALITY,
+Binding: `../_shared/rules/paper-writing-integrity.md` §2 (figures — chuẩn là ORIGINALITY,
 không phải detectability).
 
 ## Tại sao TikZ thay vì hình raster/GUI tool

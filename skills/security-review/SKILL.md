@@ -12,10 +12,10 @@ and is distinct from [[code-senior]] `review` (general correctness). It judges/r
 design or build.
 
 ## Conventions
-Binding: `../../rules/workbench-conventions.md` (bilingual §1 — findings/identifiers English,
+Binding: `../_shared/rules/workbench-conventions.md` (bilingual §1 — findings/identifiers English,
 the chat report Vietnamese; preview-not-dump §3; fidelity §8 — every finding cites a real file:line,
 no invented vulnerabilities). For course/LMS work the server-side-authz + entitlement rules are in
-`../../rules/course-domain-model.md`. Read at run time; do not inline.
+`../_shared/rules/course-domain-model.md`. Read at run time; do not inline.
 
 ## Procedure
 

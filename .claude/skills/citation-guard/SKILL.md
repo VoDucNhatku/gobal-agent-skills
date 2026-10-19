@@ -1,4 +1,5 @@
 ---
+disable-model-invocation: true
 name: "citation-guard"
 description: "Bảo vệ trích dẫn: DOI verify, orphan in-text/reference detection, citation synthesis quality, self-citation ratio, source currency, retraction screening. Auto-correction deterministic errors; flag vấn đề cần người dùng. Triggers: check citations, citation audit, verify DOI, orphan citation, trích dẫn, kiểm tra trích dẫn, review reference list, check đạo văn trích dẫn."
 allowed-tools: "Read Write Grep Glob Bash WebFetch WebSearch"
@@ -8,7 +9,8 @@ argument-hint: "<manuscript path> [apa|chicago|mla|ieee|vancouver]"
 # Citation Guard — Trích dẫn chuyên nghiệp + đạo văn guard
 
 Kiểm tra và sửa toàn bộ citation trong draft bài báo. Binding:
-`~/.claude/rules/paper-writing-integrity.md` §1–2 (zero fabricated references, đạo văn).
+`../_shared/rules/paper-writing-integrity.md` §1–2 (zero fabricated references, đạo văn).
+LUẬT CỨNG dưới đây đã chứa §1; chỉ mở file đó khi kiểm đạo văn (§2) hoặc khi sửa bản thảo.
 
 ## LUẬT CỨNG — không bịa reference (đọc trước mọi việc khác)
 

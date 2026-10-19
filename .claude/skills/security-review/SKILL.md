@@ -1,4 +1,5 @@
 ---
+disable-model-invocation: true
 name: "security-review"
 description: "Security audit Worker — threat-models a change or surface, then scores it against the OWASP-grounded hardening rubric as binary pass/fail findings, severity-coded, each with a real file:line and a concrete fix. Theme-neutral; infers the stack. Runs STRIDE over each trust boundary (input validation, injection, auth/authz/IDOR, secrets, SSRF, headers, rate limiting, supply chain, LLM surface) plus the Always/Ask/Never check. Modes — audit (default; findings, no edits) and fix (apply only high-confidence Always-violations surgically via Edit, never a rewrite; Ask-First items flagged). Triggers — security review, security audit, kiểm tra bảo mật, đánh giá bảo mật, threat model, is this secure, có an toàn không, check for vulnerabilities, tìm lỗ hổng, OWASP, SQL injection, XSS, IDOR, SSRF, secrets in code, auth review, kiểm tra phân quyền. It judges/repairs security posture; it does NOT design or build features (use backend-engineer / build-ui) or do general correctness review (use code-senior review)."
 allowed-tools: "Read Edit Glob Grep Bash"
@@ -14,10 +15,10 @@ and is distinct from [[code-senior]] `review` (general correctness). It judges/r
 design or build.
 
 ## Conventions
-Binding: `~/.claude/rules/workbench-conventions.md` (bilingual §1 — findings/identifiers English,
+Binding: `../_shared/rules/workbench-conventions.md` (bilingual §1 — findings/identifiers English,
 the chat report Vietnamese; preview-not-dump §3; fidelity §8 — every finding cites a real file:line,
 no invented vulnerabilities). For course/LMS work the server-side-authz + entitlement rules are in
-`~/.claude/rules/course-domain-model.md`. Read at run time; do not inline.
+`../_shared/rules/course-domain-model.md`. Read at run time; do not inline.
 
 ## Procedure
 

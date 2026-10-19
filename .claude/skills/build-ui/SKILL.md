@@ -1,4 +1,5 @@
 ---
+disable-model-invocation: true
 name: "build-ui"
 description: "Builds accessible, on-brand front-end code against the project's own stack, then proves it renders — screenshot it, look at it, measure the contrast of what shipped. Uses a design record when one exists; when none does, reads the tokens already in the project rather than stopping, and only asks when there is genuinely nothing to build on. Modes — component (one accessible component on the locked tokens), page (a surface composed of components), admin (role-gated CRUD shell with SERVER-SIDE authorization), scaffold (a theme-neutral project skeleton). Triggers — dựng component, build the component, build the page, code the UI, dựng giao diện, làm trang admin, admin dashboard, CRUD dashboard, dựng khung dự án, scaffold the project, implement the design, sửa giao diện. It BUILDS and verifies; it does not decide the look (design-web) or audit an existing site (review-frontend)."
 allowed-tools: "Read Edit Write Glob Grep Bash"
@@ -12,10 +13,10 @@ Theme-neutral: the stack (Next/React+Tailwind, Vue, Vite+TS, plain HTML/CSS, …
 project, never assumed.
 
 ## Conventions
-Binding: `~/.claude/rules/workbench-conventions.md` (bilingual §1 — code English, report Vietnamese;
-preview-not-dump §3; scope handoff §10) and `~/.claude/rules/frontend-aesthetics.md` (quality floor §7
+Binding: `../_shared/rules/workbench-conventions.md` (bilingual §1 — code English, report Vietnamese;
+preview-not-dump §3; scope handoff §10) and `../_shared/rules/frontend-aesthetics.md` (quality floor §7
 — responsive, focus-visible, every state, reduced-motion; server-side authorization). The component
-catalog is in `references/component-catalog.md`, read on demand. `~/.claude/rules/course-domain-model.md`
+catalog is in `references/component-catalog.md`, read on demand. `../_shared/rules/course-domain-model.md`
 applies ONLY when the project really is a course/LMS — its authorization rules are universal, its
 entities are not.
 

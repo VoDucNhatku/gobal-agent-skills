@@ -1,4 +1,5 @@
 ---
+disable-model-invocation: true
 name: "design-web"
 description: "Decides the visual direction for a web surface AND verifies it by rendering, screenshotting and measuring — because in practice nearly every real defect is caught by looking, not by thinking harder. Grounds in the subject's own world, asks 2-3 blocking questions, commits ONE decisive token system, then renders the surface, LOOKS at the screenshot, and computes every contrast ratio with scripts/contrast.py before calling it done. Adapts to the target: a standalone surface previews as a self-contained HTML Artifact; a real project is designed in the project's own stack, with no Artifact detour. Modes — direction (default), learn (extract a reference's design architecture, never its skin), content-site, directions N. Triggers — thiết kế web, design a web page, thiết kế giao diện, làm landing page, hướng thiết kế, bảng màu font, palette typography, học style từ web này, knowledge microsite, design a UI, giao diện xấu quá, làm đẹp giao diện, nhìn như AI."
 allowed-tools: "Read Write Edit WebFetch Glob Grep Bash AskUserQuestion"
@@ -26,8 +27,8 @@ nine real defects. Where they were caught:
 Deciding well is cheap and mostly goes right. Seeing what you actually shipped is the work.
 
 ## Conventions
-Binding: `~/.claude/rules/workbench-conventions.md` (bilingual §1 — prose Vietnamese, tokens/CSS/
-identifiers English; preview-not-dump §3) and `~/.claude/rules/frontend-aesthetics.md` (anti-slop §1,
+Binding: `../_shared/rules/workbench-conventions.md` (bilingual §1 — prose Vietnamese, tokens/CSS/
+identifiers English; preview-not-dump §3) and `../_shared/rules/frontend-aesthetics.md` (anti-slop §1,
 grounding §2, type §3, colour §4, motion §5, writing §6, quality floor §7, slop clusters §8, one
 decisive direction §9). Read at run time; never inline.
 

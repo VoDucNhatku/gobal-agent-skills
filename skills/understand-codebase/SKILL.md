@@ -11,7 +11,7 @@ Token-bounded by design: file discovery precedes targeted symbol searches and ra
 (Distinct from `knowledge-graph`, which graphs a research paper, not source code.)
 
 ## Conventions
-Binding: `../../rules/workbench-conventions.md` (bilingual §1 — graph labels/identifiers English,
+Binding: `../_shared/rules/workbench-conventions.md` (bilingual §1 — graph labels/identifiers English,
 report Vietnamese; output + preview §3; reuse-before-read §4; strategic reading §6; script-offloading
 §9; scope handoff §10). Read at run time; never inline.
 

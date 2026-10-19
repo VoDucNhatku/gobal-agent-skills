@@ -1,4 +1,5 @@
 ---
+disable-model-invocation: true
 name: "self-evaluator"
 description: "Self-evaluation for GOBAL AGENT — checks output quality before delivery. Verifies completeness, accuracy, token efficiency, and hallucination risk. Modes — evaluate (full check), quick-check (fast pass/fail), post-mortem (analyze past failures). It evaluates; it does NOT fix issues (that's the producing skill's job). Triggers — tự đánh giá, kiểm tra trước khi giao, output ổn chưa, self-check, rà lại kết quả."
 allowed-tools: "Read Bash Glob"
@@ -31,7 +32,7 @@ argument-hint: "[evaluate|quick-check|post-mortem]"
 - [ ] Code tested and verified (not "should work")?
 - [ ] Quantitative results match source exactly?
 - [ ] Cross-source claims attributed to specific source?
-- [ ] Venue/novelty claims graded (tier + band + điều kiện, Venue Claim Card) per `~/.claude/rules/research-proposal-integrity.md`?
+- [ ] Venue/novelty claims graded (tier + band + điều kiện, Venue Claim Card) per `../_shared/research-integrity.md`?
 - [ ] Claims consistent with `notes/claims-ledger.md` — any change declared via REVISION protocol (no silent recalibration)?
 - [ ] Every equation in a proposal carries a provenance tag ([cited]/[derived]/[design])?
 
@@ -119,7 +120,7 @@ Analyze a past failure:
 ## Integration
 
 - `admin` → Runs evaluate before delivering multi-step outputs
-- `paper-read` / `paper-method` → Fidelity dimension checks source adherence
+- `paper-read` / `paper-read` → Fidelity dimension checks source adherence
 - `code-senior` → Accuracy dimension checks code correctness
-- `hallucination-guard` → Hallucination dimension (shared checks)
-- `audit-log` → Post-mortem findings feed into correction entries
+- `evidence-check` → Hallucination dimension (shared checks)
+- `research-memory` → Post-mortem findings feed into correction entries

@@ -1,4 +1,5 @@
 ---
+disable-model-invocation: true
 name: "latex-fix"
 description: "Repairs math in notes/ artifacts so it renders on BOTH VS Code (KaTeX) and GitHub (MathJax). Runs a bundled linter that flags only the offending spans — plain-text math (L_total, ||x||, theta, argmin), wrong delimiters (\\[...\\], \\(...\\), ```math fences), and KaTeX-fragile macros (\\tag, \\label, \\ref, \\boldsymbol, \\operatorname) — then fixes only those spans in place, leaving prose and Mermaid untouched. Output prose is Vietnamese; the fix-log is a compact table. Triggers — fix LaTeX, sửa LaTeX, fix the math, sửa công thức, latex render broken, công thức không hiện, fix \\tag, fix delimiters, sửa delimiter, make math render on GitHub, KaTeX MathJax, fix all notes math. Repairs existing math formatting only; it does NOT author analysis (use paper-method / paper-read) or translate (use vi-translate). Absorbs the deprecated latex-math-renderer skill (engine-selection context lives here)."
 allowed-tools: "Skill Agent Read Write Glob Bash"
@@ -12,9 +13,9 @@ and MathJax (GitHub) so a single `$$` block never silently breaks on one engine.
 the flagged spans** — never re-renders or rewrites the surrounding prose.
 
 ## Conventions
-This skill treats `~/.claude/rules/workbench-conventions.md` as binding (input resolution §2,
+This skill treats `../_shared/rules/workbench-conventions.md` as binding (input resolution §2,
 output + preview-not-dump §3, script-offloading §9, scope handoff §10) and
-`~/.claude/rules/latex-katex-compat.md` as the authoritative compatibility table — **reference
+`../_shared/rules/latex-katex-compat.md` as the authoritative compatibility table — **reference
 it, never inline it**. Human-facing prose (the fix-log preview) is Vietnamese.
 
 ## Engine context (absorbed from latex-math-renderer)
@@ -94,5 +95,5 @@ only; no separate file is written (this is a repair mode).
   files.
 - **Stay in scope (§10).** This skill repairs math formatting. It does not write analysis or
   translate:
-  - `→ dùng paper-method / paper-read cho` việc viết phân tích.
+  - `→ dùng paper-read / paper-read cho` việc viết phân tích.
   - `→ dùng vi-translate cho` dịch thuật.

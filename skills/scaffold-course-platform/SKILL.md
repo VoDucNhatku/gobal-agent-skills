@@ -5,11 +5,11 @@ description: "Scaffolds a course-selling LMS platform. Modes: scaffold. Reads st
 
 # Scaffold Course Platform — Scaffold Reference
 
-> **Purpose:** Provide the reference stack matrix and scaffold rules for a course-selling platform used by `code-admin`. Act as the registry-resolved entrypoint; the canonical defaults live in `references/`.
+> **Purpose:** Provide the reference stack matrix and scaffold rules for a course-selling platform used by `admin`. Act as the registry-resolved entrypoint; the canonical defaults live in `references/`.
 
 ## Role
 
-This skill does not build the entire platform alone. It is the gatekeeper that `code-admin` and `build-ui` consult before writing any project file. The heavy design and content scaffolding is delegated via fan-out to `design-web`, `build-ui`, and `build-admin-dashboard`.
+This skill does not build the entire platform alone. It is the gatekeeper that `admin` and `build-ui` consult before writing any project file. The heavy design and content scaffolding is delegated via fan-out to `design-web`, `build-ui`, and `build-admin-dashboard`.
 
 ## Modes
 
@@ -21,7 +21,7 @@ This skill does not build the entire platform alone. It is the gatekeeper that `
 
 ## Procedure
 
-1. Read `references/stack-matrix.md` for the approved layer choices (frontend, backend, database, auth, payments, storage). If a layer is intentionally overridden, record it in `audit-log` before continuing.
+1. Read `references/stack-matrix.md` for the approved layer choices (frontend, backend, database, auth, payments, storage). If a layer is intentionally overridden, record it in `research-memory` before continuing.
 2. For `scaffold` mode, produce: directory map, framework-specific init commands, environment variable stub, and a `README.md` mapping each layer.
 3. Keep domain model guidance aligned with `course-domain-model.md`; do not introduce entity shapes that diverge from the authorized schema.
 4. For payments, default to the approved provider (Stripe or LemonSqueezy) and require server-side webhook verification — never gate access on a client-side role.
@@ -53,10 +53,10 @@ For every webhook route, add a TODO comment where the signature verification bel
 
 ## Integration
 
-- `code-admin` — primary caller
+- `admin` — primary caller
 - `design-web` / `build-ui` — branding and components
 - `build-admin-dashboard` — admin shell
-- `audit-log` — record stack decisions
+- `research-memory` — record stack decisions
 - `token-budget` — estimate cost before spawning subagents
 
 

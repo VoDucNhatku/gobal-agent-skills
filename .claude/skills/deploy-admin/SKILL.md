@@ -1,4 +1,5 @@
 ---
+disable-model-invocation: true
 name: "deploy-admin"
 description: "Deploy admin for GOBAL AGENT — coordinates deployment pipeline: validate → ship → monitor → rollback. Modes: ship (pre-ship validation + deploy), monitor (setup monitoring), rollback (emergency rollback), canary (staged rollout). It coordinates; it does NOT execute deploy commands directly. Triggers — deploy, triển khai, ship lên production, canary, rollback, quy trình phát hành."
 allowed-tools: "Skill Read Write Bash Glob"
@@ -125,10 +126,10 @@ Rollback available if needed
 | "Setup monitoring" | monitor-setup | — |
 | "Rollback deployment" | rollback-manager | monitor-setup |
 | "Pre-ship check" | ship-validator | code-reviewer, security-review |
-| "Chạy trên Modal / VRAM estimate" | run-on-modal | — |
+| "Chạy trên Modal / VRAM estimate" | experiment | — |
 
 ## Mode: modal-gpu
-1. Run run-on-modal to estimate VRAM and generate Modal app
+1. Run experiment to estimate VRAM and generate Modal app
 2. Review cost estimate with user
 3. Deploy function to Modal
 

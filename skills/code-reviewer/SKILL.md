@@ -158,7 +158,7 @@ description: "Code reviewer for GOBAL AGENT — performs 6-axis code review with
 ## Cross-References
 
 - `code-senior` → Code quality standards
-- `debug-investigator` → Debug issues found during review
+- `code-senior` → Debug issues found during review
 - `tdd-enforcer` → Review test quality
 - `security-review` → Deep security review
 - `superpowers (requesting-code-review)` → When and how to request review

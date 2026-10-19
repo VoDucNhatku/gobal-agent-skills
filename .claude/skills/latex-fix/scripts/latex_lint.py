@@ -3,7 +3,7 @@
 BOTH KaTeX (VS Code) and MathJax (GitHub). Called by the `latex-fix` skill
 (script-offloading, workbench-conventions §9): the skill runs this to locate the
 offending spans, then fixes ONLY those spans by hand against
-~/.claude/rules/latex-katex-compat.md. This script does not edit files — it reports.
+../../_shared/rules/latex-katex-compat.md. This script does not edit files — it reports.
 
 Usage:
     python latex_lint.py <file-or-glob> [<file-or-glob> ...]

@@ -123,10 +123,10 @@ Rollback available if needed
 | "Setup monitoring" | monitor-setup | — |
 | "Rollback deployment" | rollback-manager | monitor-setup |
 | "Pre-ship check" | ship-validator | code-reviewer, security-review |
-| "Chạy trên Modal / VRAM estimate" | run-on-modal | — |
+| "Chạy trên Modal / VRAM estimate" | experiment | — |
 
 ## Mode: modal-gpu
-1. Run run-on-modal to estimate VRAM and generate Modal app
+1. Run experiment to estimate VRAM and generate Modal app
 2. Review cost estimate with user
 3. Deploy function to Modal
 

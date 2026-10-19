@@ -1,7 +1,7 @@
 # Course Platform Stack Matrix
 
 Approved tech stack defaults per layer for the scaffold-course-platform skill.
-Read this file; override any layer deliberately and record in audit-log.
+Read this file; override any layer deliberately and record in research-memory.
 
 ## Full Stack Default
 
@@ -21,7 +21,7 @@ Read this file; override any layer deliberately and record in audit-log.
 
 ## Override Record
 
-If an intentional override is made, log it in audit-log before continuing.
+If an intentional override is made, log it in research-memory before continuing.
 | Layer | Override | Reason |
 |-------|----------|--------|
 | (none yet) | | |

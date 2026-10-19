@@ -24,8 +24,8 @@ nine real defects. Where they were caught:
 Deciding well is cheap and mostly goes right. Seeing what you actually shipped is the work.
 
 ## Conventions
-Binding: `../../rules/workbench-conventions.md` (bilingual §1 — prose Vietnamese, tokens/CSS/
-identifiers English; preview-not-dump §3) and `../../rules/frontend-aesthetics.md` (anti-slop §1,
+Binding: `../_shared/rules/workbench-conventions.md` (bilingual §1 — prose Vietnamese, tokens/CSS/
+identifiers English; preview-not-dump §3) and `../_shared/rules/frontend-aesthetics.md` (anti-slop §1,
 grounding §2, type §3, colour §4, motion §5, writing §6, quality floor §7, slop clusters §8, one
 decisive direction §9). Read at run time; never inline.
 

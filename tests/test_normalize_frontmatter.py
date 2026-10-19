@@ -253,7 +253,8 @@ class NormalizeFrontmatterTests(unittest.TestCase):
 
     def test_complete_repository_round_trip_is_byte_idempotent(self):
         skill_paths = sorted(SKILLS_ROOT.rglob("SKILL.md"))
-        self.assertEqual(len(skill_paths), 69)
+        inventory = (REPO_ROOT / "config/antigravity-skills.txt").read_text(encoding="utf-8").splitlines()
+        self.assertEqual(sorted(path.parent.name for path in skill_paths), inventory)
 
         with tempfile.TemporaryDirectory() as temp_dir:
             temp_root = Path(temp_dir)

@@ -1,4 +1,5 @@
 ---
+disable-model-invocation: true
 name: "claim-forge"
 description: "Turns an ARGUMENT-bearing document (economics paper, social-science paper, management/law text, policy report, book chapter) into a print-quality critical-reading handbook — every card is ONE falsifiable claim, with its source, argument chain, evidence tier, load-bearing assumptions, the strongest counter-reading, and what would refute it. Ends with a one-page claim ledger. Exports PDF. Modes — paper (single document), theme (multiple sources on one topic), audit (self-review a draft). Triggers — đọc phê phán, sổ tay lập luận, bài này lập luận thế nào, bằng chứng có đủ không, giả định nào gánh, phản biện bài báo, paper kinh tế, khoa học xã hội, làm sổ tay cho paper không có code, critical reading handbook, claim ledger. It GENERATES a printable handbook for argument-bearing documents; a document with formulas/code uses study-forge instead; a single-pass Markdown analysis note uses paper-read mode think; a harsh Q1-standard rebuttal uses ieee-q1-devil-advocate."
 allowed-tools: "Read Write Edit Glob Grep Bash PowerShell WebSearch WebFetch Skill"
@@ -13,9 +14,9 @@ argument-hint: "<đường dẫn tài liệu | chủ đề> [paper|theme|audit]"
 > **Nguyên nhân gốc:** khung của `study-forge` hỏi *"cái này tính ra gì?"*.
 > Tài liệu lập luận phải hỏi *"cái này có thể sai ở đâu?"*.
 
-Đọc `~/.claude/rules/workbench-conventions.md` (song ngữ, preview-not-dump,
-script-offloading), `~/.claude/rules/paper-writing-integrity.md` (§1 không bịa trích dẫn,
-§4 bảo toàn độ mạnh khẳng định) và `~/.claude/rules/research-proposal-integrity.md`
+Đọc `../_shared/rules/workbench-conventions.md` (song ngữ, preview-not-dump,
+script-offloading), `../_shared/rules/paper-writing-integrity.md` (§1 không bịa trích dẫn,
+§4 bảo toàn độ mạnh khẳng định) và `../_shared/research-integrity.md`
 (§4 nhãn nguồn gốc, §6 khẳng định đánh giá là khẳng định quét được).
 
 **Câu mở đầu:** "Tôi dùng skill claim-forge để dựng sổ tay đọc phê phán này."
@@ -173,11 +174,11 @@ ngờ)? Ô 07 có phải là quan sát thật kiểm được không, hay chỉ 
 | Phản biện gắt theo chuẩn Q1, novelty + ablation | `ieee-q1-devil-advocate` |
 | So sánh nhiều bài, dựng taxonomy, tìm khoảng trống | `paper-synthesize` |
 | Kiểm trích dẫn, DOI, đạo văn | `citation-guard` |
-| Quét khẳng định bịa trong output | `hallucination-guard` |
+| Quét khẳng định bịa trong output | `evidence-check` |
 
 Khác biệt với `paper-read think`: bên kia là **ghi chú phân tích Markdown một lượt** cho
 người nghiên cứu quyết định. Bên này là **sổ tay in để học lâu dài**, có máy móc ghi nhớ
-(5 câu tự kiểm tra mỗi thẻ) và sổ khẳng định để ôn. Cùng quan hệ như `paper-method` với
+(5 câu tự kiểm tra mỗi thẻ) và sổ khẳng định để ôn. Cùng quan hệ như `paper-read` với
 `study-forge`: một bên mổ xẻ, một bên dạy.
 
 ---

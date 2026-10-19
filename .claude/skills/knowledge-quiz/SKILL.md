@@ -1,4 +1,5 @@
 ---
+disable-model-invocation: true
 name: "knowledge-quiz"
 description: "Knowledge quiz for GOBAL AGENT — generates and administers rigorous quizzes from knowledge graph, notes, or any source material. Tests understanding, not rote memorization. Modes — generate (create quiz), administer (one question at a time), review (analyze results). It quizzes; it does NOT tutor (use study-tutor for guided learning). Triggers — tạo quiz, ra đề, kiểm tra kiến thức, test tôi, ôn tập, câu hỏi trắc nghiệm."
 allowed-tools: "Read Write Bash Glob"

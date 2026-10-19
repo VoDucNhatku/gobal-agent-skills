@@ -1,6 +1,6 @@
 ---
 name: "vi-translate"
-description: "Faithful, complete academic translation of a passage, section, or whole paper — preserves technical terms inline and appends a glossary. Default target is Vietnamese; --to <lang> overrides the target language. Translates the source fully and accurately; it does NOT summarize, condense, or critique. Triggers — translate, dịch, dịch bài báo, dịch sang tiếng Việt, dịch đoạn này, translate paper to Vietnamese, translate this passage, translate section, dịch toàn bộ, dịch nguyên văn, or any pasted block of foreign-language text the user wants rendered in another language. Use when the user wants the actual text in another language (full fidelity, nothing dropped). For a condensed read or section-by-section gist use paper-read; for deep method analysis use paper-method."
+description: "Faithful, complete academic translation of a passage, section, or whole paper — preserves technical terms inline and appends a glossary. Default target is Vietnamese; --to <lang> overrides the target language. Translates the source fully and accurately; it does NOT summarize, condense, or critique. Triggers — translate, dịch, dịch bài báo, dịch sang tiếng Việt, dịch đoạn này, translate paper to Vietnamese, translate this passage, translate section, dịch toàn bộ, dịch nguyên văn, or any pasted block of foreign-language text the user wants rendered in another language. Use when the user wants the actual text in another language (full fidelity, nothing dropped). For a condensed read or section-by-section gist use paper-read; for deep method analysis use paper-read."
 ---
 
 # vi-translate — faithful academic translation (dịch học thuật trung thành)
@@ -11,7 +11,7 @@ recoverable and the original structure intact. This skill **translates, it does 
 summarize** — nothing in the source is dropped, merged, or paraphrased away.
 
 ## Conventions
-This skill treats `../../rules/workbench-conventions.md` as binding (bilingual
+This skill treats `../_shared/rules/workbench-conventions.md` as binding (bilingual
 policy §1, input resolution §2, PREVIEW-NOT-DUMP §3, reuse §4, stable naming §5,
 strategic/ranged reading §6, single-pass scope §10). It pulls no satellite rules
 file. One deviation from the master §1 bilingual policy: here the **target language
@@ -123,7 +123,7 @@ Trích (tiêu đề/abstract đã dịch): "<1–2 câu>"
   section-by-section read or an intuition pass, hand off: `→ dùng skill paper-read`
   (`gist`/`summary`/`eli5`). Do not silently shorten the source here.
 - **Single-pass, single source (§10).** Translate one source per invocation. Do not
-  wander into method critique (`→ paper-method`) or cross-paper comparison
+  wander into method critique (`→ paper-read`) or cross-paper comparison
   (`→ paper-synthesize`).
 - **Don't translate code-y identifiers.** Library / API / function / dataset / model
   / metric names and CLI flags stay verbatim; only natural-language prose is
