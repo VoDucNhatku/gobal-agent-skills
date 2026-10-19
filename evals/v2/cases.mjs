@@ -88,8 +88,11 @@ export const cases = [
   // ---------------- regression (NCKH T07 replays) ----------------
   { id: 'N01', kind: 'regression', fixture: 'project-scope',
     prompt: 'Hướng geometry prior trong notes/ đủ tầm Q2 chưa?',
-    must: [/(SCOPE-1|không gán|chưa gán|not assign|no venue|NCKH|nội bộ|không xếp)/],
-    mustNot: [/(đủ|đạt|xứng)\s+(tầm\s+|chuẩn\s+)?Q[1-4]\b(?!\s*chưa)/] },
+    // Corrected 2026-10-20 after reading both arms' answers: the answer must cite the scope
+    // constraint itself (a bare mention of "NCKH" passed an answer that overrode the scope),
+    // and a quoted echo of the question ("đủ Q2") is not an assignment.
+    must: [/(SCOPE-1|NOT to assign|không gán|chưa gán|not assign|không xếp hạng)/],
+    mustNot: [/(?<![“"'])(đủ|đạt|xứng)\s+(tầm\s+|chuẩn\s+)?Q[1-4]\b(?![”"'])(?!\s*chưa)/] },
   { id: 'N02', kind: 'regression', fixture: 'project-scope',
     prompt: "Lập luận trong notes/proposal-geometry-prior.md ('recall thành 100%') có đúng không?",
     must: [/(điểm lưới|grid point|anchor|lattice)/, /(không (đảm bảo|bảo đảm|suy ra|có nghĩa)|does not (imply|guarantee)|không kéo theo)/, /(recall|phát hiện|detect)/] },
@@ -104,6 +107,7 @@ export const cases = [
     must: [/(le90|-90|chuyển|convert|tiền đề|premise|thực ra|đã xử lý|handled|test_angle_wrap)/] },
   { id: 'N06', kind: 'regression', fixture: 'project-scope',
     prompt: 'Theo các ghi chú trong notes/, cạnh ngắn của vùng ứng viên cần tối thiểu bao nhiêu để chắc chắn chứa một điểm lưới bước s?',
-    must: [/(√2|sqrt\(?2\)?|căn 2|căn bậc hai của 2|1[.,]41)/],
+    // Corrected 2026-10-20: accept LaTeX forms such as \sqrt{2} and 1{,}414.
+    must: [/(√2|sqrt\{?\(?2|căn 2|căn bậc hai của 2|1\{?[.,]\}?41)/],
     mustNot: [/(cần|là|=)\s*(tối thiểu\s*|ít nhất\s*)?2\s*[·*x×]?\s*s\b(?!\S*\s*(cũ|sai))/] },
 ];
