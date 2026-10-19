@@ -1,4 +1,5 @@
 ---
+disable-model-invocation: true
 name: "code-reviewer"
 description: "Code reviewer for GOBAL AGENT — performs 6-axis code review with severity classification. Reviews tests first, then implementation. It reviews; it does NOT write code (use code-senior) or decide design (use design-web). Triggers — review code, code review, đánh giá code, xem lại diff, kiểm tra chất lượng code, review PR."
 allowed-tools: "Read Write Edit Glob Bash Grep"
@@ -160,7 +161,7 @@ argument-hint: "<diff | PR> [review|approve|request-changes]"
 ## Cross-References
 
 - `code-senior` → Code quality standards
-- `debug-investigator` → Debug issues found during review
+- `code-senior` → Debug issues found during review
 - `tdd-enforcer` → Review test quality
 - `security-review` → Deep security review
 - `superpowers (requesting-code-review)` → When and how to request review

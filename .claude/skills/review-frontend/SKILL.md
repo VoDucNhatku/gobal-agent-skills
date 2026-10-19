@@ -1,4 +1,5 @@
 ---
+disable-model-invocation: true
 name: "review-frontend"
 description: "Front-end audit Worker — scores a web surface against the anti-slop, accessibility, and token-consistency rubric, as binary pass/fail findings, then optionally fixes the high-confidence ones surgically. Runs the slop-cluster checklist (type, color, layout, components, icons, a11y/WCAG, copy, not-a-default-cluster) plus the quality floor (focus-visible, all states, responsive, reduced-motion). Modes — audit (default; pass/fail findings, severity-coded, no edits) and fix (apply only the high-confidence findings via surgical Edit, never a rewrite). Triggers — review the frontend, review the UI, đánh giá giao diện, kiểm tra UI, check for AI slop, chấm slop, a11y audit, kiểm tra accessibility, is this accessible, token consistency, design QA, audit the design. It judges/repairs an existing surface; it does NOT decide the look (use design-web) or build new components (use build-ui)."
 allowed-tools: "Read Edit Glob Grep WebFetch Bash"
@@ -12,8 +13,8 @@ mode, applies only the high-confidence repairs surgically. The goal is to catch 
 UI and accessibility failures before ship.
 
 ## Conventions
-Binding: `~/.claude/rules/workbench-conventions.md` (bilingual §1 — report Vietnamese; preview §3;
-scope handoff §10) and `~/.claude/rules/frontend-aesthetics.md` — the audit IS its §8 slop-cluster
+Binding: `../_shared/rules/workbench-conventions.md` (bilingual §1 — report Vietnamese; preview §3;
+scope handoff §10) and `../_shared/rules/frontend-aesthetics.md` — the audit IS its §8 slop-cluster
 checklist + §1 anti-slop list + §7 quality floor + §4 WCAG floor. Read at run time; never inline. If
 a `notes/design-<slug>.md` exists, audit token-consistency AGAINST it (did the build drift from the
 locked tokens?).

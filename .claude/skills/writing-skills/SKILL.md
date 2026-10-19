@@ -1,4 +1,5 @@
 ---
+disable-model-invocation: true
 name: "writing-skills"
 description: "Writing skills for GOBAL AGENT — meta skill for creating new GOBAL skills following progressive disclosure, token economy, and provenance rules. Use when creating a new skill for the GOBAL ecosystem."
 allowed-tools: "Read Write Bash Glob WebSearch WebFetch"
@@ -165,5 +166,5 @@ Before saving a new skill:
 
 - `brainstorming` → Design before creating skill
 - `writing-plans` → Plan skill implementation
-- `artifact-manager` → Register new skill in INDEX.md
-- `artifact-manager` → Track skill outputs and reuse (mode `reuse`)
+- `research-memory` → Register new skill in INDEX.md
+- `research-memory` → Track skill outputs and reuse (mode `recall` / `index`)

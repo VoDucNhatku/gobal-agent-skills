@@ -23,7 +23,7 @@ Gọi **`admin`** cho mọi thứ — nó tự chọn nhánh rẻ nhất:
 |---|---|---|
 | Hỏi nhanh · tra cứu · đọc 1 file | `admin` trả lời thẳng | ~1.4k tok |
 | Đúng 1 skill phủ được | `admin` gọi thẳng skill đó | + skill |
-| Nhiều bước, 1 domain | `research-admin` · `code-admin` · `web-admin` · `deploy-admin` | + sub-admin |
+| Nhiều bước, 1 domain | `admin` · `admin` · `web-admin` · `deploy-admin` | + sub-admin |
 | Đa domain hoặc chạy song song | `admin` đọc `dispatch-protocol.md` → Phase 0–6 | + ~3.9k tok |
 
 Hoặc gõ thẳng tên skill khi đã biết mình cần gì: `/paper-read 003 summary`,
@@ -46,13 +46,13 @@ Cộng với progressive disclosure 3 tầng: metadata (~120 tok/skill, luôn n�
 
 ## Rules dùng chung (đọc lúc chạy, cite một dòng — không inline)
 
-- `~/.claude/rules/workbench-conventions.md` — song ngữ, output + preview, reuse, fidelity,
+- `_shared/rules/workbench-conventions.md` — song ngữ, output + preview, reuse, fidelity,
   mode-scaling, script-offloading, scope handoff
-- `~/.claude/rules/latex-katex-compat.md` — bảng tương thích KaTeX/MathJax
-- `~/.claude/rules/research-proposal-integrity.md` — novelty tier, Venue Claim Card, claims ledger
-- `~/.claude/rules/paper-writing-integrity.md` — zero fabricated refs, chuỗi viết bản thảo
-- `~/.claude/rules/frontend-aesthetics.md` — anti-slop, motion budget
-- `~/.claude/rules/course-domain-model.md` — domain model LMS
+- `_shared/rules/latex-katex-compat.md` — bảng tương thích KaTeX/MathJax
+- `_shared/research-integrity.md` — novelty tier, Venue Claim Card, claims ledger
+- `_shared/rules/paper-writing-integrity.md` — zero fabricated refs, chuỗi viết bản thảo
+- `_shared/rules/frontend-aesthetics.md` — anti-slop, motion budget
+- `_shared/rules/course-domain-model.md` — domain model LMS
 
 ---
 

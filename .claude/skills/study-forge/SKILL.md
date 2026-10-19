@@ -1,6 +1,7 @@
 ---
+disable-model-invocation: true
 name: "study-forge"
-description: "Turns a study document (course slides, PDF, book chapter, notes) OR a code snippet pulled from a project into a print-quality study handbook — every formula/function gets a fixed 10-cell card, with a real pgfplots graph, a TikZ flowchart, meaningful symbol coloring, and a self-check cell. Exports PDF (primary), Markdown (quick read), HTML (web view). Modes — formula, code, course (whole document set), refit (redesign an existing handbook). Triggers — làm sổ tay, tạo template học, học công thức này, giải thích đoạn code này, làm tài liệu ôn tập, sổ tay toán, cheat sheet có giải thích, biến slide thành sổ tay, study handbook, explain this code as a handbook, làm cho dễ hiểu, template học tập. It GENERATES a printable artifact; it does NOT tutor interactively (use study-tutor), explain one concept in chat (use concept-explainer), analyze a paper's method (use paper-method), or fix math rendering (use latex-fix)."
+description: "Turns a study document (course slides, PDF, book chapter, notes) OR a code snippet pulled from a project into a print-quality study handbook — every formula/function gets a fixed 10-cell card, with a real pgfplots graph, a TikZ flowchart, meaningful symbol coloring, and a self-check cell. Exports PDF (primary), Markdown (quick read), HTML (web view). Modes — formula, code, course (whole document set), refit (redesign an existing handbook). Triggers — làm sổ tay, tạo template học, học công thức này, giải thích đoạn code này, làm tài liệu ôn tập, sổ tay toán, cheat sheet có giải thích, biến slide thành sổ tay, study handbook, explain this code as a handbook, làm cho dễ hiểu, template học tập. It GENERATES a printable artifact; it does NOT tutor interactively (use study-tutor), explain one concept in chat (use concept-explainer), analyze a paper's method (use paper-read), or fix math rendering (use latex-fix)."
 allowed-tools: "Read Write Edit Glob Grep Bash PowerShell Skill"
 argument-hint: "<nguồn: đường dẫn | đoạn code | chủ đề> [formula|code|course|refit] [--format pdf|md|html|all]"
 ---
@@ -12,8 +13,8 @@ argument-hint: "<nguồn: đường dẫn | đoạn code | chủ đề> [formula
 > **Mục đích:** biến tài liệu học hoặc code thành sổ tay in được, nơi mỗi công thức và
 > mỗi hàm đều bị mổ xẻ theo cùng một giao thức 10 ô.
 
-Đọc `~/.claude/rules/workbench-conventions.md` (song ngữ, preview-not-dump, script-offloading)
-và `~/.claude/rules/latex-katex-compat.md` khi xuất Markdown.
+Đọc `../_shared/rules/workbench-conventions.md` (song ngữ, preview-not-dump, script-offloading)
+và `../_shared/rules/latex-katex-compat.md` khi xuất Markdown.
 
 **Câu mở đầu:** "Tôi dùng skill study-forge để dựng sổ tay này."
 
@@ -248,7 +249,7 @@ Code, comment trong code, và nhãn `twin.src` viết bằng **tiếng Anh ASCII
 | **Tài liệu LẬP LUẬN không có công thức/code** (kinh tế, khoa học xã hội, luật) | **`claim-forge`** |
 | Dạy tương tác, hỏi đáp qua lại | `study-tutor` |
 | Giải thích một khái niệm trong chat, không cần file | `concept-explainer` |
-| Phân tích method/toán của một paper | `paper-method` |
+| Phân tích method/toán của một paper | `paper-read` |
 | Ra đề kiểm tra từ knowledge graph | `knowledge-quiz` |
 | Sửa công thức không render | `latex-fix` |
 | Vẽ figure cho bài báo Q1 | `latex-tikz-generator` |

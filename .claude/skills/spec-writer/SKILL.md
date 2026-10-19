@@ -1,4 +1,5 @@
 ---
+disable-model-invocation: true
 name: "spec-writer"
 description: "Specification writer for GOBAL AGENT — writes detailed implementation specs before any code is written. Gated workflow with human review at each gate. Modes: specify (write spec), plan (break into tasks), tasks (detailed task list). It writes specs; it does NOT implement (use code-senior). Triggers — viết spec, tài liệu yêu cầu, requirement, đặc tả, chia nhỏ task."
 allowed-tools: "Read Write Glob Bash WebSearch WebFetch"

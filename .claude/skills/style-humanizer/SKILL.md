@@ -1,4 +1,5 @@
 ---
+disable-model-invocation: true
 name: "style-humanizer"
 description: "Giảm đánh dấu AI-generated text qua heuristic checklist + style calibration. Không dùng perplexity/burstiness metric loop (tool ngoài không có API chuẩn). Áp dụng: kiểm tra burstiness, em dash, throat-cleaning openers, paragraph length variance, synonym cycling, AI-typical term filter. Triggers: humanize, giảm AI, AI checker, burstiness, paragraph variance, writing quality check, qua AI detector, giấu AI, chống AI detect."
 allowed-tools: "Read Write Edit Grep Glob"
@@ -17,7 +18,7 @@ Tốt hơn: tập trung vào **heuristic checklist** + **style calibration** (fe
 - **Burstiness cue** (local observation, không tính metric): phát hiện 5+ câu liên tiếp có cùng khoảng từ count → suggest lệch độ dài.
 - **Style calibration pass**: khi user cung cấp 3+ past papers, generate profile rồi hướng dẫn draft theo đúng fingerprint riêng.
 
-Binding: `~/.claude/rules/paper-writing-integrity.md` §4–5.
+Binding: `../_shared/rules/paper-writing-integrity.md` §4–5.
 
 ## LUẬT 0 — Bất biến bảo toàn nghĩa (meaning-preservation invariant)
 

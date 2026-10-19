@@ -1,4 +1,5 @@
 ---
+disable-model-invocation: true
 name: "tdd-enforcer"
 description: "TDD enforcer for GOBAL AGENT — enforces strict Test-Driven Development with vertical slices. Pipeline: RED (write failing test) → GREEN (minimal code to pass) → REFACTOR (clean up). One test at a time. Modes: enforce (full TDD cycle for new code), slice (vertical slice TDD), retrofit (add tests to existing code), bugfix (Prove-It Pattern). It enforces TDD; it does NOT write production code without tests first. Triggers — TDD, viết test trước, red green refactor, thêm test, test coverage, retrofit test."
 allowed-tools: "Read Write Edit Glob Bash"
@@ -256,7 +257,7 @@ Unit tests alone aren't enough for UI.
 ## Cross-References
 
 - `code-senior` → Code quality and implementation patterns
-- `debug-investigator` → Systematic debugging when tests reveal bugs
+- `code-senior` → Systematic debugging when tests reveal bugs
 - `code-reviewer` → Review tests as part of code review
 - `spec-writer` → Write spec before TDD implementation
 - `build-ui` → UI implementation with test coverage

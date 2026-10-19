@@ -95,7 +95,7 @@ workflow pattern, cơ chế token/safety, ideas-to-steal, quotes) khi workflow `
 - Nhánh web/UI: 5 stub (`design-ui-direction`, `build-ui-component`, `build-admin-dashboard`,
   `review-frontend`, `scaffold-course-platform`) đều RỖNG (chỉ có references/assets), và gắn cứng
   chủ đề "course platform". → Đây là chỗ làm web flagship THEME-NEUTRAL cho user.
-- `~/.claude/rules/frontend-aesthetics.md`: ĐÃ TỐT (anti-slop checklist, type/color/motion, review
+- `_shared/rules/frontend-aesthetics.md`: ĐÃ TỐT (anti-slop checklist, type/color/motion, review
   rubric). → TÁI DÙNG làm "taste rule", KHÔNG viết lại. Đây chính là taste-skill content có sẵn.
 - Hướng web (theo yêu cầu user): skill web phải (a) hiểu thiết kế giao diện; (b) project nhỏ gọi
   thêm research skill lấy content rồi tự thiết kế; (c) tự học kiến trúc mới từ web khác/mô tả;
@@ -108,8 +108,8 @@ Star (theo trang hiển thị lúc fetch): superpowers 240k · anthropic/skills 
 gstack 117k · ui-ux-pro-max 97k · Understand-Anything 68k · addyosmani 67k · taste 52k.
 
 ### GIỮ NGUYÊN 10 skill research (đã tốt)
-paper-read, paper-method, paper-synthesize, reading-triage, knowledge-graph, vi-translate,
-paper-to-notebook, run-on-modal, latex-fix, audit-log. → chỉ thêm ALIAS lệnh ngắn (frontmatter).
+paper-read, paper-read, paper-synthesize, reading-triage, knowledge-graph, vi-translate,
+experiment, experiment, latex-fix, research-memory. → chỉ thêm ALIAS lệnh ngắn (frontmatter).
 
 ### THÊM 5 skill (thay 5 stub web rỗng + 1 mới), theme-neutral, body tiếng Anh
 1. **design-web** (`/design`) — FLAGSHIP. Thay design-ui-direction.

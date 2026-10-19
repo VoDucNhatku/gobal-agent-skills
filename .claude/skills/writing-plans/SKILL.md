@@ -1,4 +1,5 @@
 ---
+disable-model-invocation: true
 name: "writing-plans"
 description: "Writing plans for GOBAL AGENT — creates detailed implementation plans from a spec or requirements. Bite-sized tasks (2-5 min each), exact file paths, complete code in every step, no placeholders. Use when you have a spec before touching code."
 allowed-tools: "Read Write Bash Glob"

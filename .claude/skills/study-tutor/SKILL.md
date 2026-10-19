@@ -1,4 +1,5 @@
 ---
+disable-model-invocation: true
 name: "study-tutor"
 description: "Study tutor for GOBAL AGENT — adaptive learning assistant. Modes: explain (concept explanation), practice (guided exercises), quiz (test knowledge), summarize (condense material). It tutors; it does NOT replace domain expertise (use domain-specific skills for actual work). Triggers — học, dạy tôi, ôn bài, luyện tập, gia sư, giảng lại, kiểm tra trình độ."
 allowed-tools: "Skill Read Write Glob Bash WebSearch WebFetch"
@@ -39,10 +40,10 @@ Before any mode, assess the learner's level:
 ### Delegation
 - Beginner → `concept-explainer` (eli5 mode)
 - Intermediate → `concept-explainer` (deep-dive mode)
-- Advanced → `paper-read` + `paper-method`
+- Advanced → `paper-read` + `paper-read`
 
 **Reuse-before-read:** trước khi delegate Advanced, check `notes/INDEX.md`
-(artifact-manager mode `reuse`) — topic đã có distillate trong `notes/` → ground giải
+(research-memory mode `reuse`) — topic đã có distillate trong `notes/` → ground giải
 thích vào note đó thay vì đọc lại paper (rẻ hơn + có nguồn cụ thể để cite).
 **Fast-moving claims:** khẳng định kiểu "SOTA hiện tại / mới nhất" trong topic thay đổi
 nhanh → 1 WebSearch verify trước, không nói từ trí nhớ.
@@ -113,5 +114,5 @@ Condense learning material:
 - `concept-explainer` → Deep concept explanations
 - `knowledge-quiz` → Quiz generation and administration
 - `paper-read` → Source material for advanced topics
-- `paper-method` → Technical implementation details
+- `paper-read` → Technical implementation details
 - `knowledge-graph` → Entity/relation map for structured learning

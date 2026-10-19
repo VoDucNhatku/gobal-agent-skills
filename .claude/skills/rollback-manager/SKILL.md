@@ -1,6 +1,7 @@
 ---
+disable-model-invocation: true
 name: "rollback-manager"
-description: "Rollback manager for GOBAL AGENT — handles emergency rollback of deployments. Modes: assess (evaluate situation), execute (perform rollback), verify (confirm recovery). It manages rollback; it does NOT investigate root cause (use debug-investigator). Triggers — rollback, hoàn tác deploy, quay lại bản cũ, sự cố production, revert release."
+description: "Rollback manager for GOBAL AGENT — handles emergency rollback of deployments. Modes: assess (evaluate situation), execute (perform rollback), verify (confirm recovery). It manages rollback; it does NOT investigate root cause (use code-senior). Triggers — rollback, hoàn tác deploy, quay lại bản cũ, sự cố production, revert release."
 allowed-tools: "Read Write Bash Glob"
 argument-hint: "<incident | deployment> [assess|execute|verify]"
 ---
@@ -64,7 +65,7 @@ source — invoke `deploy-admin` if Advance/Hold values are needed too.
 
 ### 5. Investigate (parallel)
 - While stable, investigate root cause
-- Use debug-investigator for systematic approach
+- Use code-senior for systematic approach
 - Document findings for post-mortem
 
 ## Rollback Safety
@@ -77,7 +78,7 @@ source — invoke `deploy-admin` if Advance/Hold values are needed too.
 ## Cross-References
 
 - `deploy-admin` → Deployment coordination
-- `debug-investigator` → Root cause analysis
+- `code-senior` → Root cause analysis
 - `ship-validator` → Pre-deploy validation
 - `monitor-setup` → Verify metrics after rollback
 
@@ -122,4 +123,4 @@ Confirm recovery:
 ## Integration
 - deploy-admin → deploy coordination
 - monitor-setup → verify health after rollback
-- debug-investigator → root cause analysis (after recovery)
+- code-senior → root cause analysis (after recovery)

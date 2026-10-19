@@ -1,4 +1,5 @@
 ---
+disable-model-invocation: true
 name: "test-framework"
 description: "Use when validating skill structure in gobal-skills/. Verifies host-specific frontmatter, line limits, cross-references, bundled resources, and anti-slop rules."
 allowed-tools: "Read Bash"

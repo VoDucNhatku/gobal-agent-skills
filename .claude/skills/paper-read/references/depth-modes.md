@@ -1,7 +1,7 @@
 # paper-read — depth modes (pulled on demand)
 
-Binding rules: `~/.claude/rules/workbench-conventions.md` (bilingual §1, preview §3,
-strategic reading §6, mode scaling §7). This file is the per-mode spec: **what to
+Binding rules: `../../_shared/conventions.md` (language, answer-first, files;
+reading economy). This file is the per-mode spec: **what to
 read**, the **output template**, the **chat-preview budget**, and **how `all` scales
 output down**. Output prose is Vietnamese (học thuật); identifiers/code English.
 
@@ -21,8 +21,8 @@ standard header: `paper id · title · source filename · worker (paper-read) ·
   ## Kết quả nổi bật (Headline results)  <!-- key metrics, exact numbers -->
   ## Có đáng đọc kỹ không? (Read deeper?)  <!-- verdict + which worker next -->
   ```
-- **Chat preview:** 5–6 lines — one-liner + verdict + handoff (`→ paper-method` for
-  the math, `→ paper-to-notebook` to run it) + saved path.
+- **Chat preview:** 5–6 lines — one-liner + verdict + handoff (`→ paper-read` for
+  the math, `→ experiment` to run it) + saved path.
 
 ## Mode: `summary` (default) — faithful section-by-section condense
 - **What to read:** the whole paper, section by section; ranged reads for long PDFs.
@@ -37,7 +37,7 @@ standard header: `paper id · title · source filename · worker (paper-read) ·
   ## Thuật ngữ (Glossary)         <!-- | English | Tiếng Việt | Giải thích | -->
   ```
 - **Fidelity:** condense, never invent; missing items → `bài báo không nêu (not
-  stated)`. Critique belongs to `paper-method`, not here.
+  stated)`. Critique belongs to `paper-read`, not here.
 - **Chat preview:** 6–8 lines — method in 1 line + top 2–3 results + path.
 
 ## Mode: `eli5` — plain-language intuition
@@ -88,7 +88,7 @@ standard header: `paper id · title · source filename · worker (paper-read) ·
 - **Intent:** tái dựng LẬP LUẬN của bài báo — không chỉ nén nội dung. Trả lời: bài
   này khẳng định gì, mỗi khẳng định đứng trên bằng chứng nào, mắt xích nào mỏng,
   và điều gì sẽ falsify nó. Vẫn FAITHFUL: báo cáo lập luận CỦA BÀI + chỉ ra khoảng
-  trống; không tự phản biện phương pháp/toán (đó là `paper-method`).
+  trống; không tự phản biện phương pháp/toán (đó là `paper-read`).
 - **What to read:** abstract + contributions + toàn bộ Results/ablation tables +
   các đoạn "we show/we find/this suggests"; Method chỉ đọc đủ để hiểu mỗi thành
   phần làm gì (không cần đủ để tái lập).
@@ -114,7 +114,7 @@ standard header: `paper id · title · source filename · worker (paper-read) ·
        Đây là câu hỏi kiểm chứng, KHÔNG phải lời phản biện -->
 
   ## Đánh giá độ vững (Verdict)
-  <!-- 2–3 dòng: claim nào vững nhất / mỏng nhất; handoff paper-method nếu cần
+  <!-- 2–3 dòng: claim nào vững nhất / mỏng nhất; handoff paper-read nếu cần
        mổ xẻ toán, paper-synthesize nếu cần đối chiếu bài khác -->
   ```
 - **Fidelity guard:** mọi ô "Bằng chứng" trỏ đúng table/figure/số trong bài; đánh
