@@ -163,8 +163,8 @@ Before saving a new skill:
 
 - `brainstorming` → Design before creating skill
 - `writing-plans` → Plan skill implementation
-- `artifact-manager` → Register new skill in INDEX.md
-- `artifact-manager` → Track skill outputs and reuse (mode `reuse`)
+- `research-memory` → Register new skill in INDEX.md
+- `research-memory` → Track skill outputs and reuse (mode `recall` / `index`)
 
 
 ## Antigravity resource execution

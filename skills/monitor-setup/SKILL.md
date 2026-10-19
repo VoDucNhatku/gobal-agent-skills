@@ -1,6 +1,6 @@
 ---
 name: "monitor-setup"
-description: "Monitoring setup for GOBAL AGENT — configures observability for deployed applications. Modes: setup (new monitoring), verify (check existing), dashboard (create dashboard), alerts (configure alerts). It sets up; it does NOT investigate incidents (use debug-investigator for that). Triggers — dựng monitoring, thêm metrics, cấu hình alert, structured log, observability, dashboard giám sát."
+description: "Monitoring setup for GOBAL AGENT — configures observability for deployed applications. Modes: setup (new monitoring), verify (check existing), dashboard (create dashboard), alerts (configure alerts). It sets up; it does NOT investigate incidents (use code-senior for that). Triggers — dựng monitoring, thêm metrics, cấu hình alert, structured log, observability, dashboard giám sát."
 ---
 
 # Monitor Setup
@@ -113,7 +113,7 @@ Labels from small fixed sets only.
 ## Cross-References
 
 - `deploy-admin` → Deploy with monitoring
-- `debug-investigator` → Use logs/traces for debugging
+- `code-senior` → Use logs/traces for debugging
 - `ship-validator` → Validate before deploy
 
 ## Observability Stack
@@ -169,7 +169,7 @@ Create/update dashboard:
 
 ## Integration
 - deploy-admin → deploy coordination
-- debug-investigator → incident investigation
+- code-senior → incident investigation
 - backend-engineer → instrumentation in code
 
 

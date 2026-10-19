@@ -11,9 +11,9 @@ description: "Turns an ARGUMENT-bearing document (economics paper, social-scienc
 > **Nguyên nhân gốc:** khung của `study-forge` hỏi *"cái này tính ra gì?"*.
 > Tài liệu lập luận phải hỏi *"cái này có thể sai ở đâu?"*.
 
-Đọc `../../rules/workbench-conventions.md` (song ngữ, preview-not-dump,
-script-offloading), `../../rules/paper-writing-integrity.md` (§1 không bịa trích dẫn,
-§4 bảo toàn độ mạnh khẳng định) và `../../rules/research-proposal-integrity.md`
+Đọc `../_shared/rules/workbench-conventions.md` (song ngữ, preview-not-dump,
+script-offloading), `../_shared/rules/paper-writing-integrity.md` (§1 không bịa trích dẫn,
+§4 bảo toàn độ mạnh khẳng định) và `../_shared/research-integrity.md`
 (§4 nhãn nguồn gốc, §6 khẳng định đánh giá là khẳng định quét được).
 
 **Câu mở đầu:** "Tôi dùng skill claim-forge để dựng sổ tay đọc phê phán này."
@@ -171,11 +171,11 @@ ngờ)? Ô 07 có phải là quan sát thật kiểm được không, hay chỉ 
 | Phản biện gắt theo chuẩn Q1, novelty + ablation | `ieee-q1-devil-advocate` |
 | So sánh nhiều bài, dựng taxonomy, tìm khoảng trống | `paper-synthesize` |
 | Kiểm trích dẫn, DOI, đạo văn | `citation-guard` |
-| Quét khẳng định bịa trong output | `hallucination-guard` |
+| Quét khẳng định bịa trong output | `evidence-check` |
 
 Khác biệt với `paper-read think`: bên kia là **ghi chú phân tích Markdown một lượt** cho
 người nghiên cứu quyết định. Bên này là **sổ tay in để học lâu dài**, có máy móc ghi nhớ
-(5 câu tự kiểm tra mỗi thẻ) và sổ khẳng định để ôn. Cùng quan hệ như `paper-method` với
+(5 câu tự kiểm tra mỗi thẻ) và sổ khẳng định để ôn. Cùng quan hệ như `paper-read` với
 `study-forge`: một bên mổ xẻ, một bên dạy.
 
 ---

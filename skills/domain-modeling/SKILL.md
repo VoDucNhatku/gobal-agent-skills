@@ -174,7 +174,7 @@ Events that other parts of the system need to react to:
 - `backend-engineer` → Implement the model
 
 **Companion skills:**
-- `course-domain-model` → Reference for LMS entities
+- `../_shared/rules/course-domain-model.md` → Reference for LMS entities
 - `security-review` → Authorization rules in model
 - `tdd-enforcer` → Tests for model invariants
 
@@ -186,7 +186,7 @@ Events that other parts of the system need to react to:
 - `spec-writer` → Formal specification
 - `writing-plans` → Implementation planning
 - `backend-engineer` → Code implementation
-- `course-domain-model` → GOBAL LMS entity reference
+- `../_shared/rules/course-domain-model.md` → GOBAL LMS entity reference
 
 
 ## Antigravity resource execution

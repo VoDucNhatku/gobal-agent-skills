@@ -22,7 +22,11 @@ class BuildAntigravityTests(unittest.TestCase):
         config = root / "config"
         config.mkdir()
         (config / "antigravity-skills.txt").write_text("admin\ndemo\n", encoding="utf-8")
-        shutil.copyfile(REPO_ROOT / "config/antigravity-compatibility.yml", config / "antigravity-compatibility.yml")
+        compatibility = yaml.safe_load((REPO_ROOT / "config/antigravity-compatibility.yml").read_text(encoding="utf-8"))
+        # Fixture rules exercise peer and transitive rule mapping independently of the real rule inventory.
+        for name in ("latex-katex-compat.md", "research-proposal-integrity.md", "workbench-conventions.md"):
+            compatibility["rules"].setdefault(name, {"trigger": "model_decision", "description": "Use when testing."})
+        (config / "antigravity-compatibility.yml").write_text(yaml.safe_dump(compatibility, sort_keys=False), encoding="utf-8")
         for name in ("admin", "demo"):
             self.source(root, f"skills/{name}/SKILL.md", (
                 f'---\nname: "{name}"\ndescription: "Use when testing."\n'
@@ -535,11 +539,13 @@ class BuildAntigravityTests(unittest.TestCase):
             shutil.copytree(REPO_ROOT / ".claude", root / ".claude", ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
             shutil.copytree(REPO_ROOT / "config", root / "config")
             names = (root / "config/antigravity-skills.txt").read_text().splitlines()
-            self.assertEqual(len(names), 69)
+            canonical = sorted(path.parent.name for path in (root / ".claude/skills").glob("*/SKILL.md"))
+            self.assertEqual(names, canonical)
 
             build(root)
 
-            self.assertEqual(sorted(path.name for path in (root / "skills").iterdir()), names)
+            generated = sorted(path.name for path in (root / "skills").iterdir() if not path.name.startswith("_"))
+            self.assertEqual(generated, names)
             for name in names:
                 load_frontmatter(root / "skills" / name / "SKILL.md", host="antigravity")
             command = [sys.executable, "-B", str(root / "skills/test-framework/scripts/test_skills.py"),
@@ -547,8 +553,8 @@ class BuildAntigravityTests(unittest.TestCase):
             result = subprocess.run(command, cwd=temp_dir, capture_output=True, text=True)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
             report = json.loads(result.stdout)
-            self.assertEqual(report["summary"]["discovered"], 69)
-            self.assertEqual(report["summary"]["validated"], 69)
+            self.assertEqual(report["summary"]["discovered"], len(names))
+            self.assertEqual(report["summary"]["validated"], len(names))
             self.assertEqual(report["summary"]["fail"], 0)
             self.assertEqual(build(root, check=True), 0)
 

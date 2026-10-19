@@ -10,9 +10,9 @@ and MathJax (GitHub) so a single `$$` block never silently breaks on one engine.
 the flagged spans** — never re-renders or rewrites the surrounding prose.
 
 ## Conventions
-This skill treats `../../rules/workbench-conventions.md` as binding (input resolution §2,
+This skill treats `../_shared/rules/workbench-conventions.md` as binding (input resolution §2,
 output + preview-not-dump §3, script-offloading §9, scope handoff §10) and
-`../../rules/latex-katex-compat.md` as the authoritative compatibility table — **reference
+`../_shared/rules/latex-katex-compat.md` as the authoritative compatibility table — **reference
 it, never inline it**. Human-facing prose (the fix-log preview) is Vietnamese.
 
 ## Engine context (absorbed from latex-math-renderer)
@@ -92,7 +92,7 @@ only; no separate file is written (this is a repair mode).
   files.
 - **Stay in scope (§10).** This skill repairs math formatting. It does not write analysis or
   translate:
-  - `→ dùng paper-method / paper-read cho` việc viết phân tích.
+  - `→ dùng paper-read / paper-read cho` việc viết phân tích.
   - `→ dùng vi-translate cho` dịch thuật.
 
 

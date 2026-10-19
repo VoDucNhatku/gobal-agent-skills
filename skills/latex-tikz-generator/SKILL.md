@@ -7,7 +7,7 @@ description: "Sinh code TikZ/Latex để vẽ diagram chuẩn Q1 (pipeline, bloc
 
 Sinh code TikZ/Latex để vẽ figure cho bài báo Q1 IEEE. Output là `.tex` inline, compile trong LaTeX trực tiếp, không cần file ngoài.
 
-Binding: `../../rules/paper-writing-integrity.md` §2 (figures — chuẩn là ORIGINALITY,
+Binding: `../_shared/rules/paper-writing-integrity.md` §2 (figures — chuẩn là ORIGINALITY,
 không phải detectability).
 
 ## Tại sao TikZ thay vì hình raster/GUI tool

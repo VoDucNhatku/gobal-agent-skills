@@ -14,10 +14,10 @@ description: "Viết/viết lại bản thảo theo cấu trúc storytelling chu
 > AUFE-Q4 (paper 034) đã chạy end-to-end thành công (compile sạch, figure không lỗi).
 
 Binding (đọc runtime, mỗi file 1 dòng):
-- `../../rules/paper-writing-integrity.md` — §1 zero fabricated refs, §3 [TODO] thay vì bịa số, §6 vị trí pipeline.
-- `../../rules/research-proposal-integrity.md` — claim ≤ tier trong `notes/claims-ledger.md`; venue = band + điều kiện.
-- `../../rules/workbench-conventions.md` — bilingual, preview-not-dump, reuse-before-read.
-- `../../rules/latex-katex-compat.md` — chỉ khi emit math vào notes markdown (file .tex dùng LaTeX đầy đủ).
+- `../_shared/rules/paper-writing-integrity.md` — §1 zero fabricated refs, §3 [TODO] thay vì bịa số, §6 vị trí pipeline.
+- `../_shared/research-integrity.md` — claim ≤ tier trong `notes/claims-ledger.md`; venue = band + điều kiện.
+- `../_shared/rules/workbench-conventions.md` — bilingual, preview-not-dump, reuse-before-read.
+- `../_shared/rules/latex-katex-compat.md` — chỉ khi emit math vào notes markdown (file .tex dùng LaTeX đầy đủ).
 
 ## Vị trí trong chuỗi sản xuất (§6 paper-writing-integrity)
 
@@ -82,7 +82,7 @@ trôi trang 5/7 vì skill chưa chốt các luật này; bản IEEE cùng nội 
 4. Viết lại theo bản đồ section trong `references/structure-template.md` — thứ tự VIẾT vẫn là results-first (Results→Discussion→Method→Conclusion→Related→Intro→Abstract→Title→Refs).
 5. Sinh figure theo `references/pipeline-figure-method.md` (pha 1→7, bắt buộc vòng verify).
 6. Compile 3 pass + bibtex; render PNG từng trang; tự inspect; sửa đến khi sạch.
-7. Report + audit-log + handoff `citation-guard`.
+7. Report + research-memory + handoff `citation-guard`.
 
 ### Mode `draft`
 Như `rewrite` nhưng bước 2 thay bằng: dựng khung section trống theo template rồi điền

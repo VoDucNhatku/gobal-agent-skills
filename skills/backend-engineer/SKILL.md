@@ -16,10 +16,10 @@ from [[code-senior]], and reproduction-first debugging.
 > observability); [[code-senior]] (anti-runaway-edit contract, verification gate).
 
 ## Conventions
-Binding: `../../rules/workbench-conventions.md` (bilingual §1 — code/identifiers/contract English,
+Binding: `../_shared/rules/workbench-conventions.md` (bilingual §1 — code/identifiers/contract English,
 the chat report Vietnamese; preview-not-dump §3; reuse §4; scope handoff §10). Read at run time;
 do not inline. For any course/LMS data model, the binding entity + server-side-authz rules live in
-`../../rules/course-domain-model.md` — cite, do not inline.
+`../_shared/rules/course-domain-model.md` — cite, do not inline.
 
 ## Procedure
 
@@ -115,13 +115,13 @@ already-applied migration; add a new one.
 
 ## Integration
 
-- `code-admin` — routes backend tasks here
+- `admin` — routes backend tasks here
 - `security-review` — full security audit (threat model + STRIDE) on existing surfaces
 - `code-senior` — general refactor / review outside backend concerns
 - `code-reviewer` — diff-level review for backend changes
 - `tdd-enforcer` — test discipline for backend slices
-- `debug-investigator` — root-cause before backend fixes
-- `course-domain-model` — canonical LMS entity + authz rules
+- `code-senior` — root-cause before backend fixes
+- `../_shared/rules/course-domain-model.md` — canonical LMS entity + authz rules
 
 ## Gotchas
 - **Contract before code.** Define types + error envelope + status map first; implementation follows.

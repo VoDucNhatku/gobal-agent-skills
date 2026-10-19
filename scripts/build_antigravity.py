@@ -442,6 +442,17 @@ def build(repo_root: Path, *, check: bool = False) -> int:
     expected: dict[str, bytes] = {}
     for name in names:
         expected.update(_skill_files(repo_root, name, names, compatibility))
+    shared_root = repo_root / ".claude/skills/_shared"
+    if shared_root.is_dir():
+        # Shared policy files are referenced by relative paths (../_shared/...) and ship as-is.
+        for source in sorted(shared_root.rglob("*")):
+            if not source.is_file() or "__pycache__" in source.parts:
+                continue
+            output = f"skills/_shared/{source.relative_to(shared_root).as_posix()}"
+            content = _copy_bytes(source)
+            if _is_text_resource(source):
+                content = _rewrite_paths(content.decode("utf-8"), output, repo_root, names, compatibility).encode("utf-8")
+            expected[output] = content
     for name, metadata in compatibility["rules"].items():
         source = repo_root / ".claude/rules" / name
         output = f"rules/{name}"

@@ -47,26 +47,8 @@ literal_path_examples:
   - <skills>/skill-name/...
 literal_resource_examples:
   # This is an example entrypoint in a paper's external code repository.
-  paper-to-notebook/references/code-search.md: [scripts/eval.sh]
+  experiment/references/code-search.md: [scripts/eval.sh]
 rules:
-  course-domain-model.md:
-    trigger: model_decision
-    description: Use when designing or reviewing the course platform domain model.
   evidence-first.md:
     trigger: always_on
     description: Evidence, trust boundaries, shared budgets and observable completion.
-  frontend-aesthetics.md:
-    trigger: model_decision
-    description: Use when designing, building or reviewing frontend visual quality.
-  latex-katex-compat.md:
-    trigger: model_decision
-    description: Use when writing or repairing math for KaTeX and MathJax.
-  paper-writing-integrity.md:
-    trigger: model_decision
-    description: Use when drafting or editing academic claims and citations.
-  research-proposal-integrity.md:
-    trigger: model_decision
-    description: Use when proposing research, novelty or publication venue claims.
-  workbench-conventions.md:
-    trigger: model_decision
-    description: Use when following GOBAL skill language, fidelity and artifact conventions.
