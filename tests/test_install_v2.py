@@ -96,6 +96,16 @@ class InstallV2Tests(unittest.TestCase):
 
         self.assertNotIn("rules   ", output)
 
+    def test_back_to_back_upgrades_keep_separate_backups(self):
+        self.run_installer()
+        (self.skills / "paper-read/SKILL.md").write_text("edited once\n", encoding="utf-8")
+        self.run_installer()
+        (self.skills / "paper-read/SKILL.md").write_text("edited twice\n", encoding="utf-8")
+        self.run_installer()
+
+        saved = sorted((b / "paper-read/SKILL.md").read_text(encoding="utf-8") for b in self.backups())
+        self.assertEqual(saved, ["edited once\n", "edited twice\n"])
+
     def test_without_retire_rules_the_rules_dir_is_untouched(self):
         self.run_installer()
 

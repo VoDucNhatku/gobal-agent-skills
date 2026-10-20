@@ -48,7 +48,8 @@ const incoming = fs.readdirSync(source).filter((n) => {
 });
 
 const stamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
-const backup = path.join(path.dirname(opt.target), `skills-backup-${stamp}`);
+let backup = path.join(path.dirname(opt.target), `skills-backup-${stamp}`);
+for (let i = 2; fs.existsSync(backup); i++) backup = path.join(path.dirname(opt.target), `skills-backup-${stamp}-${i}`);
 const plan = [];
 for (const n of [...incoming, ...REMOVED]) {
   const p = path.join(opt.target, n);
@@ -84,17 +85,25 @@ if (opt.retireRules) {
 }
 if (opt.dryRun) process.exit(0);
 
+// fs.cpSync is avoided: on some Windows Node versions it aborts the process (0xC0000409)
+// when a path contains non-ASCII characters, e.g. a Vietnamese user name.
+function copyDir(from, to) {
+  fs.mkdirSync(to, { recursive: true });
+  for (const entry of fs.readdirSync(from, { withFileTypes: true })) {
+    if (SKIP.has(entry.name) || entry.name.endsWith('.pyc')) continue;
+    const src = path.join(from, entry.name);
+    if (entry.isDirectory()) copyDir(src, path.join(to, entry.name));
+    else fs.copyFileSync(src, path.join(to, entry.name));
+  }
+}
+
 fs.mkdirSync(opt.target, { recursive: true });
+if (plan.length) fs.mkdirSync(backup, { recursive: true });
 for (const item of plan) {
-  fs.cpSync(item.backup, path.join(backup, path.basename(item.backup)), { recursive: true });
-  fs.rmSync(item.backup, { recursive: true, force: true });
+  // The backup sits next to the target, on the same volume, so a rename moves it whole.
+  fs.renameSync(item.backup, path.join(backup, path.basename(item.backup)));
 }
-for (const n of incoming) {
-  fs.cpSync(path.join(source, n), path.join(opt.target, n), {
-    recursive: true,
-    filter: (p) => !SKIP.has(path.basename(p)) && !p.endsWith('.pyc'),
-  });
-}
+for (const n of incoming) copyDir(path.join(source, n), path.join(opt.target, n));
 if (opt.retireRules) {
   const ruleBackup = path.join(backup, 'rules');
   fs.mkdirSync(opt.retireRules, { recursive: true });
