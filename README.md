@@ -32,31 +32,42 @@ Design and the old→new mapping: [notes/design-v2-research-core.md](notes/desig
 
 ## Install
 
-Requires Node.js 18+. The installer backs up everything it replaces.
+Requires Git and Node.js 18+. The installer backs up everything it replaces and expands `~`
+itself, so these commands also work as-is in PowerShell.
 
 ```bash
 git clone https://github.com/VoDucNhatku/gobal-agent-skills.git
 cd gobal-agent-skills
-node scripts/install_v2.mjs --dry-run
+node scripts/install_v2.mjs --dry-run --retire-rules ~/.claude/rules
 node scripts/install_v2.mjs --retire-rules ~/.claude/rules
 ```
 
 `--retire-rules` moves the v1 rule files out of `~/.claude/rules`, where Claude Code loads
-them into every conversation; v2 reads them on demand from `_shared/`. Keep
-`evidence-first.md` there if you want the short always-on evidence rule.
+them into every conversation; v2 reads them on demand from `_shared/`. It then installs the
+one always-on rule v2 keeps, `evidence-first.md`, creating `~/.claude/rules` if it does not
+exist. Skills and rules load when a session opens, so **start a new Claude Code session**
+afterwards; its skill list should show the 9 core skills.
 
-- **DeepSeek Harness:** run the same installer with `--target <dsh skills dir>`, or re-run
-  the lab's `sync-skills.ps1` after installing into `~/.claude/skills`.
-- **Antigravity IDE:** `python scripts/build_antigravity.py` regenerates `skills/` and
-  `rules/`; see [docs/ANTIGRAVITY.md](docs/ANTIGRAVITY.md). The Antigravity build keeps
-  only `name` and `description` in frontmatter, so all 57 skills are listed there.
-
-Validate the structure (Python 3.11+, pinned PyYAML):
+Validate the installed copy (optional; Python 3.11+, pinned PyYAML). `pip` and the validator
+do not expand `~`; in PowerShell write `$HOME` instead:
 
 ```bash
 python -m pip install -r ~/.claude/skills/test-framework/requirements.txt
-python .claude/skills/test-framework/scripts/test_skills.py --skills-root .claude/skills --host canonical
+python .claude/skills/test-framework/scripts/test_skills.py --skills-root ~/.claude/skills --host canonical
 ```
+
+- **Update:** `git pull`, then run the install command again.
+- **Roll back:** each run leaves `~/.claude/skills-backup-<time>/` with the replaced skills
+  and, under `rules/`, the retired rules; copy them back.
+- **DeepSeek Harness:** install into `~/.claude/skills` as above, then mirror it into dsh
+  (Windows): `powershell -NoProfile -ExecutionPolicy Bypass -File scripts\sync-dsh-skills.ps1 -Lab C:\dsh-lab`.
+  It hides every skill from the model catalog in the Standard preset and links `_shared/`
+  into each mirror. Harness configuration (profiles, providers) is not part of this repo.
+- **Antigravity IDE:** `python scripts/build_antigravity.py` regenerates `skills/` and
+  `rules/`; see [docs/ANTIGRAVITY.md](docs/ANTIGRAVITY.md). The Antigravity build keeps
+  only `name` and `description` in frontmatter, so all 57 skills are listed there.
+- Some skills call optional tools only when used: Modal (`experiment` on cloud GPU) and a
+  LaTeX distribution with `pdflatex` (`research-write` builds).
 
 ## Measured results
 
@@ -98,6 +109,35 @@ dùng được: cứ mô tả việc cho `admin`, nó tra bảng và tự đọc
 | `research-memory` | ledger, đính chính, bài học, nhật ký thí nghiệm |
 | `research-write` | chuỗi viết bản thảo |
 | `admin` | việc nhiều bước, hoặc chuyên môn ngoài danh sách trên |
+
+## Cài đặt
+
+Cần Git và Node.js 18 trở lên. Lệnh giống nhau trên Git Bash, macOS/Linux và PowerShell:
+
+```bash
+git clone https://github.com/VoDucNhatku/gobal-agent-skills.git
+cd gobal-agent-skills
+node scripts/install_v2.mjs --dry-run --retire-rules ~/.claude/rules
+node scripts/install_v2.mjs --retire-rules ~/.claude/rules
+```
+
+- Lệnh `--dry-run` chỉ in ra sẽ cài gì, chưa ghi file nào.
+- Lệnh thứ hai cài skill vào `~/.claude/skills`, chuyển các quy tắc v1 ra khỏi
+  `~/.claude/rules` (Claude Code nạp mọi file ở đó vào mọi phiên), rồi đặt lại
+  `evidence-first.md` (tự tạo thư mục nếu chưa có). Mọi thứ bị thay đều được sao lưu ở
+  `~/.claude/skills-backup-<thời điểm>/`.
+- **Mở phiên Claude Code mới** sau khi cài: danh sách skill phải hiện 9 skill lõi.
+- Cập nhật: `git pull` rồi chạy lại lệnh cài. Quay lại bản cũ: chép từ thư mục sao lưu.
+- DeepSeek Harness (Windows): cài như trên rồi chạy
+  `powershell -NoProfile -ExecutionPolicy Bypass -File scripts\sync-dsh-skills.ps1 -Lab C:\dsh-lab`.
+  Cấu hình harness (profile, provider) không nằm trong repo này.
+
+Kiểm tra bản đã cài (không bắt buộc, cần Python 3.11+). Trên PowerShell thay `~` bằng `$HOME`:
+
+```bash
+python -m pip install -r ~/.claude/skills/test-framework/requirements.txt
+python .claude/skills/test-framework/scripts/test_skills.py --skills-root ~/.claude/skills --host canonical
+```
 
 ## Điểm khác so với v1
 
